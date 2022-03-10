@@ -14,7 +14,7 @@ public class blue_script : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, 50000.0f))
+        if (Physics.Raycast(ray, out hit, 50000.0f, (1 << 10)))
         {
             transform.position = hit.point;
         }
@@ -23,7 +23,7 @@ public class blue_script : MonoBehaviour
     void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 50000.0f))
+        if (Physics.Raycast(ray, out hit, 50000.0f, (1 << 10)))
         {
             transform.position = hit.point;
         }
@@ -31,7 +31,6 @@ public class blue_script : MonoBehaviour
         {
           Instantiate(prefab, transform.position, transform.rotation);    
           Destroy(gameObject);
-
         }
     }
 }
