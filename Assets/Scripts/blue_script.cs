@@ -8,16 +8,23 @@ public class blue_script : MonoBehaviour
     RaycastHit hit;
     Vector3 movePoint;
     public GameObject prefab;
+    Collider col;
+    int canConstruct;
+    [SerializeField] MeshRenderer renderer;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        col = GetComponent<Collider>();
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit, 50000.0f, (1 << 10)))
         {
             transform.position = hit.point;
         }
+        canConstruct = 0;
+        renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
     }
 
     void Update()
@@ -27,10 +34,32 @@ public class blue_script : MonoBehaviour
         {
             transform.position = hit.point;
         }
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && canConstruct == 0)
         {
-          Instantiate(prefab, transform.position, transform.rotation);    
-          Destroy(gameObject);
+            Instantiate(prefab, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Construction")
+        {
+            Debug.Log("Enter: ", other);
+            canConstruct +=1;
+            renderer.material.SetColor("_Color", new Color(0.8f, 0.5f, 0.5f, 0.5f));
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Construction")
+        {
+            Debug.Log("Exit: ", other);
+            canConstruct -= 1;
+            if (canConstruct == 0)
+            {
+                renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
+            }
         }
     }
 }

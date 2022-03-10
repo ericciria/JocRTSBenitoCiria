@@ -53,13 +53,22 @@ public class CameraController : MonoBehaviour
         RaycastHit hit;
 
         timeSinceLastSpawn += Time.deltaTime;
-        if (Physics.Raycast(ray, out hit, 1000.0f))
+        if (Physics.Raycast(ray, out hit, 1000.0f) && UnityEngine.EventSystems.EventSystem.current != null &&
+            !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             checkCameraRay(hit);
         }
         else
         {
-            ChangeCursor(CursorTypes.INVALID);
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                ChangeCursor(CursorTypes.DEFAULT);
+            }
+            else
+            {
+                ChangeCursor(CursorTypes.INVALID);
+            }
+            
         }
         if(timeSinceLastSpawn > spawnRate && Input.GetKey(KeyCode.E))
         {
@@ -138,6 +147,7 @@ public class CameraController : MonoBehaviour
 
     private void checkCameraRay(RaycastHit  hit)
     {
+        Debug.Log(hit);
         if (Input.GetMouseButtonDown(0))
         {
             foreach (AIPlayerunit unit in units)
