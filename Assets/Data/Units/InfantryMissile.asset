@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6c60493fce27c489aae8ce154f158c, type: 3}
+  m_Name: InfantryMissile
+  m_EditorClassIdentifier: 
+  unitName: 
+  description: 
+  icon: {fileID: 0}
+  moneyCost: 0
+  metalCost: 0
+  attackDamage: 0
+  typeOfUnit: 
+  damageMultiplier: 
+  maxHealth: 0
+  movementSpeed: 0
+  attackDistance: 0
+  attackCooldown: 0
