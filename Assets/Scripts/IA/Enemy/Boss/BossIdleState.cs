@@ -34,7 +34,7 @@ public class BossIdleState : BossStates
         {
             character.agent.SetDestination(character.originalPosition);
         }
-        Debug.Log("Idling");
+        //Debug.Log("Idling");
         return null;
     }
 }

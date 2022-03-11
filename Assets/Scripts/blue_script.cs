@@ -45,7 +45,7 @@ public class blue_script : MonoBehaviour
     {
         if (other.gameObject.tag == "Construction")
         {
-            Debug.Log("Enter: ", other);
+            //Debug.Log("Enter: ", other);
             canConstruct +=1;
             renderer.material.SetColor("_Color", new Color(0.8f, 0.5f, 0.5f, 0.5f));
         }

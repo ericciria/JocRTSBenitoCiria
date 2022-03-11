@@ -10,11 +10,21 @@ public class build : MonoBehaviour
     public GameObject btn_Mina;
 
     public void spawn_blue()
-    {   
+    {
+        GameObject blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+        if (blueprint != null)
+        {
+            Destroy(blueprint);
+        }
         Instantiate(build_blue);
     }
     public void spawn_mina()
     {
+        GameObject blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+        if (blueprint != null)
+        {
+            Destroy(blueprint);
+        }
         Instantiate(build_mina);
     }
 

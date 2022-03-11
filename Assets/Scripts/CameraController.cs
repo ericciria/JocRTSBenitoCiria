@@ -52,9 +52,9 @@ public class CameraController : MonoBehaviour
         Ray ray = GetCameraRay();
         RaycastHit hit;
 
+        //&& UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()
         timeSinceLastSpawn += Time.deltaTime;
-        if (Physics.Raycast(ray, out hit, 1000.0f) && UnityEngine.EventSystems.EventSystem.current != null &&
-            !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        if (Physics.Raycast(ray, out hit, 1000.0f) )
         {
             checkCameraRay(hit);
         }
@@ -147,7 +147,7 @@ public class CameraController : MonoBehaviour
 
     private void checkCameraRay(RaycastHit  hit)
     {
-        Debug.Log(hit);
+        //Debug.Log(hit);
         if (Input.GetMouseButtonDown(0))
         {
             foreach (AIPlayerunit unit in units)
@@ -171,10 +171,12 @@ public class CameraController : MonoBehaviour
         }
         if (Input.GetMouseButton(0))
         {
+            //Debug.Log("press");
             updateSelectionBox(Input.mousePosition);
         }
         if (Input.GetMouseButtonUp(0))
         {
+            //Debug.Log("release");
             releaseSelectionBox();
         }
         //hit.collider.gameObject.SetActive(false);
