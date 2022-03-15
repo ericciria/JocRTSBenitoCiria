@@ -56,7 +56,7 @@ public class AIPlayerunit: MonoBehaviour
 
     public void setObjective(RaycastHit hit, float offset)
     {
-        if (hit.collider.gameObject.tag.Equals("Attackable") || hit.collider.gameObject.tag.Equals("NPC"))
+        if (hit.collider.gameObject.tag.Equals("Attackable") || hit.collider.gameObject.tag.Equals("NPC") || hit.collider.gameObject.tag.Equals("Construction"))
         {
             target = hit.collider.gameObject.transform;
         }

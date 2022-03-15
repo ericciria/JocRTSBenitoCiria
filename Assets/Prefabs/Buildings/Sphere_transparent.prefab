@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 88920924638690054}
   - component: {fileID: 6076934669063676470}
   - component: {fileID: 5792628967874292109}
-  - component: {fileID: 8971412167663832309}
   m_Layer: 0
   m_Name: Sphere_transparent
   m_TagString: Blueprint
@@ -142,20 +141,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8971412167663832309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8832267770664197119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8634e062924929664361c08745211fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  action: 2
-  target: {fileID: 0}
-  source: {fileID: 0}
-  triggerCount: 1
-  repeatTrigger: 0

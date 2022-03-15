@@ -7,6 +7,7 @@ public class ConstructorUnit : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform target;
+    private Building building;
 
     //public PlayerUnitStates currentState = new PlayerIdleState();
 
@@ -21,6 +22,8 @@ public class ConstructorUnit : MonoBehaviour
     Vector3 previousCorner;
     Vector3 currentCorner;
 
+    RaycastHit hit;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -29,39 +32,45 @@ public class ConstructorUnit : MonoBehaviour
     void start()
     {
         checking = false;
+        
     }
 
 
     void Update()
     {
-        //PlayerUnitStates nextState = currentState.OnUpdate(this);
-        timeSinceLastAttack += Time.deltaTime;
 
-        /*if (nextState != null)
+        Ray ray = GetCameraRay();
+        if (Physics.Raycast(ray, out hit, 1000.0f) && UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(1))
         {
-            currentState.OnExitState(this);
-            currentState = nextState;
-            currentState.OnEnterState(this);
+            setObjective(hit);
         }
-        if (!checking && currentState.ToString().Equals("PlayerIdleState"))
+        
+    }
+    private void FixedUpdate()
+    {
+        if (target != null)
         {
-            checking = true;
-            StartCoroutine(checkClosestEnemy());
-        }*/
+            float distanceToPlayer = Vector3.Distance(target.position, transform.position);
 
-        //Debug.Log(target);
+            if (distanceToPlayer < attackDistance && !building.constructed)
+            {
+                building.Construct();
+            }
+        }
     }
 
-    public void setObjective(RaycastHit hit, float offset)
+    public void setObjective(RaycastHit hit)
     {
-        if (hit.collider.gameObject.tag.Equals("Construction"))
+        if (hit.collider.gameObject!=null && hit.collider.gameObject.tag.Equals("Construction"))
         {
             target = hit.collider.gameObject.transform;
+            building = target.gameObject.GetComponentInParent<Building>();
+            agent.SetDestination(target.position);
         }
         else
         {
             target = null;
-            agent.SetDestination(hit.point + new Vector3(offset, 0, 0));
+            agent.SetDestination(hit.point);
         }
     }
 
@@ -199,5 +208,10 @@ public class ConstructorUnit : MonoBehaviour
             i++;
         }
 
+    }
+
+    private Ray GetCameraRay()
+    {
+        return Camera.main.ScreenPointToRay(Input.mousePosition);
     }
 }

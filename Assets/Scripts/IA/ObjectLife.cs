@@ -1,10 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectLife : MonoBehaviour
 {
-    [SerializeField] int health = 1;
+    [SerializeField] float health = 1;
+    public float maxHealth = 100;
+    private static Image healthBarImage;
+
+    private void Start()
+    {
+        //healthBarImage = FindObjectOfType<Image>();
+        healthBarImage = GetComponentInChildren<Image>();
+        if (healthBarImage != null)
+        {
+            SetHealthBarValue(health / maxHealth);
+            healthBarImage.gameObject.SetActive(false);
+        }
+    }
 
     public void takeDamage(int damage)
     {
@@ -16,18 +30,78 @@ public class ObjectLife : MonoBehaviour
             // a la posició original, i he hagut de posar-li parents a totes les unitats
             Destroy(transform.parent.gameObject);
         }
+        if (healthBarImage!=null) {
+            healthBarImage.gameObject.SetActive(true);
+            SetHealthBarValue(health/maxHealth);
+        }
     }
-    public void heal(int damage)
+    public void heal(int healAmount)
     {
-        health += damage;
+        health += healAmount;
+        if (health >= maxHealth)
+        {
+            health = maxHealth;
+            if (healthBarImage != null)
+            {
+                SetHealthBarValue(1);
+                healthBarImage.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            if (healthBarImage != null)
+            {
+                SetHealthBarValue(health / maxHealth);
+                healthBarImage.gameObject.SetActive(true);
+            }
+        }
     }
 
-    public void setHealth(int amount)
+    public void setHealth(float amount)
     {
         health = amount;
+        if (health >= maxHealth)
+        {
+            health = maxHealth;
+            if (healthBarImage != null)
+            {
+                SetHealthBarValue(1);
+                healthBarImage.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            if (healthBarImage != null)
+            {
+                SetHealthBarValue(health / maxHealth);
+                healthBarImage.gameObject.SetActive(true);
+            }
+        }
     }
-    public int getHealth()
+    public float getHealth()
     {
         return health;
+    }
+
+    public static void SetHealthBarValue(float value)
+    {
+        healthBarImage.fillAmount = value;
+        if (healthBarImage.fillAmount < 0.2f)
+        {
+            SetHealthBarColor(Color.red);
+        }
+        else if (healthBarImage.fillAmount < 0.5f)
+        {
+            SetHealthBarColor(Color.yellow);
+        }
+        else
+        {
+            SetHealthBarColor(Color.green);
+        }
+    }
+
+    public static void SetHealthBarColor(Color healthColor)
+    {
+        healthBarImage.color = healthColor;
     }
 }

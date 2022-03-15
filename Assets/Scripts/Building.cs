@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Building : MonoBehaviour
 {
     public bool constructing;
     public bool constructed;
 
-    private int life;
+    private float life;
     [SerializeField] int maxLife;
     [SerializeField] ObjectLife health;
     [SerializeField] MeshRenderer renderer;
-    //[SerializeField] float duration = 2f;
-    
+    [SerializeField] float duration = 2f;
+
     private float t = 0;
 
     // Start is called before the first frame update
@@ -34,22 +35,25 @@ public class Building : MonoBehaviour
     {
         if (!constructed)
         {
-            
             if (constructing)
             {
-                Construct();
+                //Construct();
             }
         }
     }
 
-    void Construct()
+    public void Construct()
     {
         if (life<maxLife)
         {
+            
+            Debug.Log("Life: " + life);
+            Debug.Log(renderer.material.color);
             life = health.getHealth();
-            life += 1;
+            life += 1/duration;
+
             health.setHealth(life);
-            t = (float)life / maxLife;
+            t = life / maxLife;
             renderer.material.color = Color.Lerp(new Color(0.5f, 0.8f, 0.5f, 0.5f), new Color(1f, 1f, 1f, 1f), t);
         }
         else
