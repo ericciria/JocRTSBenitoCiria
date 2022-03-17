@@ -77,25 +77,11 @@ public class ConstructorUnit : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        /*if (currentState.ToString().Equals("PlayerIdleState"))
-        {
-            Gizmos.color = Color.blue;
-            //Debug.Log("AAAAAAAAAAAAAAA");
-        }
-        else if (currentState.ToString().Equals("PlayerPursueState"))
-        {
-            Gizmos.color = Color.yellow;
-        }
-        else
-        {
-            Gizmos.color = Color.red;
-        }*/
+
 
         if (this.transform.Find("Selection").gameObject.activeInHierarchy)
         {
-            //Debug.Log("Estic activat");
-            //Gizmos.color = Color.red;
-            //Debug.Log(currentState);
+
 
             DrawWireArc(this.transform.position, this.transform.forward, 10, attackDistance); // width,length
         }

@@ -13,7 +13,7 @@ public class UnitData : ScriptableObject
     [SerializeField] private int attackDamage;
     [SerializeField] private string typeOfUnit; 
     [SerializeField] private string damageMultiplierType; // string que indica el tipus d'unitat contra el que es mes fort
-    [SerializeField] private int damageMultiplierAmount; // string que indica el tipus d'unitat contra el que es mes fort
+    [SerializeField] private int damageMultiplierAmount; 
     [SerializeField] private int maxHealth;
     [SerializeField] private float movementSpeed;
     [SerializeField] private float attackDistance;

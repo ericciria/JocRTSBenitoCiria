@@ -7,7 +7,7 @@ public class ObjectLife : MonoBehaviour
 {
     [SerializeField] float health = 1;
     public float maxHealth = 100;
-    private static Image healthBarImage;
+    private Image healthBarImage;
 
     private void Start()
     {
@@ -78,12 +78,16 @@ public class ObjectLife : MonoBehaviour
             }
         }
     }
+    public void setMaxHealth(float amount)
+    {
+        maxHealth = amount;
+    }
     public float getHealth()
     {
         return health;
     }
 
-    public static void SetHealthBarValue(float value)
+    public void SetHealthBarValue(float value)
     {
         healthBarImage.fillAmount = value;
         if (healthBarImage.fillAmount < 0.2f)
@@ -100,7 +104,7 @@ public class ObjectLife : MonoBehaviour
         }
     }
 
-    public static void SetHealthBarColor(Color healthColor)
+    public void SetHealthBarColor(Color healthColor)
     {
         healthBarImage.color = healthColor;
     }

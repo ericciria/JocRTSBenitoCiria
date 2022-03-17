@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New BuildingData", menuName = "Building Data", order = 52)]
-public class BuildingData : MonoBehaviour
+public class BuildingData : ScriptableObject
 {
     [SerializeField] private string buildingName;
     [SerializeField] private string description;
     [SerializeField] private Sprite icon;
     [SerializeField] private int moneyCost;
     [SerializeField] private int metalCost;
-    [SerializeField] private int energyCost;
+    [SerializeField] private int energyProductionConsumption;
     [SerializeField] private int attackDamage; //nomes cuan es una torreta
     [SerializeField] private int maxHealth;
 
@@ -56,7 +56,7 @@ public class BuildingData : MonoBehaviour
     {
         get
         {
-            return energyCost;
+            return energyProductionConsumption;
         }
     }
 

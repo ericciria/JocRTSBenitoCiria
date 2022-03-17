@@ -9,19 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf6c60493fce27c489aae8ce154f158c, type: 3}
-  m_Name: InfantryMissile
+  m_Script: {fileID: 11500000, guid: 986a5ceb8d9ecf542b6d1acc1fa392f1, type: 3}
+  m_Name: Turret
   m_EditorClassIdentifier: 
-  unitName: InfantryMissile
+  buildingName: 
   description: 
   icon: {fileID: 0}
-  moneyCost: 150
-  metalCost: 0
+  moneyCost: 300
+  metalCost: 100
+  energyProductionConsumption: -10
   attackDamage: 10
-  typeOfUnit: Infantry
-  damageMultiplierType: Vehicle
-  damageMultiplierAmount: 4
-  maxHealth: 50
-  movementSpeed: 10
-  attackDistance: 10
-  attackCooldown: 5
+  maxHealth: 500

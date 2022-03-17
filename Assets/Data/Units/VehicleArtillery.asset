@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf6c60493fce27c489aae8ce154f158c, type: 3}
-  m_Name: InfantryMachinegun
+  m_Name: VehicleArtillery
   m_EditorClassIdentifier: 
-  unitName: InfantryMachinegun
+  unitName: VehicleArtillery
   description: 
   icon: {fileID: 0}
-  moneyCost: 100
-  metalCost: 0
-  attackDamage: 5
-  typeOfUnit: Infantry
-  damageMultiplierType: Infantry
-  damageMultiplierAmount: 4
-  maxHealth: 50
-  movementSpeed: 10
-  attackDistance: 10
-  attackCooldown: 1
+  moneyCost: 300
+  metalCost: 400
+  attackDamage: 40
+  typeOfUnit: Vehicle
+  damageMultiplierType: Construction
+  damageMultiplierAmount: 5
+  maxHealth: 300
+  movementSpeed: 5
+  attackDistance: 40
+  attackCooldown: 10

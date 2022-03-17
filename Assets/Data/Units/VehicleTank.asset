@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf6c60493fce27c489aae8ce154f158c, type: 3}
-  m_Name: InfantryMachinegun
+  m_Name: VehicleTank
   m_EditorClassIdentifier: 
-  unitName: InfantryMachinegun
+  unitName: VehicleTank
   description: 
   icon: {fileID: 0}
-  moneyCost: 100
-  metalCost: 0
-  attackDamage: 5
-  typeOfUnit: Infantry
-  damageMultiplierType: Infantry
+  moneyCost: 200
+  metalCost: 300
+  attackDamage: 10
+  typeOfUnit: Vehicle
+  damageMultiplierType: Vehicle
   damageMultiplierAmount: 4
-  maxHealth: 50
-  movementSpeed: 10
-  attackDistance: 10
-  attackCooldown: 1
+  maxHealth: 400
+  movementSpeed: 5
+  attackDistance: 12
+  attackCooldown: 5
