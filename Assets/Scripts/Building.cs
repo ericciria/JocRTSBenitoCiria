@@ -7,6 +7,7 @@ public class Building : MonoBehaviour
 {
     public bool constructing;
     public bool constructed;
+    public Material opaqueMat;
 
     private float life;
     [SerializeField] int maxLife;
@@ -22,7 +23,8 @@ public class Building : MonoBehaviour
         constructing = true;
         constructed = false;
         life = 1;
-        renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
+        renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.1f));
+
     }
 
     // Update is called once per frame
@@ -54,11 +56,15 @@ public class Building : MonoBehaviour
 
             health.setHealth(life);
             t = life / maxLife;
-            renderer.material.color = Color.Lerp(new Color(0.5f, 0.8f, 0.5f, 0.5f), new Color(1f, 1f, 1f, 1f), t);
+            renderer.material.color = Color.Lerp(new Color(0.5f, 0.8f, 0.5f, 0.1f), new Color(1f, 0.5f, 0.5f, 1f), t);
         }
         else
         {
+            Debug.Log("Hola");
             constructed = true;
+           
+        renderer.material = opaqueMat;
+
         }
     }
 }
