@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6c60493fce27c489aae8ce154f158c, type: 3}
   m_Name: InfantrySniper
   m_EditorClassIdentifier: 
-  unitName: 
+  unitName: InfantrySniper
   description: 
   icon: {fileID: 0}
-  moneyCost: 0
+  moneyCost: 500
   metalCost: 0
-  attackDamage: 0
-  typeOfUnit: 
-  damageMultiplierType: 
-  damageMultiplierAmount: 0
-  maxHealth: 0
-  movementSpeed: 0
-  attackDistance: 0
-  attackCooldown: 0
+  attackDamage: 5
+  typeOfUnit: Infantry
+  damageMultiplierType: Infantry
+  damageMultiplierAmount: 10
+  maxHealth: 50
+  movementSpeed: 5
+  attackDistance: 20
+  attackCooldown: 10

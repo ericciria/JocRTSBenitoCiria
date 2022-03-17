@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6c60493fce27c489aae8ce154f158c, type: 3}
   m_Name: InfantryMachinegun
   m_EditorClassIdentifier: 
-  unitName: 
+  unitName: InfantryMachinegun
   description: 
   icon: {fileID: 0}
-  moneyCost: 0
+  moneyCost: 100
   metalCost: 0
-  attackDamage: 0
-  damageMultiplier: 
-  maxHealth: 0
-  movementSpeed: 0
-  attackDistance: 0
-  attackCooldown: 0
+  attackDamage: 1
+  typeOfUnit: Infantry
+  damageMultiplierType: Infantry
+  damageMultiplierAmount: 4
+  maxHealth: 50
+  movementSpeed: 10
+  attackDistance: 10
+  attackCooldown: 1

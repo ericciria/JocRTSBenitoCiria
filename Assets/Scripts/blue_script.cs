@@ -34,7 +34,7 @@ public class blue_script : MonoBehaviour
         {
             transform.position = hit.point;
         }
-        if (Input.GetMouseButton(0) && canConstruct == 0)
+        if (Input.GetMouseButton(0) && canConstruct == 0 && UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             Instantiate(prefab, transform.position, transform.rotation);
             Destroy(gameObject);
@@ -54,7 +54,7 @@ public class blue_script : MonoBehaviour
     {
         if (other.gameObject.tag == "Construction")
         {
-            Debug.Log("Exit: ", other);
+            //Debug.Log("Exit: ", other);
             canConstruct -= 1;
             if (canConstruct == 0)
             {

@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour
     private List<AIPlayerunit> units = new List<AIPlayerunit>();
     private List<AIPlayerunit> selectedUnits = new List<AIPlayerunit>();
     private Vector2 startPos;
+    private bool selection;
 
     [System.Serializable]
     struct CursorMapping
@@ -42,6 +43,10 @@ public class CameraController : MonoBehaviour
     void Awake()
     {
         cam = Camera.main;
+    }
+    private void Start()
+    {
+        selection = false;
     }
 
     void Update()
@@ -74,10 +79,23 @@ public class CameraController : MonoBehaviour
         {
             SpawnUnit();
         }
+<<<<<<< HEAD
         if (Input.GetMouseButtonUp(0))
         {
             //Debug.Log("release");
             releaseSelectionBox();
+=======
+
+        if (Input.GetMouseButton(0) && selection)
+        {
+            //Debug.Log("press");
+            updateSelectionBox(Input.mousePosition);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            releaseSelectionBox();
+            selection = false;
+>>>>>>> d2101a17606685a232a7536e29aa7e35e8a5f5cc
         }
     }
 
@@ -165,21 +183,24 @@ public class CameraController : MonoBehaviour
             }
             selectedUnits = new List<AIPlayerunit>();
             startPos = Input.mousePosition;
-            Debug.Log(hit.collider.gameObject.tag); ;
+            selection = true;
+
+            //Debug.Log(hit.collider.gameObject.tag);
             if (hit.collider.gameObject.tag.Equals("PlayerUnit"))
             {
-                playerUnit = hit.collider.gameObject;
-                selectedUnits.Add(playerUnit.GetComponent<AIPlayerunit>());
-                seleccio = playerUnit.transform.Find("Selection").gameObject;
-                seleccio.SetActive(true);
+                selectUnit(hit.collider.gameObject);
             }
         }
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && selection)
         {
             //Debug.Log("press");
             updateSelectionBox(Input.mousePosition);
         }
+<<<<<<< HEAD
         
+=======
+       
+>>>>>>> d2101a17606685a232a7536e29aa7e35e8a5f5cc
         //hit.collider.gameObject.SetActive(false);
         if (selectedUnits.Count!=0)
         {
@@ -223,8 +244,6 @@ public class CameraController : MonoBehaviour
         {
             ChangeCursor(CursorTypes.DEFAULT);
         }
-        
-
     }
 
     public AIPlayerunit SpawnUnit()
@@ -234,9 +253,6 @@ public class CameraController : MonoBehaviour
             Instantiate(unitPrefab, spawnPoint1.position, Quaternion.identity) as GameObject;
         AIPlayerunit playerUnit = unit.GetComponentInChildren<AIPlayerunit>();
         playerUnit.agent.SetDestination(spawnPoint2.position);
-
-        //enemy.GetComponent<ActorController>().level = level;
-        //enemy.GetComponent<HealthComponent>().value = hp;
 
         return playerUnit;
     }
@@ -281,5 +297,13 @@ public class CameraController : MonoBehaviour
             }
         }
         //Debug.LogWarning(selectedUnits.Count);
+    }
+
+    void selectUnit(GameObject unit)
+    {
+        playerUnit = unit;
+        selectedUnits.Add(playerUnit.GetComponent<AIPlayerunit>());
+        seleccio = playerUnit.transform.Find("Selection").gameObject;
+        seleccio.SetActive(true);
     }
 }
