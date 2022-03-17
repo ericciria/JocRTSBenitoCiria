@@ -54,6 +54,7 @@ public class ConstructorUnit : MonoBehaviour
 
             if (distanceToPlayer < attackDistance && !building.constructed)
             {
+                Debug.Log("FDGDFDFGDFG");
                 building.Construct();
             }
         }

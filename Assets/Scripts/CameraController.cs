@@ -79,12 +79,6 @@ public class CameraController : MonoBehaviour
         {
             SpawnUnit();
         }
-<<<<<<< HEAD
-        if (Input.GetMouseButtonUp(0))
-        {
-            //Debug.Log("release");
-            releaseSelectionBox();
-=======
 
         if (Input.GetMouseButton(0) && selection)
         {
@@ -95,7 +89,6 @@ public class CameraController : MonoBehaviour
         {
             releaseSelectionBox();
             selection = false;
->>>>>>> d2101a17606685a232a7536e29aa7e35e8a5f5cc
         }
     }
 
@@ -196,11 +189,7 @@ public class CameraController : MonoBehaviour
             //Debug.Log("press");
             updateSelectionBox(Input.mousePosition);
         }
-<<<<<<< HEAD
-        
-=======
        
->>>>>>> d2101a17606685a232a7536e29aa7e35e8a5f5cc
         //hit.collider.gameObject.SetActive(false);
         if (selectedUnits.Count!=0)
         {
