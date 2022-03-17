@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constructing: 0
   constructed: 0
+  opaqueMat: {fileID: 2100000, guid: 13b20c642f3fdec4581c1e39e87ca78c, type: 2}
   maxLife: 100
   health: {fileID: 8269446115366008074}
   renderer: {fileID: 3927804504305907443}
@@ -366,7 +367,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
