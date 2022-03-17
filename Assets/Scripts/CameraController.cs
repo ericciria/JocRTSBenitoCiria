@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
 
         //&& UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()
         timeSinceLastSpawn += Time.deltaTime;
-        if (Physics.Raycast(ray, out hit, 1000.0f) )
+        if (Physics.Raycast(ray, out hit, 1000.0f) && UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             checkCameraRay(hit);
         }
@@ -73,6 +73,11 @@ public class CameraController : MonoBehaviour
         if(timeSinceLastSpawn > spawnRate && Input.GetKey(KeyCode.E))
         {
             SpawnUnit();
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            //Debug.Log("release");
+            releaseSelectionBox();
         }
     }
 
@@ -174,11 +179,7 @@ public class CameraController : MonoBehaviour
             //Debug.Log("press");
             updateSelectionBox(Input.mousePosition);
         }
-        if (Input.GetMouseButtonUp(0))
-        {
-            //Debug.Log("release");
-            releaseSelectionBox();
-        }
+        
         //hit.collider.gameObject.SetActive(false);
         if (selectedUnits.Count!=0)
         {

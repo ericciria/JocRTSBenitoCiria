@@ -11,6 +11,8 @@ TagManager:
   - PlayerUnit
   - Attackable
   - NPC
+  - Construction
+  - Blueprint
   layers:
   - Default
   - TransparentFX
