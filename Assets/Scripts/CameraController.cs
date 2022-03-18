@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] GameObject unitPrefab;
     public int team;
     private Camera cam;
+    public int monedes;
     public NavMeshAgent agent;
 
     GameObject seleccio = null;
