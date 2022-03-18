@@ -14,23 +14,30 @@ public class Building : MonoBehaviour
     [SerializeField] ObjectLife health;
     [SerializeField] MeshRenderer renderer;
     [SerializeField] float duration = 2f;
+    [SerializeField] CameraController player;
 
+    private bool minant;
     private float t = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<CameraController>();
         constructing = true;
         constructed = false;
         life = 1;
         renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.1f));
+        minant = false;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (constructed && !minant)
+        {
+            StartCoroutine(sumarMonedes());
+        }
     }
 
     private void FixedUpdate()
@@ -66,5 +73,14 @@ public class Building : MonoBehaviour
         renderer.material = opaqueMat;
 
         }
+      
+    }
+    IEnumerator sumarMonedes()
+    {
+        minant = true;
+        yield return new WaitForSeconds(2);
+        player.monedes += 10;
+        Debug.Log(player.monedes);
+        minant = false;
     }
 }

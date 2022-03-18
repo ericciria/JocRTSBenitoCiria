@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 165712390}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,6 +273,7 @@ MonoBehaviour:
   spawnPoint1: {fileID: 0}
   spawnPoint2: {fileID: 0}
   unitPrefab: {fileID: 830076703605986277, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
+  monedes: 0
   agent: {fileID: 0}
   selectionBox: {fileID: 2055785043}
   unitLayerMask:
