@@ -18,6 +18,7 @@ public class UnitData : ScriptableObject
     [SerializeField] private float movementSpeed;
     [SerializeField] private float attackDistance;
     [SerializeField] private float attackCooldown;
+    [SerializeField] private bool constructor;
 
     public string UnitName
     {
@@ -112,6 +113,13 @@ public class UnitData : ScriptableObject
         get
         {
             return attackCooldown;
+        }
+    }
+    public bool Constructor
+    {
+        get
+        {
+            return constructor;
         }
     }
 }

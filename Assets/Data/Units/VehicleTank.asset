@@ -22,6 +22,7 @@ MonoBehaviour:
   damageMultiplierType: Vehicle
   damageMultiplierAmount: 4
   maxHealth: 400
-  movementSpeed: 5
+  movementSpeed: 4
   attackDistance: 12
   attackCooldown: 5
+  constructor: 0
