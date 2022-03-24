@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class CameraController : MonoBehaviour
     private Camera cam;
     public int monedes;
     public NavMeshAgent agent;
+    private Button buttonmina;
+    private Button buttonFabrica;
 
     GameObject seleccio = null;
     GameObject playerUnit = null;
@@ -31,12 +34,13 @@ public class CameraController : MonoBehaviour
     private List<AIPlayerunit> selectedUnits = new List<AIPlayerunit>();
     private Vector2 startPos;
     private bool selection;
-
+    private Text textMonedes;
     [System.Serializable]
     struct CursorMapping
     {
         public CursorTypes type;
         public Texture2D texture;
+
     }
 
     [SerializeField] CursorMapping[] cursorMappings;
@@ -44,16 +48,24 @@ public class CameraController : MonoBehaviour
     void Awake()
     {
         cam = Camera.main;
+        buttonmina = GameObject.Find("/Canvas/Mina").GetComponent<Button>();
+        buttonFabrica = GameObject.Find("/Canvas/House").GetComponent<Button>();
     }
+
     private void Start()
     {
         selection = false;
+        textMonedes = GameObject.Find("/Canvas/monedes").GetComponent<Text>();
+       
+        monedes = 100;
+        
     }
 
     void Update()
     {
         Move();
         Zoom();
+        actualitzarRecursos();
 
         Ray ray = GetCameraRay();
         RaycastHit hit;
@@ -295,5 +307,19 @@ public class CameraController : MonoBehaviour
         selectedUnits.Add(playerUnit.GetComponent<AIPlayerunit>());
         seleccio = playerUnit.transform.Find("Selection").gameObject;
         seleccio.SetActive(true);
+    }
+
+    void actualitzarRecursos()
+    {
+        textMonedes.text = monedes.ToString();
+        if(monedes >= 100)
+        {
+            buttonmina.interactable = true;
+            buttonFabrica.interactable = true;
+        }
+        else{
+            buttonmina.interactable = false;
+            buttonFabrica.interactable = false;
+        }
     }
 }

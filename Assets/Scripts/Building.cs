@@ -18,11 +18,13 @@ public class Building : MonoBehaviour
 
     private bool minant;
     private float t = 0;
+   
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CameraController>();
+        player.monedes -= 100;
         constructing = true;
         constructed = false;
         life = 1;
