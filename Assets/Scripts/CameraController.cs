@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform spawnPoint1;
     [SerializeField] Transform spawnPoint2;
     [SerializeField] GameObject unitPrefab;
+    public int team;
     private Camera cam;
     public int monedes;
     public NavMeshAgent agent;
@@ -32,6 +33,9 @@ public class CameraController : MonoBehaviour
     //coses per seleccionar unitats
     private List<AIPlayerunit> units = new List<AIPlayerunit>();
     private List<AIPlayerunit> selectedUnits = new List<AIPlayerunit>();
+    private List<Unit> units2 = new List<Unit>();
+    private List<Unit> selectedUnits2 = new List<Unit>();
+
     private Vector2 startPos;
     private bool selection;
     private Text textMonedes;
@@ -59,6 +63,7 @@ public class CameraController : MonoBehaviour
        
         monedes = 100;
         
+        team = 1;
     }
 
     void Update()
@@ -196,6 +201,25 @@ public class CameraController : MonoBehaviour
             {
                 selectUnit(hit.collider.gameObject);
             }
+
+            ///////////////////////// Prova per la selecci� d'unitats definitiva ////////////////////////
+            foreach (Unit unit in units2)
+            {
+                if (unit != null)
+                {
+                    seleccio = unit.transform.Find("Selection").gameObject;
+                    seleccio.SetActive(false);
+                }
+            }
+            selectedUnits2 = new List<Unit>();
+            startPos = Input.mousePosition;
+            selection = true;
+
+            //Debug.Log(hit.collider.gameObject.tag);
+            if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1)
+            {
+                selectUnit2(hit.collider.gameObject);
+            }
         }
         if (Input.GetMouseButton(0) && selection)
         {
@@ -204,7 +228,7 @@ public class CameraController : MonoBehaviour
         }
        
         //hit.collider.gameObject.SetActive(false);
-        if (selectedUnits.Count!=0)
+        if (selectedUnits.Count!=0 || selectedUnits2.Count != 0)
         {
             if (IsPointValid(hit.point))
             {
@@ -212,7 +236,7 @@ public class CameraController : MonoBehaviour
                 {
                     ChangeCursor(CursorTypes.ATTACK);
                 }
-                else if (hit.collider.gameObject.tag.Equals("PlayerUnit"))
+                else if (hit.collider.gameObject.tag.Equals("PlayerUnit") || (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1))
                 {
                     ChangeCursor(CursorTypes.SELECT);
                 }
@@ -227,7 +251,7 @@ public class CameraController : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(1))
             {
-                float asd = 0 - selectedUnits.Count*1.95f;
+                float asd = 0 - selectedUnits.Count*1.95f - selectedUnits2.Count * 1.95f;
                 foreach(AIPlayerunit unit in selectedUnits)
                 {
                     asd += 2;
@@ -236,9 +260,17 @@ public class CameraController : MonoBehaviour
                         unit.setObjective(hit,asd);
                     }
                 }
+                foreach (Unit unit in selectedUnits2)
+                {
+                    asd += 2;
+                    if (unit != null)
+                    {
+                        unit.setObjective(hit, asd);
+                    }
+                }
             }
         }
-        else if (hit.collider.gameObject.tag.Equals("PlayerUnit"))
+        else if (hit.collider.gameObject.tag.Equals("PlayerUnit") || (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1))
         {
             ChangeCursor(CursorTypes.SELECT);
         }
@@ -299,6 +331,29 @@ public class CameraController : MonoBehaviour
             }
         }
         //Debug.LogWarning(selectedUnits.Count);
+
+        GameObject[] playerUnits2 = GameObject.FindGameObjectsWithTag("Unit");
+        foreach (GameObject unit in playerUnits2)
+        {
+            if (unit.GetComponent<Unit>() != null)
+            {
+                units2.Add(unit.GetComponent<Unit>());
+            }
+        }
+
+        foreach (Unit unit in units2)
+        {
+            if (unit != null)
+            {
+                Vector3 screenPos = cam.WorldToScreenPoint(unit.transform.position);
+                if (screenPos.x > minPosition.x && screenPos.x < maxPosition.x && screenPos.y > minPosition.y && screenPos.y < maxPosition.y)
+                {
+                    selectedUnits2.Add(unit);
+                    seleccio = unit.transform.Find("Selection").gameObject;
+                    seleccio.SetActive(true);
+                }
+            }
+        }
     }
 
     void selectUnit(GameObject unit)
@@ -321,5 +376,11 @@ public class CameraController : MonoBehaviour
             buttonmina.interactable = false;
             buttonFabrica.interactable = false;
         }
+    void selectUnit2(GameObject unit)
+    {
+        playerUnit = unit;
+        selectedUnits2.Add(playerUnit.GetComponent<Unit>());
+        seleccio = playerUnit.transform.Find("Selection").gameObject;
+        seleccio.SetActive(true);
     }
 }
