@@ -20,6 +20,10 @@ public class CameraController : MonoBehaviour
     public NavMeshAgent agent;
     private Button buttonmina;
     private Button buttonFabrica;
+    private GameObject buttonminaOcultar;
+    private GameObject buttonFabricaOcultar;
+    private GameObject buttonMillora;
+    private Building building;
 
     GameObject seleccio = null;
     GameObject playerUnit = null;
@@ -54,10 +58,16 @@ public class CameraController : MonoBehaviour
         cam = Camera.main;
         buttonmina = GameObject.Find("/Canvas/Mina").GetComponent<Button>();
         buttonFabrica = GameObject.Find("/Canvas/House").GetComponent<Button>();
+
+
+        buttonminaOcultar = GameObject.Find("/Canvas/Mina");
+        buttonFabricaOcultar = GameObject.Find("/Canvas/House");
+        buttonMillora = GameObject.Find("/Canvas/milloraHouse");
     }
 
     private void Start()
     {
+        buttonMillora.SetActive(false);
         selection = false;
         textMonedes = GameObject.Find("/Canvas/monedes").GetComponent<Text>();
        
@@ -192,6 +202,10 @@ public class CameraController : MonoBehaviour
         //Debug.Log(hit);
         if (Input.GetMouseButtonDown(0))
         {
+            buttonMillora.SetActive(false);
+            buttonminaOcultar.SetActive(false);
+            buttonFabricaOcultar.SetActive(false);
+
             foreach (AIPlayerunit unit in units)
             {
                 if (unit != null)
@@ -226,7 +240,27 @@ public class CameraController : MonoBehaviour
             //Debug.Log(hit.collider.gameObject.tag);
             if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1)
             {
+               if( hit.collider.gameObject.GetComponent<Unit>().constructor)
+                {
+                    buttonminaOcultar.SetActive(true);
+                    buttonFabricaOcultar.SetActive(true);
+                }
                 selectUnit2(hit.collider.gameObject);
+
+            }
+            else if(hit.collider.gameObject.tag.Equals("Building") && hit.collider.gameObject.GetComponentInParent<Building>().team == 1)
+            {
+                /*building = hit.collider.gameObject.GetComponent<Building>();
+                if (building.buildingName.Equals("Mina"))
+                {
+
+                }*/
+                buttonMillora.SetActive(true);
+                
+                
+
+                buttonminaOcultar.SetActive(false);
+                buttonFabricaOcultar.SetActive(false);
             }
         }
         if (Input.GetMouseButton(0) && selection)
@@ -404,6 +438,14 @@ public class CameraController : MonoBehaviour
         {
             buttonmina.interactable = false;
             buttonFabrica.interactable = false;
+        }
+        if (monedes >= 10)
+        {
+            buttonMillora.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            buttonMillora.GetComponent<Button>().interactable = false;
         }
     }
     void selectUnit2(GameObject unit)
