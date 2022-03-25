@@ -13,14 +13,14 @@ public class Unit : MonoBehaviour
     public Sprite icon;
     //[SerializeField] private int moneyCost;
     //[SerializeField] private int metalCost;
-    private int attackDamage;
+    public int attackDamage;
     public string typeOfUnit;
-    private string damageMultiplierType;
-    private int damageMultiplierAmount;
+    public string damageMultiplierType;
+    public int damageMultiplierAmount;
     private int maxHealth;
     private float movementSpeed;
-    private float attackDistance;
-    private float attackCooldown;
+    public float attackDistance;
+    public float attackCooldown;
     public float timeSinceLastAttack = Mathf.Infinity;
     public GameObject nearestEnemy;
 
@@ -32,10 +32,12 @@ public class Unit : MonoBehaviour
     public Transform target;
     //public PlayerUnitStates currentState = new PlayerIdleState();
     private bool checking;
-    private bool constructor;
+    public bool constructor;
 
     Vector3 previousCorner;
     Vector3 currentCorner;
+
+    public UnitStates currentState = new UnitIdleState();
 
 
 
@@ -66,23 +68,55 @@ public class Unit : MonoBehaviour
 
         objectLife.setMaxHealth(maxHealth);
         objectLife.setHealth(maxHealth);
+
+        UnitStates nextState = currentState.OnUpdate(this);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        timeSinceLastAttack += Time.deltaTime;
+        UnitStates nextState = currentState.OnUpdate(this);
+        if (nextState != null)
+        {
+            currentState.OnExitState(this);
+            currentState = nextState;
+            currentState.OnEnterState(this);
+        }
+        if (!checking && currentState.ToString().Equals("UnitIdleState"))
+        {
+            checking = true;
+            StartCoroutine(getClosestEnemyInRadius());
+        }
     }
 
     public void setObjective(RaycastHit hit, float offset)
     {
-        if (!constructor && (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team != team) || (hit.collider.gameObject.tag.Equals("Construction") /*&& hit.collider.gameObject.GetComponent<Construction>().team != team*/))
-        {
-            target = hit.collider.gameObject.transform;
+        if (!constructor){
+            if (hit.collider.gameObject.tag.Equals("Unit"))
+            {
+                if (hit.collider.gameObject.GetComponent<Unit>().team != team)
+                {
+                    target = hit.collider.gameObject.transform;
+                }
+            }
+            else if (hit.collider.gameObject.tag.Equals("Building")) 
+            {
+                if (hit.collider.gameObject.GetComponentInParent<Building>().team != team) {
+                    target = hit.collider.gameObject.transform;
+                }
+            }
+            else
+            {
+                target = null;
+                agent.SetDestination(hit.point + new Vector3(offset, 0, 0));
+            }
         }
-        else if(constructor && (hit.collider.gameObject.tag.Equals("Construction") && hit.collider.gameObject.GetComponent<Unit>().team == team))
+        else if(constructor && hit.collider.gameObject.tag.Equals("Building"))
         {
-            target = hit.collider.gameObject.transform;
+            if( hit.collider.gameObject.GetComponentInParent<Building>().team == team)
+            {
+                target = hit.collider.gameObject.transform;
+            } 
         }
         else
         {
@@ -201,7 +235,7 @@ public class Unit : MonoBehaviour
     public GameObject FindClosestEnemy()
     {
         GameObject[] gos;
-        gos = GameObject.FindGameObjectsWithTag("Attackable");
+        gos = GameObject.FindGameObjectsWithTag("Unit");
         GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
@@ -224,4 +258,62 @@ public class Unit : MonoBehaviour
         nearestEnemy = FindClosestEnemy();
         checking = false;
     }
+
+    IEnumerator getClosestEnemyInRadius()
+    {
+        yield return new WaitForSeconds(2);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackDistance);
+        Collider closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+
+        foreach (Collider co in hitColliders)
+        {
+            if (co.gameObject.tag.Equals("Unit"))
+            {
+                if (co.gameObject.GetComponent<Unit>().team != team)
+                {
+                    Vector3 diff = co.transform.position - position;
+                    float curDistance = diff.sqrMagnitude;
+                    if (curDistance < distance)
+                    {
+                        closest = co;
+                        distance = curDistance;
+                    }
+                }
+            }
+            else if (co.gameObject.tag.Equals("Building"))
+            {
+                if (co.gameObject.GetComponentInParent<Building>().team != team)
+                {
+                    Vector3 diff = co.transform.position - position;
+                    float curDistance = diff.sqrMagnitude;
+                    if (curDistance < distance)
+                    {
+                        closest = co;
+                        distance = curDistance;
+                    }
+                }
+            }
+        }
+        if (closest != null)
+        {
+            nearestEnemy = closest.gameObject;
+        }
+        else
+        {
+            nearestEnemy = null;
+        }
+        
+    }
+
+    void ExplosionDamage(Vector3 center, float radius)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+        foreach (var hitCollider in hitColliders)
+        {
+            hitCollider.SendMessage("AddDamage");
+        }
+    }
+
 }

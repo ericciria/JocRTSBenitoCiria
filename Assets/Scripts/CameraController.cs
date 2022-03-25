@@ -232,7 +232,12 @@ public class CameraController : MonoBehaviour
         {
             if (IsPointValid(hit.point))
             {
-                if (hit.collider.gameObject.tag.Equals("Attackable") || hit.collider.gameObject.tag.Equals("NPC"))
+                //if (hit.collider.gameObject.tag.Equals("Attackable") || hit.collider.gameObject.tag.Equals("NPC"))
+                if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team!=team)
+                {
+                    ChangeCursor(CursorTypes.ATTACK);
+                }
+                if (hit.collider.gameObject.tag.Equals("NPC") && hit.collider.gameObject.GetComponent<Building>().team != team)
                 {
                     ChangeCursor(CursorTypes.ATTACK);
                 }
@@ -367,15 +372,17 @@ public class CameraController : MonoBehaviour
     void actualitzarRecursos()
     {
         textMonedes.text = monedes.ToString();
-        if(monedes >= 100)
+        if (monedes >= 100)
         {
             buttonmina.interactable = true;
             buttonFabrica.interactable = true;
         }
-        else{
+        else
+        {
             buttonmina.interactable = false;
             buttonFabrica.interactable = false;
         }
+    }
     void selectUnit2(GameObject unit)
     {
         playerUnit = unit;
