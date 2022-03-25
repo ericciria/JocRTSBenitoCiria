@@ -21,7 +21,7 @@ MonoBehaviour:
   typeOfUnit: Vehicle
   damageMultiplierType: 
   damageMultiplierAmount: 0
-  maxHealth: 1000
+  maxHealth: 100
   movementSpeed: 8
   attackDistance: 0
   attackCooldown: 0

@@ -127,14 +127,18 @@ public class Unit : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        /*if (currentState.ToString().Equals("PlayerIdleState"))
+        if (currentState.ToString().Equals("UnitIdleState"))
         {
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.cyan;
             //Debug.Log("AAAAAAAAAAAAAAA");
         }
-        else if (currentState.ToString().Equals("PlayerPursueState"))
+        else if (currentState.ToString().Equals("UnitPursueState"))
         {
             Gizmos.color = Color.yellow;
+        }
+        else if (currentState.ToString().Equals("UnitConstructState"))
+        {
+            Gizmos.color = Color.blue;
         }
         else
         {
@@ -148,9 +152,16 @@ public class Unit : MonoBehaviour
             //Debug.Log(currentState);
 
             DrawWireArc(this.transform.position, this.transform.forward, 10, attackDistance); // width,length
-        }*/
+        }
+        if (constructor)
+        {
+            DrawCircle(this.transform.position, this.transform.forward, 2, 20);
+        }
+        else
+        {
+            DrawCircle(this.transform.position, this.transform.forward, attackDistance, 20);
+        }
         Gizmos.DrawLine(transform.position, transform.position + transform.forward * 2);
-        DrawCircle(this.transform.position, this.transform.forward, attackDistance, 20);
         DrawPath(agent.path);
 
     }
@@ -304,6 +315,7 @@ public class Unit : MonoBehaviour
         {
             nearestEnemy = null;
         }
+        checking = false;
         
     }
 

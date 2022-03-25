@@ -117,6 +117,14 @@ public class CameraController : MonoBehaviour
 
         Vector3 dir = transform.forward * zInput + transform.right * xInput;
         transform.position += dir * moveSpeed * Time.deltaTime;
+
+        if (Input.GetMouseButton(2))
+        {
+            transform.Rotate(new Vector3(-Input.GetAxis("Mouse Y") * 0, Input.GetAxis("Mouse X") * 1, 0));
+            float mouseX = transform.rotation.eulerAngles.x;
+            float mouseY = transform.rotation.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(mouseX, mouseY, 0);
+        }
     }
 
     private void Zoom()
@@ -233,17 +241,28 @@ public class CameraController : MonoBehaviour
             if (IsPointValid(hit.point))
             {
                 //if (hit.collider.gameObject.tag.Equals("Attackable") || hit.collider.gameObject.tag.Equals("NPC"))
-                if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team!=team)
+                if (hit.collider.gameObject.tag.Equals("Unit"))
                 {
-                    ChangeCursor(CursorTypes.ATTACK);
+                    if(hit.collider.gameObject.GetComponent<Unit>().team != team)
+                    {
+                        ChangeCursor(CursorTypes.ATTACK);
+                    }
+                    else
+                    {
+                        ChangeCursor(CursorTypes.SELECT);
+                    }
+                    
                 }
-                if (hit.collider.gameObject.tag.Equals("NPC") && hit.collider.gameObject.GetComponent<Building>().team != team)
+                if (hit.collider.gameObject.tag.Equals("Building"))
                 {
-                    ChangeCursor(CursorTypes.ATTACK);
-                }
-                else if (hit.collider.gameObject.tag.Equals("PlayerUnit") || (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1))
-                {
-                    ChangeCursor(CursorTypes.SELECT);
+                    if(hit.collider.gameObject.GetComponentInParent<Building>().team != team)
+                    {
+                        ChangeCursor(CursorTypes.ATTACK);
+                    }
+                    else
+                    {
+                        ChangeCursor(CursorTypes.SELECT);
+                    }
                 }
                 else
                 {
@@ -275,7 +294,11 @@ public class CameraController : MonoBehaviour
                 }
             }
         }
-        else if (hit.collider.gameObject.tag.Equals("PlayerUnit") || (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1))
+        else if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == team)
+        {
+            ChangeCursor(CursorTypes.SELECT);
+        }
+        else if (hit.collider.gameObject.tag.Equals("Building") && hit.collider.gameObject.GetComponentInParent<Building>().team == team)
         {
             ChangeCursor(CursorTypes.SELECT);
         }

@@ -47,10 +47,12 @@ MonoBehaviour:
   constructing: 0
   constructed: 0
   opaqueMat: {fileID: 2100000, guid: 13b20c642f3fdec4581c1e39e87ca78c, type: 2}
+  team: 1
   maxLife: 100
   health: {fileID: 8269446115366008074}
   renderer: {fileID: 3927804504305907443}
   duration: 4
+  player: {fileID: 0}
 --- !u!1 &3539882357527185652
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +140,7 @@ GameObject:
   - component: {fileID: 8327946358271575240}
   - component: {fileID: 1540570171831485169}
   - component: {fileID: 6240724554823868597}
+  - component: {fileID: 8108593061749423255}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -226,6 +229,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8108593061749423255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4288601938047583272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d2c40b3d98045440aa4bf449e0f309c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camTransform: {fileID: 0}
 --- !u!1 &4944038858784555621
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +259,7 @@ GameObject:
   - component: {fileID: 3389701946553709193}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Construction
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
