@@ -39,11 +39,16 @@ public class blue_script : MonoBehaviour
             Instantiate(prefab, transform.position, transform.rotation);
             Destroy(gameObject);
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Construction")
+        //Debug.Log(other.gameObject.tag);
+        if (other.gameObject.tag != "Terrain")
         {
             //Debug.Log("Enter: ", other);
             canConstruct +=1;
@@ -52,7 +57,7 @@ public class blue_script : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Construction")
+        if (other.gameObject.tag != "Terrain")
         {
             //Debug.Log("Exit: ", other);
             canConstruct -= 1;
