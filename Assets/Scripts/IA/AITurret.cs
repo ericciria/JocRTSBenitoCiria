@@ -11,7 +11,7 @@ public class AITurret : MonoBehaviour
     public float attackCooldown = 10.0f;
     public NavMeshAgent agent;
 
-    public IState currentState = new IdleState();
+    //public IState currentState = new IdleState();
 
     public GameObject nearestEnemy;
     private bool checking;
@@ -35,14 +35,14 @@ public class AITurret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        IState nextState = currentState.OnUpdate(this);
+        /*IState nextState = currentState.OnUpdate(this);
 
         if (nextState != null)
         {
             currentState.OnExitState(this);
             currentState = nextState;
             currentState.OnEnterState(this);
-        }
+        }*/
 
         if (!checking)
         {
@@ -80,7 +80,7 @@ public class AITurret : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (currentState.ToString().Equals("IdleState"))
+        /*if (currentState.ToString().Equals("IdleState"))
         {
             Gizmos.color = Color.blue;
         }
@@ -91,7 +91,7 @@ public class AITurret : MonoBehaviour
         else
         {
             Gizmos.color = Color.red;
-        }
+        }*/
 
         DrawWireArc(this.transform.position, this.transform.forward, 10, attackDistance); // width,length
 

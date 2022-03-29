@@ -9,6 +9,10 @@ public class Building : MonoBehaviour
     public bool constructed;
     public Material opaqueMat;
     public int team = 1;
+    public int moneyCost;
+    public int metalCost;
+    public int energy;
+    private int attackDamage;
 
     private float life;
     [SerializeField] int maxLife;
@@ -16,9 +20,12 @@ public class Building : MonoBehaviour
     [SerializeField] MeshRenderer renderer;
     [SerializeField] float duration = 2f;
     [SerializeField] CameraController player;
+    [SerializeField] BuildingData data;
 
     private bool minant;
     private float t = 0;
+
+    
    
 
     // Start is called before the first frame update
@@ -29,9 +36,15 @@ public class Building : MonoBehaviour
         constructing = false;
         constructed = false;
         life = 1;
-        renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.1f));
+        renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.3f));
         minant = false;
 
+        moneyCost = data.MoneyCost;
+        metalCost = data.MetalCost;
+        energy = data.EnergyCost;
+        maxLife = data.MaxHealth;
+        attackDamage = data.AttackDamage;
+        health.setMaxHealth(maxLife);
     }
 
     // Update is called once per frame
@@ -62,21 +75,15 @@ public class Building : MonoBehaviour
             {
                 StartCoroutine(constructTimer());
                 Debug.Log("Life: " + life);
-                //Debug.Log(renderer.material.color);
-                
                 
             }
             else
             {
-                //Debug.Log("Hola");
                 constructed = true;
                 renderer.material = opaqueMat;
 
             }
-            
         }
-        
-      
     }
     IEnumerator sumarMonedes()
     {
@@ -97,7 +104,7 @@ public class Building : MonoBehaviour
         health.setHealth(life);
 
         t = life / maxLife;
-        renderer.material.color = Color.Lerp(new Color(0.5f, 0.8f, 0.5f, 0.1f), new Color(1f, 0.5f, 0.5f, 1f), t);
+        renderer.material.color = Color.Lerp(new Color(0.5f, 0.8f, 0.5f, 0.3f), new Color(1f, 0.5f, 0.5f, 1f), t);
 
         constructing = false;
     }

@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7081089}
   m_Layer: 0
-  m_Name: ProvaUnit (2)
+  m_Name: ProvaSniper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,7 +152,7 @@ Transform:
   m_Children:
   - {fileID: 1598625013}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &23051730 stripped
 Transform:
@@ -363,6 +363,7 @@ MonoBehaviour:
   team: 0
   monedes: 0
   agent: {fileID: 0}
+  building: {fileID: 0}
   selectionBox: {fileID: 660413693}
   unitLayerMask:
     serializedVersion: 2
@@ -393,89 +394,8 @@ Transform:
   m_Children:
   - {fileID: 1235868666}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &191207920
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 134.5458
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.4999981
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 63.277412
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986274, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 830076703605986277, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-      propertyPath: m_Name
-      value: PlayerUnit
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
---- !u!1 &343615392 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 830076703667693923, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
-  m_PrefabInstance: {fileID: 191207920}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &343615394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 343615392}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 493a05f2994e52145b6aa02a549142cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  target: {fileID: 0}
-  movementspeed: 10
-  attackDistance: 10
-  attackCooldown: 10
-  timeSinceLastAttack: Infinity
-  nearestEnemy: {fileID: 0}
 --- !u!43 &457320483
 Mesh:
   m_ObjectHideFlags: 0
@@ -714,7 +634,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &660413692
 GameObject:
@@ -2439,7 +2359,7 @@ RectTransform:
   m_Children:
   - {fileID: 660413693}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2583,7 +2503,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1223175793
 PrefabInstance:
@@ -2598,7 +2518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1606432510511709878, guid: 249fab83e512ab941b585e57e3d77d4a, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1606432510511709878, guid: 249fab83e512ab941b585e57e3d77d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2767,7 +2687,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244881967}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.53650194, z: 0}
+  m_LocalPosition: {x: 0, y: -0.47, z: 0}
   m_LocalScale: {x: 0.14999999, y: 1, z: 0.14999999}
   m_Children: []
   m_Father: {fileID: 1598625013}
@@ -2832,7 +2752,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1487508983}
   m_Layer: 0
-  m_Name: ProvaUnit
+  m_Name: ProvaConstructor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2851,7 +2771,7 @@ Transform:
   m_Children:
   - {fileID: 24531763}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1500237589
 PrefabInstance:
@@ -2878,7 +2798,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4472563726264716452, guid: 9f06c7710eaec114d9e5dabc407c0e39, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4472563726264716452, guid: 9f06c7710eaec114d9e5dabc407c0e39, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2968,6 +2888,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 4706742202442579236, guid: 9f06c7710eaec114d9e5dabc407c0e39, type: 3}
+      propertyPath: constructor
+      value: 
+      objectReference: {fileID: 1487508982}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f06c7710eaec114d9e5dabc407c0e39, type: 3}
 --- !u!1 &1598625012
@@ -8000,7 +7924,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1974983190
 GameObject:
@@ -12952,7 +12876,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2002269155}
   m_Layer: 0
-  m_Name: ProvaUnit (1)
+  m_Name: ProvaTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12971,7 +12895,7 @@ Transform:
   m_Children:
   - {fileID: 1974983191}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2090067708
 GameObject:
@@ -12999,7 +12923,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2090067708}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.53650194, z: 0}
+  m_LocalPosition: {x: 0, y: -0.46, z: 0}
   m_LocalScale: {x: 0.14999999, y: 1, z: 0.14999999}
   m_Children: []
   m_Father: {fileID: 24531763}

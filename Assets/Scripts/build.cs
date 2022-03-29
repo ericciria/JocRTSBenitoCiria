@@ -8,6 +8,18 @@ public class build : MonoBehaviour
     public GameObject build_mina;
     public GameObject btn_Hosue;
     public GameObject btn_Mina;
+    public GameObject constructor;
+
+    public CameraController player;
+    private Vector3 position;
+
+    void Start()
+    {
+        btn_Hosue.SetActive(false);
+        btn_Mina.SetActive(false);
+
+        player = GameObject.Find("/Camera").GetComponent<CameraController>();
+    }
 
     public void spawn_blue()
     {
@@ -28,10 +40,13 @@ public class build : MonoBehaviour
         Instantiate(build_mina);
     }
 
-    public void Start()
+    public void spawn_constructor()
     {
-        btn_Hosue.SetActive(false);
-        btn_Mina.SetActive(false);
+        GameObject unit =
+            Instantiate(constructor, player.building.transform.position, Quaternion.identity) as GameObject;
+        Unit playerUnit = unit.GetComponentInChildren<Unit>();
+        playerUnit.agent.SetDestination(player.building.transform.position + new Vector3(0,0,-5));
+
     }
-    
+
 }

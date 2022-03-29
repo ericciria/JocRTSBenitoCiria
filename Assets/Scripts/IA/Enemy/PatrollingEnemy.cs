@@ -11,7 +11,7 @@ public class PatrollingEnemy : MonoBehaviour
     public float atackCooldown = 10.0f;
     public NavMeshAgent agent;
 
-    public IState currentState = new IdleState();
+    //public IState currentState = new IdleState();
 
     public Transform[] points;
     public Transform currentPoint;
@@ -42,14 +42,14 @@ public class PatrollingEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        IState nextState = currentState.OnUpdate(this);
+        //IState nextState = currentState.OnUpdate(this);
 
-        if (nextState != null)
+        /*if (nextState != null)
         {
             currentState.OnExitState(this);
             currentState = nextState;
             currentState.OnEnterState(this);
-        }
+        }*/
 
         if (!cheching)
         {
@@ -99,7 +99,7 @@ public class PatrollingEnemy : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (currentState.ToString().Equals("IdleState"))
+       /* if (currentState.ToString().Equals("IdleState"))
         {
             Gizmos.color = Color.blue;
         }
@@ -110,7 +110,7 @@ public class PatrollingEnemy : MonoBehaviour
         else
         {
             Gizmos.color = Color.red;
-        }
+        }*/
 
         DrawWireArc(this.transform.position, this.transform.forward, 10, atackDistance); // width,length
 

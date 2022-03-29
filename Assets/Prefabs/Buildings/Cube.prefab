@@ -296,11 +296,15 @@ MonoBehaviour:
   constructed: 0
   opaqueMat: {fileID: 2100000, guid: a5accfe5bf17cde4288ac7786025d06c, type: 2}
   team: 1
+  moneyCost: 0
+  metalCost: 0
+  energy: 0
   maxLife: 100
   health: {fileID: 415880418921779082}
   renderer: {fileID: 3714966949327679998}
   duration: 2
   player: {fileID: 0}
+  data: {fileID: 11400000, guid: d0d414b2a463e354fbbbce948db0c264, type: 2}
 --- !u!1001 &2616489541847788922
 PrefabInstance:
   m_ObjectHideFlags: 0

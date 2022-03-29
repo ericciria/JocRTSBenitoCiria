@@ -130,7 +130,7 @@ public class AICitizen : MonoBehaviour
     }
     void checkState(GameObject unit)
     {
-        if (unit != null)
+        /*if (unit != null)
         {
             if(unit.tag.Equals("PlayerUnit"))
         {
@@ -150,7 +150,7 @@ public class AICitizen : MonoBehaviour
                     covering = true;
                 }
             }
-        }
+        }*/
     }
     void DrawPath(NavMeshPath path)
     {

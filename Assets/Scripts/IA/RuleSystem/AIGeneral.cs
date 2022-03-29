@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIGeneral : MonoBehaviour
 {
-    private delegate bool Condition();
+    /*private delegate bool Condition();
     private delegate void Action();
 
     [SerializeField] GameObject enemyPrefab;
@@ -267,5 +267,5 @@ public class AIGeneral : MonoBehaviour
             * Mathf.Atan2(forwardLimitPos.z - position.z, forwardLimitPos.x - position.x);
 
         return srcAngles;
-    }
+    }*/
 }
