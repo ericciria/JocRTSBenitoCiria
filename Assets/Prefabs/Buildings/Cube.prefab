@@ -205,7 +205,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &8774892287125234280
+--- !u!65 &3978445751566862511
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -216,7 +216,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.45, z: 0.03}
+  m_Size: {x: 0.17046177, y: 0.20999606, z: 0.031219572}
   m_Center: {x: -0.051044777, y: 0.08166112, z: 0.005609787}
 --- !u!208 &5566226050122766708
 NavMeshObstacle:
@@ -318,7 +318,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ca486b301b6910146bab650684d40c1b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.97947377
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ca486b301b6910146bab650684d40c1b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -326,7 +326,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ca486b301b6910146bab650684d40c1b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.9729251
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ca486b301b6910146bab650684d40c1b, type: 3}
       propertyPath: m_LocalRotation.w

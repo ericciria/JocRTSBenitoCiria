@@ -56,17 +56,6 @@ public class Building : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (!constructed)
-        {
-            if (constructing)
-            {
-                //Construct();
-            }
-        }
-    }
-
     public void Construct()
     {
         if (!constructing)
@@ -74,7 +63,7 @@ public class Building : MonoBehaviour
             if (life < maxLife)
             {
                 StartCoroutine(constructTimer());
-                Debug.Log("Life: " + life);
+                //Debug.Log("Life: " + life);
                 
             }
             else
@@ -90,7 +79,7 @@ public class Building : MonoBehaviour
         minant = true;
         yield return new WaitForSeconds(2);
         player.monedes += 10;
-        Debug.Log(player.monedes);
+        //Debug.Log(player.monedes);
         minant = false;
     }
     IEnumerator constructTimer()
@@ -100,7 +89,7 @@ public class Building : MonoBehaviour
         life = health.getHealth();
         yield return new WaitForSeconds(0.4f);
 
-        life += maxLife/ 20 / duration;
+        life += maxLife/ 10 / duration;
         health.setHealth(life);
 
         t = life / maxLife;

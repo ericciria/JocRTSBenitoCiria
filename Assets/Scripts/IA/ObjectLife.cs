@@ -90,11 +90,11 @@ public class ObjectLife : MonoBehaviour
     public void SetHealthBarValue(float value)
     {
         healthBarImage.fillAmount = value;
-        if (healthBarImage.fillAmount < 0.2f)
+        if (healthBarImage.fillAmount < 0.25f)
         {
             SetHealthBarColor(Color.red);
         }
-        else if (healthBarImage.fillAmount < 0.5f)
+        else if (healthBarImage.fillAmount < 0.75f)
         {
             SetHealthBarColor(Color.yellow);
         }

@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour
     private GameObject buttonFabricaOcultar;
     private GameObject buttonMillora;
     private GameObject buttonConstructor;
+    private GameObject buttonTank;
     public Building building;
 
     GameObject seleccio = null;
@@ -36,8 +37,8 @@ public class CameraController : MonoBehaviour
     public LayerMask unitLayerMask;
 
     //coses per seleccionar unitats
-    private List<Unit> units2 = new List<Unit>();
-    private List<Unit> selectedUnits2 = new List<Unit>();
+    private List<Unit> units = new List<Unit>();
+    public List<Unit> selectedUnits = new List<Unit>();
 
     private Vector2 startPos;
     private bool selection;
@@ -63,12 +64,14 @@ public class CameraController : MonoBehaviour
         buttonFabricaOcultar = GameObject.Find("/Canvas/House");
         buttonMillora = GameObject.Find("/Canvas/milloraHouse");
         buttonConstructor = GameObject.Find("/Canvas/SpawnConstructor");
+        buttonTank = GameObject.Find("/Canvas/SpawnTank");
     }
 
     private void Start()
     {
         buttonMillora.SetActive(false);
         buttonConstructor.SetActive(false);
+        buttonTank.SetActive(false);
         selection = false;
         textMonedes = GameObject.Find("/Canvas/monedes").GetComponent<Text>();
        
@@ -111,7 +114,6 @@ public class CameraController : MonoBehaviour
 
         if (Input.GetMouseButton(0) && selection)
         {
-            //Debug.Log("press");
             updateSelectionBox(Input.mousePosition);
         }
         else if (Input.GetMouseButtonUp(0))
@@ -205,6 +207,7 @@ public class CameraController : MonoBehaviour
         {
             buttonMillora.SetActive(false);
             buttonConstructor.SetActive(false);
+            buttonTank.SetActive(false);
             buttonminaOcultar.SetActive(false);
             buttonFabricaOcultar.SetActive(false);
 
@@ -212,7 +215,7 @@ public class CameraController : MonoBehaviour
             selection = true;
 
             ///////////////////////// Prova per la selecci� d'unitats definitiva ////////////////////////
-            foreach (Unit unit in units2)
+            foreach (Unit unit in units)
             {
                 if (unit != null)
                 {
@@ -220,7 +223,7 @@ public class CameraController : MonoBehaviour
                     seleccio.SetActive(false);
                 }
             }
-            selectedUnits2 = new List<Unit>();
+            selectedUnits = new List<Unit>();
             startPos = Input.mousePosition;
             selection = true;
 
@@ -232,7 +235,7 @@ public class CameraController : MonoBehaviour
                     buttonminaOcultar.SetActive(true);
                     buttonFabricaOcultar.SetActive(true);
                 }
-                selectUnit2(hit.collider.gameObject);
+                selectUnit(hit.collider.gameObject);
 
             }
             else if(hit.collider.gameObject.tag.Equals("Building") && hit.collider.gameObject.GetComponentInParent<Building>().team == 1)
@@ -244,6 +247,7 @@ public class CameraController : MonoBehaviour
                 }*/
                 buttonMillora.SetActive(true);
                 buttonConstructor.SetActive(true);
+                buttonTank.SetActive(true);
 
                 buttonminaOcultar.SetActive(false);
                 buttonFabricaOcultar.SetActive(false);
@@ -256,7 +260,7 @@ public class CameraController : MonoBehaviour
         }
        
         //hit.collider.gameObject.SetActive(false);
-        if ( selectedUnits2.Count != 0)
+        if ( selectedUnits.Count != 0)
         {
             if (IsPointValid(hit.point))
             {
@@ -273,7 +277,7 @@ public class CameraController : MonoBehaviour
                     }
                     
                 }
-                if (hit.collider.gameObject.tag.Equals("Building"))
+                else if (hit.collider.gameObject.tag.Equals("Building"))
                 {
                     if(hit.collider.gameObject.GetComponentInParent<Building>().team != team)
                     {
@@ -295,8 +299,8 @@ public class CameraController : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(1))
             {
-                float asd = 0 - selectedUnits2.Count * 1.95f;
-                foreach (Unit unit in selectedUnits2)
+                float asd = 0 - selectedUnits.Count * 1.95f;
+                foreach (Unit unit in selectedUnits)
                 {
                     asd += 2;
                     if (unit != null)
@@ -354,21 +358,29 @@ public class CameraController : MonoBehaviour
         {
             if (unit.GetComponent<Unit>() != null)
             {
-                units2.Add(unit.GetComponent<Unit>());
+                units.Add(unit.GetComponent<Unit>());
+
             }
         }
 
-        foreach (Unit unit in units2)
+        foreach (Unit unit in units)
         {
             if (unit != null)
             {
                 Vector3 screenPos = cam.WorldToScreenPoint(unit.transform.position);
                 if (screenPos.x > minPosition.x && screenPos.x < maxPosition.x && screenPos.y > minPosition.y && screenPos.y < maxPosition.y)
                 {
-                    selectedUnits2.Add(unit);
+                    selectedUnits.Add(unit);
                     seleccio = unit.transform.Find("Selection").gameObject;
                     seleccio.SetActive(true);
+                    if (unit.constructor)
+                    {
+                        buttonminaOcultar.SetActive(true);
+                        buttonFabricaOcultar.SetActive(true);
+                    }
                 }
+                
+
             }
         }
     }
@@ -395,10 +407,10 @@ public class CameraController : MonoBehaviour
             buttonMillora.GetComponent<Button>().interactable = false;
         }
     }
-    void selectUnit2(GameObject unit)
+    void selectUnit(GameObject unit)
     {
         playerUnit = unit;
-        selectedUnits2.Add(playerUnit.GetComponent<Unit>());
+        selectedUnits.Add(playerUnit.GetComponent<Unit>());
         seleccio = playerUnit.transform.Find("Selection").gameObject;
         seleccio.SetActive(true);
     }

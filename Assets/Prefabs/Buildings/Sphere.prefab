@@ -48,11 +48,15 @@ MonoBehaviour:
   constructed: 0
   opaqueMat: {fileID: 2100000, guid: 13b20c642f3fdec4581c1e39e87ca78c, type: 2}
   team: 1
+  moneyCost: 0
+  metalCost: 0
+  energy: 0
   maxLife: 100
   health: {fileID: 8269446115366008074}
   renderer: {fileID: 3927804504305907443}
   duration: 4
   player: {fileID: 0}
+  data: {fileID: 11400000, guid: 0fa09d3db22118a4f9fd13cff603fc71, type: 2}
 --- !u!1 &3539882357527185652
 GameObject:
   m_ObjectHideFlags: 0

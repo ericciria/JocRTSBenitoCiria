@@ -9,6 +9,7 @@ public class build : MonoBehaviour
     public GameObject btn_Hosue;
     public GameObject btn_Mina;
     public GameObject constructor;
+    public GameObject tank;
 
     public CameraController player;
     private Vector3 position;
@@ -42,11 +43,15 @@ public class build : MonoBehaviour
 
     public void spawn_constructor()
     {
-        GameObject unit =
-            Instantiate(constructor, player.building.transform.position, Quaternion.identity) as GameObject;
+        GameObject unit = Instantiate(constructor, player.building.transform.position + new Vector3(0, 0, -2), Quaternion.identity);
         Unit playerUnit = unit.GetComponentInChildren<Unit>();
         playerUnit.agent.SetDestination(player.building.transform.position + new Vector3(0,0,-5));
-
+    }
+    public void spawn_tank()
+    {
+        GameObject unit = Instantiate(tank, player.building.transform.position + new Vector3(0, 0, -2), Quaternion.identity);
+        Unit playerUnit = unit.GetComponentInChildren<Unit>();
+        playerUnit.agent.SetDestination(player.building.transform.position + new Vector3(0, 0, -5));
     }
 
 }

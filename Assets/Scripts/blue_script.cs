@@ -6,38 +6,65 @@ public class blue_script : MonoBehaviour
 {
 
     RaycastHit hit;
-    Vector3 movePoint;
     public GameObject prefab;
-    Collider col;
-    int canConstruct;
+    private GameObject building;
+    bool canConstruct;
     [SerializeField] MeshRenderer renderer;
-    
+    Renderer rend; 
+    private float largestSide;
+    CameraController player;
+    private List<Unit> playerUnits;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        col = GetComponent<Collider>();
+        player = GameObject.Find("/Camera").GetComponent<CameraController>();
+        playerUnits = player.selectedUnits;
+
+        rend = GetComponentInChildren<Renderer>();
+        if (rend.bounds.size.x > rend.bounds.size.z)
+        {
+            largestSide = rend.bounds.size.x;
+        }
+        else
+        {
+            largestSide = rend.bounds.size.z;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit, 50000.0f, (1 << 10)))
         {
             transform.position = hit.point;
         }
-        canConstruct = 0;
+        canConstruct = true;
         renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
     }
 
     void Update()
     {
+        GetCollidersInRadius();
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 50000.0f, (1 << 10)))
         {
             transform.position = hit.point;
         }
-        if (Input.GetMouseButton(0) && canConstruct == 0 && UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButton(0) && canConstruct && UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
-            Instantiate(prefab, transform.position, transform.rotation);
+
+            building = Instantiate(prefab, transform.position, transform.rotation);
+            foreach (Unit unit in playerUnits)
+            {
+                if (unit.constructor)
+                {
+                    unit.target = building.GetComponentInChildren<ObjectLife>().gameObject.transform;
+                    break;
+                }
+            }
             Destroy(gameObject);
+
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -45,26 +72,19 @@ public class blue_script : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void GetCollidersInRadius()
     {
-        //Debug.Log(other.gameObject.tag);
-        if (other.gameObject.tag != "Terrain")
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, largestSide*0.7f);
+
+        if (hitColliders.Length > 2)
         {
-            //Debug.Log("Enter: ", other);
-            canConstruct +=1;
+            canConstruct = false;
             renderer.material.SetColor("_Color", new Color(0.8f, 0.5f, 0.5f, 0.5f));
         }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag != "Terrain")
+        else
         {
-            //Debug.Log("Exit: ", other);
-            canConstruct -= 1;
-            if (canConstruct == 0)
-            {
-                renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
-            }
+            canConstruct = true;
+            renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
         }
     }
 }
