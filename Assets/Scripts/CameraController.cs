@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] float moveSpeed = 15;
     [SerializeField] float zoomSpeed = 25;
-    [SerializeField] float minZoomDist = 10;
+    [SerializeField] float minZoomDist = 5;
     [SerializeField] float maxZoomDist = 50;
     [SerializeField] Transform spawnPoint1;
     [SerializeField] Transform spawnPoint2;

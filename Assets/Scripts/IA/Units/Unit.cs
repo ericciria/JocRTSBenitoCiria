@@ -37,6 +37,9 @@ public class Unit : MonoBehaviour
     Vector3 previousCorner;
     Vector3 currentCorner;
 
+    public MeshRenderer renderer;
+    public Material[] materials;
+
     public UnitStates currentState = new UnitIdleState();
 
 
@@ -45,14 +48,12 @@ public class Unit : MonoBehaviour
     {
         objectLife = GetComponent<ObjectLife>();
         agent = GetComponent<NavMeshAgent>();
-    }
-    void Start()
-    {
+        renderer = GetComponentInChildren<MeshRenderer>();
+        
+
         unitName = unitData.UnitName;
         description = unitData.Description;
         icon = unitData.Icon;
-
-
         attackDamage = unitData.AttackDamage;
         typeOfUnit = unitData.TypeOfUnit;
         damageMultiplierType = unitData.DamageMultiplierType;
@@ -63,6 +64,24 @@ public class Unit : MonoBehaviour
         attackCooldown = unitData.AttackCooldown;
         constructor = unitData.Constructor;
 
+        materials = renderer.materials;
+
+    }
+    void Start()
+    {
+        if (team == 1)
+        {
+            teamColor = new Color(0.1F, 0.1F, 0.7F, 1F);
+        }
+        else if (team == 2)
+        {
+            teamColor = new Color(0.7F, 0.1F, 0.1F, 1F);
+        }
+        changeColor(teamColor);
+
+
+
+
         agent.speed = unitData.MovementSpeed;
         agent.acceleration = agent.speed - 2;
 
@@ -70,6 +89,8 @@ public class Unit : MonoBehaviour
         objectLife.setHealth(maxHealth);
 
         UnitStates nextState = currentState.OnUpdate(this);
+        //Debug.Log(unitName);
+        
     }
 
     void Update()
@@ -325,6 +346,19 @@ public class Unit : MonoBehaviour
         foreach (var hitCollider in hitColliders)
         {
             hitCollider.SendMessage("AddDamage");
+        }
+    }
+
+    public void changeColor(Color color)
+    {
+        if (unitName.Equals("VehicleTank"))
+        {
+            materials[2].color = color;
+            materials[5].color = color;
+            materials[7].color = color;
+            materials[13].color = color;
+            materials[15].color = color;
+            materials[24].color = color;
         }
     }
 

@@ -1261,6 +1261,8 @@ MonoBehaviour:
   agent: {fileID: 0}
   target: {fileID: 0}
   constructor: 0
+  renderer: {fileID: 0}
+  materials: []
 --- !u!65 &1598625017
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6334,6 +6336,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6988218168081224776, guid: 8f863777f739b33488d806b71d39e8b4, type: 3}
+      propertyPath: teamColor.b
+      value: 0.92156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 6988218168081224776, guid: 8f863777f739b33488d806b71d39e8b4, type: 3}
+      propertyPath: teamColor.g
+      value: 0.29504752
+      objectReference: {fileID: 0}
+    - target: {fileID: 6988218168081224776, guid: 8f863777f739b33488d806b71d39e8b4, type: 3}
+      propertyPath: teamColor.r
+      value: 0.23921569
+      objectReference: {fileID: 0}
     - target: {fileID: 6988218168116673968, guid: 8f863777f739b33488d806b71d39e8b4, type: 3}
       propertyPath: m_Name
       value: ProvaTank
@@ -6394,5 +6408,7 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 457320483}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6988218168081224782, guid: 8f863777f739b33488d806b71d39e8b4, type: 3}
+    - {fileID: 6988218168081224783, guid: 8f863777f739b33488d806b71d39e8b4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8f863777f739b33488d806b71d39e8b4, type: 3}
