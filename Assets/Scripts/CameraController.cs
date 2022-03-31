@@ -17,6 +17,7 @@ public class CameraController : MonoBehaviour
     public int team;
     private Camera cam;
     public int monedes;
+    public int fusta;
     public NavMeshAgent agent;
     private Button buttonmina;
     private GameObject buttonminaOcultar;
@@ -43,6 +44,7 @@ public class CameraController : MonoBehaviour
     private Vector2 startPos;
     private bool selection;
     private Text textMonedes;
+    private Text textFusta;
     [System.Serializable]
     struct CursorMapping
     {
@@ -74,8 +76,10 @@ public class CameraController : MonoBehaviour
         buttonTank.SetActive(false);
         selection = false;
         textMonedes = GameObject.Find("/Canvas/monedes").GetComponent<Text>();
-       
+        textFusta = GameObject.Find("/Canvas/fusta").GetComponent<Text>();
+
         monedes = 100;
+        fusta = 0;
         
         team = 1;
     }
@@ -388,6 +392,8 @@ public class CameraController : MonoBehaviour
     void actualitzarRecursos()
     {
         textMonedes.text = monedes.ToString();
+        textFusta.text = fusta.ToString();
+
         if (monedes >= 100)
         {
             buttonmina.interactable = true;

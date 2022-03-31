@@ -39,6 +39,7 @@ public class Building : MonoBehaviour
         renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.3f));
         minant = false;
 
+       
         moneyCost = data.MoneyCost;
         metalCost = data.MetalCost;
         energy = data.EnergyCost;
@@ -50,10 +51,15 @@ public class Building : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (constructed && !minant)
+        if (constructed && !minant && data.BuildingName.Equals("PetrolPump"))
+        {
+            StartCoroutine(sumarFusta());
+        }
+        if (constructed && !minant && data.BuildingName.Equals("Mine"))
         {
             StartCoroutine(sumarMonedes());
         }
+
     }
 
     public void Construct()
@@ -79,6 +85,15 @@ public class Building : MonoBehaviour
         minant = true;
         yield return new WaitForSeconds(2);
         player.monedes += 10;
+        //Debug.Log(player.monedes);
+        minant = false;
+    }
+
+    IEnumerator sumarFusta()
+    {
+        minant = true;
+        yield return new WaitForSeconds(2);
+        player.fusta += 10;
         //Debug.Log(player.monedes);
         minant = false;
     }
