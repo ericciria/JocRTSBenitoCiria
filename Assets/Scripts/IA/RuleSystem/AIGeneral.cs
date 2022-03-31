@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class AIGeneral : MonoBehaviour
 {
-    /*private delegate bool Condition();
+    private delegate bool Condition();
     private delegate void Action();
 
     [SerializeField] GameObject enemyPrefab;
 
     [SerializeField] Transform spawnPoint;
-    private List<AIEnemyUnit> enemies;
-    private AIEnemyUnit enemy;
+    private List<Unit> enemies;
+    private Unit enemy;
 
     public GameObject nearestEnemy;
 
@@ -25,6 +25,15 @@ public class AIGeneral : MonoBehaviour
 
     List<Condition> conditions = new List<Condition>();
     List<Action> actions = new List<Action>();
+
+    [SerializeField] Transform point1;
+    [SerializeField] Transform point2;
+    [SerializeField] Transform point3;
+    [SerializeField] Transform point4;
+    private Unit unit1;
+    private Unit unit2;
+    private Unit unit3;
+    private Unit unit4;
 
     // Regla: tupla de condicio-accio
 
@@ -42,8 +51,12 @@ public class AIGeneral : MonoBehaviour
 
     void Start()
     {
-        enemies = new List<AIEnemyUnit>();
+        enemies = new List<Unit>();
         start = false;
+        unit1 = SpawnEnemy(point1.position);
+        unit2 = SpawnEnemy(point2.position);
+        unit3 = SpawnEnemy(point3.position);
+        unit4 = SpawnEnemy(point4.position);
     }
 
     void Update()
@@ -69,7 +82,7 @@ public class AIGeneral : MonoBehaviour
     private void Evaluate()
     {
         Debug.Assert(conditions.Count == actions.Count); // Assert: Si no se cumple, el codigo peta y te indica donde
-        if (nearestEnemy != null)
+        /*if (nearestEnemy != null)
         {
             for (int i = 0; i < conditions.Count; i++)
             {
@@ -80,11 +93,53 @@ public class AIGeneral : MonoBehaviour
                     break;
                 }
             }
+        }*/
+        for (int i = 0; i < conditions.Count; i++)
+        {
+            Debug.Log(enemies);
+            if (conditions[i]())
+            {
+                actions[i]();
+                break;
+            }
         }
     }
 
-    // Llista funcions-condicio i llista funcions-accio
     private bool Condition1()
+    {
+        return unit1 == null;
+    }
+    private void Action1()
+    {
+        unit1 = SpawnEnemy(point1.position);
+    }
+    private bool Condition2()
+    {
+        return unit2 == null;
+    }
+    private void Action2()
+    {
+        unit2 = SpawnEnemy(point2.position);
+    }
+    private bool Condition3()
+    {
+        return unit3 == null;
+    }
+    private void Action3()
+    {
+        unit3 = SpawnEnemy(point3.position);
+    }
+    private bool Condition4()
+    {
+        return unit4 == null;
+    }
+    private void Action4()
+    {
+        unit4 = SpawnEnemy(point4.position);
+    }
+
+    // Llista funcions-condicio i llista funcions-accio
+    /*private bool Condition1()
     {
         float distanceToTarget = Vector3.Distance(
             nearestEnemy.transform.position,
@@ -124,7 +179,7 @@ public class AIGeneral : MonoBehaviour
             enemies.Add(enemy);
             timeSinceLastSpawn = 0;
         }
-        foreach (AIEnemyUnit enemy in enemies)
+        foreach (Unit enemy in enemies)
         {
             if (nearestEnemy != null)
             {
@@ -183,16 +238,17 @@ public class AIGeneral : MonoBehaviour
                 enemies.RemoveAt(enemies.Count - 1);
             }
         }
-    }
+    }*/
 
     //(int level, int hp)
-    public AIEnemyUnit SpawnEnemy()
+    public Unit SpawnEnemy(Vector3 point)
     {
         timeSinceLastSpawn = 0;
         GameObject enemy =
-            Instantiate(enemyPrefab, transform.position, Quaternion.identity) as GameObject;
-        AIEnemyUnit enemyUnit = enemy.GetComponentInChildren<AIEnemyUnit>();
-        enemyUnit.agent.SetDestination(spawnPoint.position);
+            Instantiate(enemyPrefab, this.transform.position, Quaternion.identity) as GameObject;
+        Unit enemyUnit = enemy.GetComponentInChildren<Unit>();
+        enemyUnit.team = 2;
+        enemyUnit.agent.SetDestination(point);
 
         //enemy.GetComponent<ActorController>().level = level;
         //enemy.GetComponent<HealthComponent>().value = hp;
@@ -267,5 +323,5 @@ public class AIGeneral : MonoBehaviour
             * Mathf.Atan2(forwardLimitPos.z - position.z, forwardLimitPos.x - position.x);
 
         return srcAngles;
-    }*/
+    }
 }
