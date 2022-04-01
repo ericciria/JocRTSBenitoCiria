@@ -192,6 +192,7 @@ MonoBehaviour:
   unitPrefab: {fileID: 830076703605986277, guid: c0198bada67a052499e8c12265f65bf0, type: 3}
   team: 0
   monedes: 0
+  fusta: 0
   agent: {fileID: 0}
   building: {fileID: 0}
   selectionBox: {fileID: 660413693}
@@ -6326,6 +6327,10 @@ PrefabInstance:
     - target: {fileID: 5993847726292489593, guid: 1545f501e79e9c04e90add453d2a3957, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5993847727219119031, guid: 1545f501e79e9c04e90add453d2a3957, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1545f501e79e9c04e90add453d2a3957, type: 3}

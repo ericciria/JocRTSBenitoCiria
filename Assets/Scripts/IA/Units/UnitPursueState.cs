@@ -35,7 +35,7 @@ public class UnitPursueState : UnitStates
             }
             else
             {
-                if (distanceToPlayer < 2)
+                if (distanceToPlayer < 4)
                 {
                     return new UnitConstructState();
                 }
