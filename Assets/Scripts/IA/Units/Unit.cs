@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Unit : MonoBehaviour
+public class Unit : MonoBehaviour, IsSaveable
 {
 
-    [SerializeField] UnitData unitData;
+    public UnitData unitData;
 
     public string unitName;
     public string description;
@@ -24,6 +24,7 @@ public class Unit : MonoBehaviour
     public float timeSinceLastAttack = Mathf.Infinity;
     public GameObject nearestEnemy;
 
+    public float health = 0;
     public ObjectLife objectLife;
     public int team;
     public Color teamColor;
@@ -79,8 +80,10 @@ public class Unit : MonoBehaviour
         }
         changeColor(teamColor);
 
-
-
+        if (health != 0)
+        {
+            objectLife.setHealth(health);
+        }
 
         agent.speed = unitData.MovementSpeed;
         agent.acceleration = agent.speed - 2;
@@ -362,4 +365,56 @@ public class Unit : MonoBehaviour
         }
     }
 
+    //////////////////////////////// SaveSystem ////////////////////////////////
+
+    [System.Serializable]
+    struct UnitSaveData
+    {
+        public UnitData unitData;
+        public float timeSinceLastAttack;
+        public int team;
+        public Color teamColor;
+        public Transform target;
+        public float currentHealth;
+
+        public UnitStates currentState;
+
+        public float[] position;
+    }
+
+    public object CaptureState()
+    {
+        UnitSaveData data;
+        data.unitData = unitData;
+        data.timeSinceLastAttack = timeSinceLastAttack;
+        data.team = team;
+        data.teamColor = teamColor;
+        data.target = target;
+        data.currentHealth = objectLife.getHealth();
+
+        data.currentState = currentState;
+
+        data.position = new float[3];
+
+        data.position[0] = transform.position.x;
+        data.position[1] = transform.position.y;
+        data.position[2] = transform.position.z;
+
+        return data;
+    }
+
+    public void RestoreState(object dataLoaded)
+    {
+        UnitSaveData data = (UnitSaveData)dataLoaded;
+        unitData = data.unitData;
+        timeSinceLastAttack = data.timeSinceLastAttack;
+        team = data.team;
+        teamColor = data.teamColor;
+        target = data.target;
+        health = data.currentHealth;
+
+        currentState = data.currentState;
+
+        transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
+    }
 }

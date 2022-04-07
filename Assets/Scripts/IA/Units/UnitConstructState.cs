@@ -10,6 +10,7 @@ public class UnitConstructState : UnitStates
         Debug.Log("Enter Construct State");
         building = unit.target.gameObject.GetComponentInParent<Building>();
         Debug.Log(building);
+        unit.agent.SetDestination(unit.transform.position);
     }
 
     void UnitStates.OnExitState(Unit unit)

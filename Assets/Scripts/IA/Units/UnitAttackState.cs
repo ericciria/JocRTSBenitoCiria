@@ -36,14 +36,33 @@ public class UnitAttackState : UnitStates
                 {
                     unit.GetComponent<ParticleSystem>().Play();
                     Debug.Log("Attack");
-                    if (unit.target.GetComponent<Unit>().typeOfUnit.Equals(unit.damageMultiplierType))
+                    if (unit.target.GetComponent<Unit>() != null)
                     {
-                        unit.target.gameObject.GetComponent<ObjectLife>().takeDamage(unit.attackDamage*unit.damageMultiplierAmount);
+                        if (unit.target.GetComponent<Unit>().typeOfUnit.Equals(unit.damageMultiplierType))
+                        {
+                            unit.target.gameObject.GetComponent<ObjectLife>().takeDamage(unit.attackDamage * unit.damageMultiplierAmount);
+                        }
+                        else
+                        {
+                            unit.target.gameObject.GetComponent<ObjectLife>().takeDamage(unit.attackDamage);
+                        }
+                    }
+                    else if (unit.target.GetComponentInParent<Building>() != null)
+                    {
+                        if (unit.damageMultiplierType.Equals("Building"))
+                        {
+                            unit.target.gameObject.GetComponent<ObjectLife>().takeDamage(unit.attackDamage * unit.damageMultiplierAmount);
+                        }
+                        else
+                        {
+                            unit.target.gameObject.GetComponent<ObjectLife>().takeDamage(unit.attackDamage);
+                        }
                     }
                     else
                     {
-                        unit.target.gameObject.GetComponent<ObjectLife>().takeDamage(unit.attackDamage);
+                        return new UnitIdleState();
                     }
+                    
                     
                     unit.timeSinceLastAttack = 0;
                 }

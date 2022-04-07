@@ -74,7 +74,7 @@ public class blue_script : MonoBehaviour
 
     private void GetCollidersInRadius()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, largestSide*0.7f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, largestSide*0.6f);
 
         if (hitColliders.Length > 2)
         {
