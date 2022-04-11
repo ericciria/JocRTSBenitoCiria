@@ -256,7 +256,7 @@ public class AIGeneral : MonoBehaviour
         return enemyUnit;
     }
 
-    public GameObject FindClosestEnemy()
+    /*public GameObject FindClosestEnemy()
     {
         GameObject[] gos;
         gos = GameObject.FindGameObjectsWithTag("PlayerUnit");
@@ -274,12 +274,12 @@ public class AIGeneral : MonoBehaviour
             }
         }
         return closest;
-    }
+    }*/
 
     IEnumerator checkClosestEnemy()
     {
         yield return new WaitForSeconds(2);
-        nearestEnemy = FindClosestEnemy();
+        //nearestEnemy = FindClosestEnemy();
     }
 
     void OnDrawGizmos()

@@ -23,9 +23,12 @@ public class CameraController : MonoBehaviour
     private GameObject buttonminaOcultar;
     private Button buttonFabrica;
     private GameObject buttonFabricaOcultar;
-    private GameObject buttonMillora;
-    private GameObject buttonConstructor;
-    private GameObject buttonTank;
+    private Button buttonMillora;
+    private GameObject buttonMilloraOcultar;
+    private Button buttonConstructor;
+    private GameObject buttonConstructorOcultar;
+    private Button buttonTank;
+    private GameObject buttonTankOcultar;
     public Building building;
 
     GameObject seleccio = null;
@@ -58,22 +61,25 @@ public class CameraController : MonoBehaviour
     void Awake()
     {
         cam = Camera.main;
-        buttonmina = GameObject.Find("/Canvas/Mina").GetComponent<Button>();
-        buttonFabrica = GameObject.Find("/Canvas/House").GetComponent<Button>();
+        
 
 
         buttonminaOcultar = GameObject.Find("/Canvas/Mina");
         buttonFabricaOcultar = GameObject.Find("/Canvas/House");
-        buttonMillora = GameObject.Find("/Canvas/milloraHouse");
-        buttonConstructor = GameObject.Find("/Canvas/SpawnConstructor");
-        buttonTank = GameObject.Find("/Canvas/SpawnTank");
-    }
+        buttonMilloraOcultar = GameObject.Find("/Canvas/milloraHouse");
+        buttonConstructorOcultar = GameObject.Find("/Canvas/SpawnConstructor");
+        buttonTankOcultar = GameObject.Find("/Canvas/SpawnTank");
+
+        buttonmina = buttonminaOcultar.GetComponent<Button>();
+        buttonFabrica = buttonFabricaOcultar.GetComponent<Button>();
+        buttonMillora = buttonMilloraOcultar.GetComponent<Button>();
+        buttonConstructor = buttonConstructorOcultar.GetComponent<Button>();
+        buttonTank = buttonTankOcultar.GetComponent<Button>();
+    } 
 
     private void Start()
     {
-        buttonMillora.SetActive(false);
-        buttonConstructor.SetActive(false);
-        buttonTank.SetActive(false);
+        hideButtons();
         selection = false;
         textMonedes = GameObject.Find("/Canvas/monedes").GetComponent<Text>();
         textFusta = GameObject.Find("/Canvas/fusta").GetComponent<Text>();
@@ -209,11 +215,7 @@ public class CameraController : MonoBehaviour
         //Debug.Log(hit);
         if (Input.GetMouseButtonDown(0))
         {
-            buttonMillora.SetActive(false);
-            buttonConstructor.SetActive(false);
-            buttonTank.SetActive(false);
-            buttonminaOcultar.SetActive(false);
-            buttonFabricaOcultar.SetActive(false);
+            hideButtons();
 
             startPos = Input.mousePosition;
             selection = true;
@@ -249,9 +251,9 @@ public class CameraController : MonoBehaviour
                 {
 
                 }*/
-                buttonMillora.SetActive(true);
-                buttonConstructor.SetActive(true);
-                buttonTank.SetActive(true);
+                buttonMilloraOcultar.SetActive(true);
+                buttonConstructorOcultar.SetActive(true);
+                buttonTankOcultar.SetActive(true);
 
                 buttonminaOcultar.SetActive(false);
                 buttonFabricaOcultar.SetActive(false);
@@ -379,12 +381,11 @@ public class CameraController : MonoBehaviour
                     seleccio.SetActive(true);
                     if (unit.constructor)
                     {
+                        hideButtons();
                         buttonminaOcultar.SetActive(true);
                         buttonFabricaOcultar.SetActive(true);
                     }
                 }
-                
-
             }
         }
     }
@@ -406,11 +407,11 @@ public class CameraController : MonoBehaviour
         }
         if (monedes >= 10)
         {
-            buttonMillora.GetComponent<Button>().interactable = true;
+            buttonMilloraOcultar.GetComponent<Button>().interactable = true;
         }
         else
         {
-            buttonMillora.GetComponent<Button>().interactable = false;
+            buttonMilloraOcultar.GetComponent<Button>().interactable = false;
         }
     }
     void selectUnit(GameObject unit)
@@ -419,5 +420,14 @@ public class CameraController : MonoBehaviour
         selectedUnits.Add(playerUnit.GetComponent<Unit>());
         seleccio = playerUnit.transform.Find("Selection").gameObject;
         seleccio.SetActive(true);
+    }
+
+    void hideButtons()
+    {
+        buttonminaOcultar.SetActive(false);
+        buttonFabricaOcultar.SetActive(false);
+        buttonMilloraOcultar.SetActive(false);
+        buttonConstructorOcultar.SetActive(false);
+        buttonTankOcultar.SetActive(false);
     }
 }

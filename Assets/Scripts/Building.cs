@@ -13,6 +13,7 @@ public class Building : MonoBehaviour
     public int metalCost;
     public int energy;
     private int attackDamage;
+    public string name;
 
     private float life;
     [SerializeField] int maxLife;
@@ -45,6 +46,7 @@ public class Building : MonoBehaviour
         energy = data.EnergyCost;
         maxLife = data.MaxHealth;
         attackDamage = data.AttackDamage;
+        name = data.BuildingName;
         health.setMaxHealth(maxLife);
     }
 

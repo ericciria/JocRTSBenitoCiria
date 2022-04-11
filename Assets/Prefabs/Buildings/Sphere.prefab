@@ -51,6 +51,7 @@ MonoBehaviour:
   moneyCost: 0
   metalCost: 0
   energy: 0
+  name: Mine
   maxLife: 1
   health: {fileID: 3927706620095699827}
   renderer: {fileID: 1050252421197642742}
@@ -82,7 +83,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 124.968, y: 87.37601, z: 147.391}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.001, y: 87.37601, z: 0}
   m_TimeToStationary: 0.5

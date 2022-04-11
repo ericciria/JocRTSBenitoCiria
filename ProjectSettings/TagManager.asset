@@ -7,14 +7,10 @@ TagManager:
   - Terrain
   - Bullet
   - Death
-  - Cubepoint
-  - PlayerUnit
-  - Attackable
-  - NPC
-  - Construction
   - Blueprint
   - Unit
   - Building
+  - Minerals
   layers:
   - Default
   - TransparentFX

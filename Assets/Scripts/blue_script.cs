@@ -9,6 +9,9 @@ public class blue_script : MonoBehaviour
     public GameObject prefab;
     private GameObject building;
     bool canConstruct;
+    bool canConstruct2;
+    bool canConstruct3;
+    Vector3 position;
     [SerializeField] MeshRenderer renderer;
     Renderer rend; 
     private float largestSide;
@@ -39,6 +42,8 @@ public class blue_script : MonoBehaviour
             transform.position = hit.point;
         }
         canConstruct = true;
+        canConstruct2 = true;
+        canConstruct3 = true;
         renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
     }
 
@@ -49,12 +54,22 @@ public class blue_script : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 50000.0f, (1 << 10)))
         {
-            transform.position = hit.point;
+            if (hit.transform.gameObject.tag.Equals("Terrain"))
+            {
+                transform.position = hit.point;
+
+            }
+            else
+            {
+                transform.position = hit.transform.position;
+            }
+            
         }
+
         if (Input.GetMouseButton(0) && canConstruct && UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
 
-            building = Instantiate(prefab, transform.position, transform.rotation);
+            building = Instantiate(prefab, position, transform.rotation);
             foreach (Unit unit in playerUnits)
             {
                 if (unit.constructor)
@@ -76,15 +91,47 @@ public class blue_script : MonoBehaviour
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, largestSide*0.6f);
 
-        if (hitColliders.Length > 2)
+        canConstruct2 = false;
+        canConstruct3 = true;
+        if (prefab.GetComponent<Building>().name.Equals("Mine"))
         {
-            canConstruct = false;
-            renderer.material.SetColor("_Color", new Color(0.8f, 0.5f, 0.5f, 0.5f));
+            foreach(Collider col in hitColliders)
+            {
+                if (col.gameObject.tag.Equals("Minerals"))
+                {
+                    canConstruct2 = true;
+                    position = col.transform.position;
+                    //Debug.Log("Minerals");
+                }
+                else if (col.gameObject.tag.Equals("Building"))
+                {
+                    canConstruct3 = false;
+                }
+            }
+            if (!canConstruct2 || !canConstruct3)
+            {
+                canConstruct = false;
+                renderer.material.SetColor("_Color", new Color(0.8f, 0.5f, 0.5f, 0.5f));
+            }
+            else
+            {
+                canConstruct = true;
+                renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
+            }
         }
         else
         {
-            canConstruct = true;
-            renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
+            if (hitColliders.Length > 2)
+            {
+                canConstruct = false;
+                renderer.material.SetColor("_Color", new Color(0.8f, 0.5f, 0.5f, 0.5f));
+            }
+            else
+            {
+                position = transform.position;
+                canConstruct = true;
+                renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
+            }
         }
     }
 }
