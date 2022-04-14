@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6076934669063676470}
   - component: {fileID: 5792628967874292109}
   m_Layer: 0
-  m_Name: Sphere_transparent
+  m_Name: Blueprint_Mina
   m_TagString: Blueprint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

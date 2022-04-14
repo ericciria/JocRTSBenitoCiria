@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 309244843307448314}
   - component: {fileID: 3641841307925901739}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Building_Mina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

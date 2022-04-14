@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 996863462660950274}
   - component: {fileID: 8968248392955516055}
   m_Layer: 0
-  m_Name: Cube_Blueprint
+  m_Name: Blueprint_Factory
   m_TagString: Blueprint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

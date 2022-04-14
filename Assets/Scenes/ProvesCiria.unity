@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1278,7 +1278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4010381344131112805, guid: 249fab83e512ab941b585e57e3d77d4a, type: 3}
       propertyPath: m_Name
-      value: Cube
+      value: Factory
       objectReference: {fileID: 0}
     - target: {fileID: 4010381344131112805, guid: 249fab83e512ab941b585e57e3d77d4a, type: 3}
       propertyPath: m_TagString
@@ -6876,7 +6876,7 @@ GameObject:
   - component: {fileID: 1747756814}
   - component: {fileID: 1747756813}
   m_Layer: 10
-  m_Name: Plane
+  m_Name: Minerals
   m_TagString: Minerals
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

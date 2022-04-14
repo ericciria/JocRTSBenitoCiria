@@ -23,6 +23,8 @@ public class CameraController : MonoBehaviour
     private GameObject buttonminaOcultar;
     private Button buttonFabrica;
     private GameObject buttonFabricaOcultar;
+    private Button buttonCentral;
+    private GameObject buttonCentralOcultar;
     private Button buttonMillora;
     private GameObject buttonMilloraOcultar;
     private Button buttonConstructor;
@@ -66,12 +68,14 @@ public class CameraController : MonoBehaviour
 
         buttonminaOcultar = GameObject.Find("/Canvas/Mina");
         buttonFabricaOcultar = GameObject.Find("/Canvas/House");
+        buttonCentralOcultar = GameObject.Find("/Canvas/Central");
         buttonMilloraOcultar = GameObject.Find("/Canvas/milloraHouse");
         buttonConstructorOcultar = GameObject.Find("/Canvas/SpawnConstructor");
         buttonTankOcultar = GameObject.Find("/Canvas/SpawnTank");
 
         buttonmina = buttonminaOcultar.GetComponent<Button>();
         buttonFabrica = buttonFabricaOcultar.GetComponent<Button>();
+        buttonCentral = buttonCentralOcultar.GetComponent<Button>();
         buttonMillora = buttonMilloraOcultar.GetComponent<Button>();
         buttonConstructor = buttonConstructorOcultar.GetComponent<Button>();
         buttonTank = buttonTankOcultar.GetComponent<Button>();
@@ -84,7 +88,7 @@ public class CameraController : MonoBehaviour
         textMonedes = GameObject.Find("/Canvas/monedes").GetComponent<Text>();
         textFusta = GameObject.Find("/Canvas/fusta").GetComponent<Text>();
 
-        monedes = 100;
+        monedes = 500;
         fusta = 0;
         
         team = 1;
@@ -240,6 +244,7 @@ public class CameraController : MonoBehaviour
                 {
                     buttonminaOcultar.SetActive(true);
                     buttonFabricaOcultar.SetActive(true);
+                    buttonCentralOcultar.SetActive(true);
                 }
                 selectUnit(hit.collider.gameObject);
 
@@ -254,9 +259,6 @@ public class CameraController : MonoBehaviour
                 buttonMilloraOcultar.SetActive(true);
                 buttonConstructorOcultar.SetActive(true);
                 buttonTankOcultar.SetActive(true);
-
-                buttonminaOcultar.SetActive(false);
-                buttonFabricaOcultar.SetActive(false);
             }
         }
         if (Input.GetMouseButton(0) && selection)
@@ -384,6 +386,7 @@ public class CameraController : MonoBehaviour
                         hideButtons();
                         buttonminaOcultar.SetActive(true);
                         buttonFabricaOcultar.SetActive(true);
+                        buttonCentralOcultar.SetActive(true);
                     }
                 }
             }
@@ -426,6 +429,7 @@ public class CameraController : MonoBehaviour
     {
         buttonminaOcultar.SetActive(false);
         buttonFabricaOcultar.SetActive(false);
+        buttonCentralOcultar.SetActive(false);
         buttonMilloraOcultar.SetActive(false);
         buttonConstructorOcultar.SetActive(false);
         buttonTankOcultar.SetActive(false);

@@ -63,23 +63,23 @@ public class blue_script : MonoBehaviour
             {
                 transform.position = hit.transform.position;
             }
-            
         }
-
-        if (Input.GetMouseButton(0) && canConstruct && UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButton(0))
         {
-
-            building = Instantiate(prefab, position, transform.rotation);
-            foreach (Unit unit in playerUnits)
+            if (canConstruct && UnityEngine.EventSystems.EventSystem.current != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
-                if (unit.constructor)
+
+                building = Instantiate(prefab, position, transform.rotation);
+                foreach (Unit unit in playerUnits)
                 {
-                    unit.target = building.GetComponentInChildren<ObjectLife>().gameObject.transform;
-                    break;
+                    if (unit.constructor)
+                    {
+                        unit.target = building.GetComponentInChildren<ObjectLife>().gameObject.transform;
+                        break;
+                    }
                 }
             }
             Destroy(gameObject);
-
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
