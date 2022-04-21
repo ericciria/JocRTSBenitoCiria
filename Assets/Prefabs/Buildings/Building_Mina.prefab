@@ -58,6 +58,7 @@ MonoBehaviour:
   duration: 4
   player: {fileID: 0}
   data: {fileID: 11400000, guid: 0fa09d3db22118a4f9fd13cff603fc71, type: 2}
+  materials: []
 --- !u!65 &8506484417704092123
 BoxCollider:
   m_ObjectHideFlags: 0

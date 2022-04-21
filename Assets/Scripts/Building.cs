@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,12 +23,17 @@ public class Building : MonoBehaviour
     [SerializeField] float duration = 2f;
     [SerializeField] CameraController player;
     [SerializeField] BuildingData data;
+    public Material[] materials;
+    private Color teamColor;
 
     private bool minant;
     private float t = 0;
 
-    
-   
+
+    private void Awake()
+    {
+        materials = renderer.materials;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +54,19 @@ public class Building : MonoBehaviour
         attackDamage = data.AttackDamage;
         name = data.BuildingName;
         health.setMaxHealth(maxLife);
+
+        foreach (Material material in materials)
+        {
+            material.color = new Color(0.5f, 0.5f, 0.8f, 0.3f);
+        }
+        if (team == 1)
+        {
+            teamColor = new Color(0.1F, 0.1F, 0.7F, 1F);
+        }
+        else if (team == 2)
+        {
+            teamColor = new Color(0.7F, 0.1F, 0.1F, 1F);
+        }
     }
 
     // Update is called once per frame
@@ -78,10 +97,40 @@ public class Building : MonoBehaviour
             {
                 constructed = true;
                 renderer.material = opaqueMat;
+                adjustMaterials();
+                destroyScafolding();
 
             }
         }
     }
+
+    private void destroyScafolding()
+    {
+        Destroy(transform.GetChild(1).gameObject);
+        Destroy(transform.GetChild(2).gameObject);
+        Destroy(transform.GetChild(3).gameObject);
+        Destroy(transform.GetChild(4).gameObject);
+    }
+
+    private void adjustMaterials()
+    {
+        if (name.Equals("Mine"))
+        {
+            materials[0].color = Color.yellow;
+            materials[1].color = Color.white;
+            materials[2].color = teamColor;
+            materials[3].color = teamColor;
+            materials[4].color = new Color(0.5f, 0.4f, 0.3f);
+            materials[5].color = new Color(0.4f, 0.5f, 0.4f);
+            materials[6].color = Color.gray;
+            
+        }
+        /*else if (name.Equals(""))
+        {
+
+        }*/
+    }
+
     IEnumerator sumarMonedes()
     {
         minant = true;
@@ -110,8 +159,13 @@ public class Building : MonoBehaviour
         health.setHealth(life);
 
         t = life / maxLife;
-        renderer.material.color = Color.Lerp(new Color(0.5f, 0.8f, 0.5f, 0.3f), new Color(1f, 0.5f, 0.5f, 1f), t);
+        foreach(Material material in materials)
+        {
+            material.color = Color.Lerp(new Color(0.5f, 0.5f, 0.8f, 0.3f), new Color(1f, 1f, 1f, 1f), t);
+        }
+        //renderer.material.color = Color.Lerp(new Color(0.5f, 0.8f, 0.5f, 0.3f), new Color(1f, 0.5f, 0.5f, 1f), t);
 
         constructing = false;
     }
+
 }

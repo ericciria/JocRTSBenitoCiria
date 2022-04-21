@@ -49,20 +49,12 @@ public class blue_script : MonoBehaviour
 
     void Update()
     {
-        GetCollidersInRadius();
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 50000.0f, (1 << 10)))
         {
-            if (hit.transform.gameObject.tag.Equals("Terrain"))
-            {
-                transform.position = hit.point;
-
-            }
-            else
-            {
-                transform.position = hit.transform.position;
-            }
+            CheckIfCanConstruct(hit.point);
+            transform.position = position;
         }
         if (Input.GetMouseButton(0))
         {
@@ -70,6 +62,7 @@ public class blue_script : MonoBehaviour
             {
 
                 building = Instantiate(prefab, position, transform.rotation);
+                player.buildings.Add(building);
                 foreach (Unit unit in playerUnits)
                 {
                     if (unit.constructor)
@@ -87,9 +80,9 @@ public class blue_script : MonoBehaviour
         }
     }
 
-    private void GetCollidersInRadius()
+    private void CheckIfCanConstruct(Vector3 pos)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, largestSide*0.6f);
+        Collider[] hitColliders = Physics.OverlapSphere(pos, largestSide*0.6f);
 
         canConstruct2 = false;
         canConstruct3 = true;
@@ -115,6 +108,7 @@ public class blue_script : MonoBehaviour
             }
             else
             {
+                pos = position;
                 canConstruct = true;
                 renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
             }
@@ -128,11 +122,11 @@ public class blue_script : MonoBehaviour
             }
             else
             {
-                position = transform.position;
                 canConstruct = true;
                 renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
             }
         }
+        position = pos;
     }
 }
 

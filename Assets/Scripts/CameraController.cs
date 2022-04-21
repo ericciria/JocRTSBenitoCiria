@@ -33,6 +33,8 @@ public class CameraController : MonoBehaviour
     private GameObject buttonTankOcultar;
     public Building building;
 
+    public List<GameObject> buildings = new List<GameObject>();
+
     GameObject seleccio = null;
     GameObject playerUnit = null;
 
@@ -88,8 +90,8 @@ public class CameraController : MonoBehaviour
         textMonedes = GameObject.Find("/Canvas/monedes").GetComponent<Text>();
         textFusta = GameObject.Find("/Canvas/fusta").GetComponent<Text>();
 
-        monedes = 500;
-        fusta = 0;
+        monedes = 1000;
+        fusta = 500;
         
         team = 1;
     }
@@ -398,7 +400,7 @@ public class CameraController : MonoBehaviour
         textMonedes.text = monedes.ToString();
         textFusta.text = fusta.ToString();
 
-        if (monedes >= 100)
+        /*if (monedes >= 100)
         {
             buttonmina.interactable = true;
             buttonFabrica.interactable = true;
@@ -415,7 +417,7 @@ public class CameraController : MonoBehaviour
         else
         {
             buttonMilloraOcultar.GetComponent<Button>().interactable = false;
-        }
+        }*/
     }
     void selectUnit(GameObject unit)
     {

@@ -26,8 +26,13 @@ public class ObjectLife : MonoBehaviour
         //Debug.Log(health);
         if (health <= 0)
         {
-            // He posat que destrueixi el parent per com he fet la torreta, que requeria d'un transform separat per tornar
-            // a la posició original, i he hagut de posar-li parents a totes les unitats
+            if (GetComponentInParent<Building>() != null)
+            {
+                if (GetComponentInParent<Building>().team == 1)
+                {
+                    GameObject.Find("/Camera").GetComponent<CameraController>().buildings.Remove(this.transform.parent.gameObject);
+                }
+            }
             Destroy(transform.parent.gameObject);
         }
         if (healthBarImage!=null) {
