@@ -106,10 +106,14 @@ public class Building : MonoBehaviour
 
     private void destroyScafolding()
     {
-        Destroy(transform.GetChild(1).gameObject);
-        Destroy(transform.GetChild(2).gameObject);
-        Destroy(transform.GetChild(3).gameObject);
-        Destroy(transform.GetChild(4).gameObject);
+        if (transform.childCount>1)
+        {
+            Destroy(transform.GetChild(1).gameObject);
+            Destroy(transform.GetChild(2).gameObject);
+            Destroy(transform.GetChild(3).gameObject);
+            Destroy(transform.GetChild(4).gameObject);
+        }
+        
     }
 
     private void adjustMaterials()
