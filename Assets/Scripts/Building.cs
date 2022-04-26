@@ -22,7 +22,7 @@ public class Building : MonoBehaviour
     [SerializeField] MeshRenderer renderer;
     [SerializeField] float duration = 2f;
     [SerializeField] CameraController player;
-    [SerializeField] BuildingData data;
+    public BuildingData data;
     public Material[] materials;
     private Color teamColor;
 

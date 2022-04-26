@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour, IsSaveable
@@ -53,9 +54,10 @@ public class CameraController : MonoBehaviour, IsSaveable
     private bool selection;
     private Text textMonedes;
     private Text textFusta;
-    
-
     private Slider consum;
+
+    public GameObject[] dataUnits, dataBuildings;
+
     [System.Serializable]
     struct CursorMapping
     {
@@ -443,13 +445,98 @@ public class CameraController : MonoBehaviour, IsSaveable
         buttonTankOcultar.SetActive(false);
     }
 
-    public object CaptureState()
+    struct PlayerData
     {
-        throw new System.NotImplementedException();
+        public int monedes;
+        public int fusta;
+        public string escena;
+        public float[] cameraPosition;
+        public float[] cameraRotation;
+        public string[] unitTypes, buildingTypes;
+        public float[] unitsHealth, buildingsHealth;
+        public float[][] unitPositions, buildingsPositions, targets;
     }
 
-    public void RestoreState(object data)
+    public object CaptureState()
     {
-        throw new System.NotImplementedException();
+        PlayerData data;
+
+        data.fusta = fusta;
+        data.monedes = monedes;
+        data.escena = SceneManager.GetActiveScene().name;
+
+        data.cameraPosition = new float[3];
+        data.cameraPosition[0] = transform.position.x;
+        data.cameraPosition[1] = transform.position.y;
+        data.cameraPosition[2] = transform.position.z;
+
+        data.cameraRotation = new float[3];
+        data.cameraRotation[0] = transform.rotation.x;
+        data.cameraRotation[1] = transform.rotation.y;
+        data.cameraRotation[2] = transform.rotation.z;
+        data.cameraRotation[3] = transform.rotation.w;
+
+        data.unitTypes = null;
+        data.unitsHealth = null;
+        data.unitPositions = null;
+
+        int pos = 0;
+        GameObject[] unitsSave = GameObject.FindGameObjectsWithTag("Unit");
+        foreach(GameObject unit in unitsSave)
+        {
+            Unit unitData = unit.GetComponentInChildren<Unit>();
+            data.unitTypes[pos] = unitData.typeOfUnit;
+            data.unitsHealth[pos] = unit.GetComponentInChildren<ObjectLife>().getHealth();
+            data.unitPositions[pos][0] = unit.transform.position.x;
+            data.unitPositions[pos][1] = unit.transform.position.y;
+            data.unitPositions[pos][2] = unit.transform.position.z;
+            //data.targets[pos]
+
+            pos += 1;
+        }
+
+        data.buildingTypes = null;
+        data.buildingsHealth = null;
+        data.buildingsPositions = null;
+
+        pos = 0;
+        GameObject[] buildingsSave = GameObject.FindGameObjectsWithTag("Building");
+        foreach (GameObject building in buildingsSave)
+        {
+            Building buildingData = building.GetComponentInParent<Building>();
+            data.buildingTypes[pos] = buildingData.data.BuildingName;
+            data.buildingsHealth[pos] = building.GetComponent<ObjectLife>().getHealth();
+            data.buildingsPositions[pos][0] = building.transform.position.x;
+            data.buildingsPositions[pos][1] = building.transform.position.y;
+            data.buildingsPositions[pos][2] = building.transform.position.z;
+
+            pos += 1;
+        }
+
+        return data;
+    }
+
+    public void RestoreState(object dataLoaded)
+    {
+        PlayerData data = (PlayerData)dataLoaded;
+
+        fusta = data.fusta;
+        monedes = data.monedes;
+        SceneManager.LoadScene(data.escena);
+
+        transform.position = new Vector3(data.cameraPosition[0], data.cameraPosition[1], data.cameraPosition[2]);
+        transform.rotation.Set(data.cameraRotation[0], data.cameraRotation[1], data.cameraRotation[2], data.cameraRotation[3]);
+
+        int pos = 0;
+        foreach(string unit in data.unitTypes)
+        {
+
+        }
+
+        pos = 0;
+        foreach (string building in data.buildingTypes)
+        {
+
+        }
     }
 }
