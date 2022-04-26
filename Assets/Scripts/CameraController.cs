@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class CameraController : MonoBehaviour
+public class CameraController : MonoBehaviour, IsSaveable
 {
 
     [SerializeField] float moveSpeed = 15;
@@ -435,5 +435,15 @@ public class CameraController : MonoBehaviour
         buttonMilloraOcultar.SetActive(false);
         buttonConstructorOcultar.SetActive(false);
         buttonTankOcultar.SetActive(false);
+    }
+
+    public object CaptureState()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void RestoreState(object data)
+    {
+        throw new System.NotImplementedException();
     }
 }
