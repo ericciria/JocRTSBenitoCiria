@@ -6,6 +6,7 @@ public class build : MonoBehaviour
 {
     public GameObject build_blue;
     public GameObject build_mina;
+    public GameObject build_torre;
     public GameObject btn_Hosue;
     public GameObject btn_Mina;
     public GameObject constructor;
@@ -30,6 +31,15 @@ public class build : MonoBehaviour
             Destroy(blueprint);
         }
         Instantiate(build_blue);
+    }
+    public void spawn_torre()
+    {
+        GameObject blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+        if (blueprint != null)
+        {
+            Destroy(blueprint);
+        }
+        Instantiate(build_torre);
     }
     public void spawn_mina()
     {

@@ -80,6 +80,11 @@ public class Building : MonoBehaviour
         {
             StartCoroutine(sumarMonedes());
         }
+        if (constructed && !minant && data.BuildingName.Equals("EnergyPlant"))
+        {
+            minant = true;
+            player.electricitat += energy;
+        }
 
     }
 
