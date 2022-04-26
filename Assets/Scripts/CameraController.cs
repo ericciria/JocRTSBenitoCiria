@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour
     private Camera cam;
     public int monedes;
     public int fusta;
+    public int electricitat;
     public NavMeshAgent agent;
     private Button buttonmina;
     private GameObject buttonminaOcultar;
@@ -52,6 +53,9 @@ public class CameraController : MonoBehaviour
     private bool selection;
     private Text textMonedes;
     private Text textFusta;
+    
+
+    private Slider consum;
     [System.Serializable]
     struct CursorMapping
     {
@@ -74,6 +78,7 @@ public class CameraController : MonoBehaviour
         buttonMilloraOcultar = GameObject.Find("/Canvas/milloraHouse");
         buttonConstructorOcultar = GameObject.Find("/Canvas/SpawnConstructor");
         buttonTankOcultar = GameObject.Find("/Canvas/SpawnTank");
+        consum = GameObject.Find("/Canvas/Slider").GetComponent<Slider>();
 
         buttonmina = buttonminaOcultar.GetComponent<Button>();
         buttonFabrica = buttonFabricaOcultar.GetComponent<Button>();
@@ -399,6 +404,7 @@ public class CameraController : MonoBehaviour
     {
         textMonedes.text = monedes.ToString();
         textFusta.text = fusta.ToString();
+        consum.value = electricitat;
 
         /*if (monedes >= 100)
         {
