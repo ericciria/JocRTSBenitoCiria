@@ -32,7 +32,12 @@ public class CameraController : MonoBehaviour
     private GameObject buttonConstructorOcultar;
     private Button buttonTank;
     private GameObject buttonTankOcultar;
+    private Button buttonEdificiMillora;
+    private GameObject buttonEdificiMilloraOcultar;
     public Building building;
+    private GameObject buttonEdificiTankOcultar;
+    private Button buttonEdificiTank;
+
 
     public List<GameObject> buildings = new List<GameObject>();
 
@@ -78,6 +83,9 @@ public class CameraController : MonoBehaviour
         buttonMilloraOcultar = GameObject.Find("/Canvas/milloraHouse");
         buttonConstructorOcultar = GameObject.Find("/Canvas/SpawnConstructor");
         buttonTankOcultar = GameObject.Find("/Canvas/SpawnTank");
+        buttonEdificiMilloraOcultar = GameObject.Find("/Canvas/Millora");
+        buttonEdificiTankOcultar = GameObject.Find("/Canvas/tank");
+
         consum = GameObject.Find("/Canvas/Slider").GetComponent<Slider>();
 
         buttonmina = buttonminaOcultar.GetComponent<Button>();
@@ -86,6 +94,8 @@ public class CameraController : MonoBehaviour
         buttonMillora = buttonMilloraOcultar.GetComponent<Button>();
         buttonConstructor = buttonConstructorOcultar.GetComponent<Button>();
         buttonTank = buttonTankOcultar.GetComponent<Button>();
+        buttonEdificiMillora = buttonEdificiMilloraOcultar.GetComponent<Button>();
+        buttonEdificiTank = buttonEdificiTankOcultar.GetComponent<Button>();
     } 
 
     private void Start()
@@ -252,6 +262,7 @@ public class CameraController : MonoBehaviour
                     buttonminaOcultar.SetActive(true);
                     buttonFabricaOcultar.SetActive(true);
                     buttonCentralOcultar.SetActive(true);
+                    buttonEdificiMilloraOcultar.SetActive(true);
                 }
                 selectUnit(hit.collider.gameObject);
 
@@ -394,6 +405,8 @@ public class CameraController : MonoBehaviour
                         buttonminaOcultar.SetActive(true);
                         buttonFabricaOcultar.SetActive(true);
                         buttonCentralOcultar.SetActive(true);
+                        buttonEdificiMilloraOcultar.SetActive(true);
+                        buttonEdificiTankOcultar.SetActive(true);
                     }
                 }
             }
@@ -441,5 +454,8 @@ public class CameraController : MonoBehaviour
         buttonMilloraOcultar.SetActive(false);
         buttonConstructorOcultar.SetActive(false);
         buttonTankOcultar.SetActive(false);
+        buttonEdificiMilloraOcultar.SetActive(false);
+        buttonEdificiTankOcultar.SetActive(false);
+
     }
 }

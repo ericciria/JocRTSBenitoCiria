@@ -7,6 +7,8 @@ public class build : MonoBehaviour
     public GameObject build_blue;
     public GameObject build_mina;
     public GameObject build_torre;
+    public GameObject build_millores;
+    public GameObject build_tanko;
     public GameObject btn_Hosue;
     public GameObject btn_Mina;
     public GameObject constructor;
@@ -50,6 +52,27 @@ public class build : MonoBehaviour
         }
         Instantiate(build_mina);
     }
+
+    public void spawn_millores()
+    {
+        GameObject blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+        if (blueprint != null)
+        {
+            Destroy(blueprint);
+        }
+        Instantiate(build_millores);
+    }
+
+    public void spawn_tanko()
+    {
+        GameObject blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+        if (blueprint != null)
+        {
+            Destroy(blueprint);
+        }
+        Instantiate(build_tanko);
+    }
+
 
     public void spawn_constructor()
     {
