@@ -18,8 +18,6 @@ public class blue_script : MonoBehaviour
     CameraController player;
     private List<Unit> playerUnits;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("/Camera").GetComponent<CameraController>();

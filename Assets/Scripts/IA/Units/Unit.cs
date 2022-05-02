@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(UniqueIdentifier))]
+[RequireComponent(typeof(ObjectLife))]
+
 public class Unit : MonoBehaviour, IsSaveable
 {
 
@@ -31,7 +34,6 @@ public class Unit : MonoBehaviour, IsSaveable
 
     public NavMeshAgent agent;
     public Transform target;
-    //public PlayerUnitStates currentState = new PlayerIdleState();
     private bool checking;
     public bool constructor;
 
@@ -42,6 +44,7 @@ public class Unit : MonoBehaviour, IsSaveable
     public Material[] materials;
 
     public UnitStates currentState = new UnitIdleState();
+    public string id;
 
 
 
@@ -67,6 +70,8 @@ public class Unit : MonoBehaviour, IsSaveable
 
         materials = renderer.materials;
 
+        id = GetComponent<UniqueIdentifier>().id;
+
     }
     void Start()
     {
@@ -87,13 +92,16 @@ public class Unit : MonoBehaviour, IsSaveable
 
         agent.speed = unitData.MovementSpeed;
         agent.acceleration = agent.speed - 2;
+        if (typeOfUnit.Equals("Constructor"))
+        {
+            agent.acceleration = agent.acceleration + 10;
+        }
 
         objectLife.setMaxHealth(maxHealth);
         objectLife.setHealth(maxHealth);
 
         UnitStates nextState = currentState.OnUpdate(this);
-        //Debug.Log(unitName);
-        
+
     }
 
     void Update()

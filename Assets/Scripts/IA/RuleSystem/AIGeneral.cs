@@ -30,10 +30,10 @@ public class AIGeneral : MonoBehaviour
     [SerializeField] Transform point2;
     [SerializeField] Transform point3;
     [SerializeField] Transform point4;
-    private Unit unit1;
-    private Unit unit2;
-    private Unit unit3;
-    private Unit unit4;
+    public Unit unit1;
+    public Unit unit2;
+    public Unit unit3;
+    public Unit unit4;
 
     // Regla: tupla de condicio-accio
 

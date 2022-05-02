@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(UniqueIdentifier))]
+
 public class Building : MonoBehaviour
 {
     public bool constructing;
@@ -29,10 +31,13 @@ public class Building : MonoBehaviour
     private bool minant;
     private float t = 0;
 
+    public string id;
+
 
     private void Awake()
     {
         materials = renderer.materials;
+        id = GetComponent<UniqueIdentifier>().id;
     }
 
     // Start is called before the first frame update
