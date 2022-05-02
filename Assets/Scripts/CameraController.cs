@@ -450,7 +450,6 @@ public class CameraController : MonoBehaviour, IsSaveable
     {
         public int monedes;
         public int fusta;
-        public string escena;
         public float[] cameraPosition;
         public float[] cameraRotation;
     }
@@ -461,7 +460,6 @@ public class CameraController : MonoBehaviour, IsSaveable
 
         data.fusta = fusta;
         data.monedes = monedes;
-        data.escena = SceneManager.GetActiveScene().name;
 
         data.cameraPosition = new float[3];
         data.cameraPosition[0] = transform.position.x;
@@ -481,7 +479,6 @@ public class CameraController : MonoBehaviour, IsSaveable
     {
 
         PlayerData data = (PlayerData)dataLoaded;
-        //SceneManager.LoadScene(data.escena);
 
 
         fusta = data.fusta;

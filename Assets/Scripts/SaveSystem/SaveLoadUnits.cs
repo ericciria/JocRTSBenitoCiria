@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SaveLoadUnits : MonoBehaviour, IsSaveable
 {
@@ -10,20 +9,16 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
     private Building[] buildings;
     private AIGeneral aiGeneral;
 
+    bool timer = false;
+    bool timerActive = false;
 
-    private void Awake()
-    {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("Save");
-
-        if (objs.Length > 1)
-        {
-            Destroy(this.gameObject);
-        }
-        DontDestroyOnLoad(this.gameObject);
-    }
     private void Start()
     {
-        aiGeneral = GameObject.Find("/AIGeneral").GetComponent<AIGeneral>();
+        GameObject general = GameObject.Find("/AIGeneral");
+        if (general != null){
+            aiGeneral = GameObject.Find("/AIGeneral").GetComponent<AIGeneral>();
+        };
+        
     }
 
     [System.Serializable]
@@ -39,7 +34,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
     public object CaptureState()
     {
         UnitData data;
-
+        
         int pos = 0;
         GameObject[] unitsSave = GameObject.FindGameObjectsWithTag("Unit");
 
@@ -123,10 +118,21 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
 
     public void RestoreState(object dataLoaded)
     {
-        //SceneManager.LoadScene("ProvesCiria");
+        timer = false;
+        timerActive = false;
+        UnitData data = (UnitData)dataLoaded;
+
+        while (timer)
+        {
+            if (!timerActive)
+            {
+                StartCoroutine(timerCoroutina());
+            }
+        }
+
         GameObject[] asdf = GameObject.FindGameObjectsWithTag("Building");
         GameObject[] asdfr = GameObject.FindGameObjectsWithTag("Unit");
-        foreach(GameObject building in asdf)
+        foreach (GameObject building in asdf)
         {
             Destroy(building);
         }
@@ -135,9 +141,11 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
             Destroy(unit);
         }
 
-
-
-        UnitData data = (UnitData)dataLoaded;
+        GameObject general = GameObject.Find("/AIGeneral");
+        if (general != null)
+        {
+            aiGeneral = GameObject.Find("/AIGeneral").GetComponent<AIGeneral>();
+        };
 
         units = new Unit[data.unitTypes.Length];
         buildings = new Building[data.buildingTypes.Length];
@@ -250,5 +258,12 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
             }
             pos += 1;
         }
+    }
+    IEnumerator timerCoroutina()
+    {
+        timerActive = true;
+        yield return new WaitForSeconds(5);
+        timerActive = false;
+        timer = true;
     }
 }

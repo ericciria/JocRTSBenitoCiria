@@ -44,7 +44,7 @@ public class Building : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CameraController>();
-        player.monedes -= 100;
+        //player.monedes -= 100;
         constructing = false;
         constructed = false;
         life = 1;
