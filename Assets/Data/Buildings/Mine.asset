@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mine
   m_EditorClassIdentifier: 
   buildingName: Mine
-  description: 
+  description: Produeix metall.
   icon: {fileID: 0}
   moneyCost: 500
   metalCost: 0

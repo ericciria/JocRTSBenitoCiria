@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986a5ceb8d9ecf542b6d1acc1fa392f1, type: 3}
   m_Name: Turret
   m_EditorClassIdentifier: 
-  buildingName: 
-  description: 
+  buildingName: Turret
+  description: Edifici defensiu.
   icon: {fileID: 0}
   moneyCost: 300
   metalCost: 100

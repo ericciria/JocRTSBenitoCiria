@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Barracks
   m_EditorClassIdentifier: 
   buildingName: Barracks
-  description: 
+  description: "Et Permet constru\xEFr soldats."
   icon: {fileID: 0}
   moneyCost: 600
   metalCost: 50

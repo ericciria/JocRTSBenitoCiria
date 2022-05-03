@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PetrolPump
   m_EditorClassIdentifier: 
   buildingName: PetrolPump
-  description: 
+  description: Produeix diners.
   icon: {fileID: 0}
   moneyCost: 400
   metalCost: 100

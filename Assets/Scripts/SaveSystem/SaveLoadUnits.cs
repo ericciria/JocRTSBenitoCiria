@@ -29,6 +29,8 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         public string[] unitsID, buildingsID, targetsID;
         public float[,] unitPositions, unitRotations, buildingsPositions;
         public int[] unitTeams, buildingTeams;
+        public bool[] isConstructed;
+
     }
 
     public object CaptureState()
@@ -97,6 +99,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         data.buildingsPositions = new float[buildingsSave.Length,3];
         data.buildingsID = new string[buildingsSave.Length];
         data.buildingTeams = new int[buildingsSave.Length];
+        data.isConstructed = new bool[buildingsSave.Length];
 
         foreach (GameObject building in buildingsSave)
         {
@@ -105,10 +108,21 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
             data.buildingsHealth[pos] = building.GetComponent<ObjectLife>().getHealth();
             data.buildingsID[pos] = buildingData.id;
             data.buildingTeams[pos] = buildingData.team;
+            data.isConstructed[pos] = buildingData.constructed;
 
-            data.buildingsPositions[pos,0] = building.transform.position.x;
-            data.buildingsPositions[pos,1] = building.transform.position.y;
-            data.buildingsPositions[pos,2] = building.transform.position.z;
+            // faig això perque quan instancio el PetrolPump surt mes amunt i en diagonal 
+            if (buildingData.data.BuildingName.Equals("PetrolPump"))
+            {
+                data.buildingsPositions[pos, 0] = building.transform.position.x-1f;
+                data.buildingsPositions[pos, 1] = building.transform.position.y-1.5f;
+                data.buildingsPositions[pos, 2] = building.transform.position.z-1f;
+            }
+            else{
+                data.buildingsPositions[pos, 0] = building.transform.position.x;
+                data.buildingsPositions[pos, 1] = building.transform.position.y;
+                data.buildingsPositions[pos, 2] = building.transform.position.z;
+            }
+            
 
             pos += 1;
         }
@@ -134,7 +148,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         GameObject[] asdfr = GameObject.FindGameObjectsWithTag("Unit");
         foreach (GameObject building in asdf)
         {
-            Destroy(building);
+            Destroy(building.transform.parent.gameObject);
         }
         foreach (GameObject unit in asdfr)
         {
@@ -195,15 +209,43 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                 case "EnergyPlant":
                     numType = 2;
                     break;
-                    
+                case "LogisticCenter":
+                    numType = 3;
+                    break;
+                case "WarFactory":
+                    numType = 4;
+                    break;
+
+
             }
             
 
             building = Instantiate(dataBuildings[numType],
                 new Vector3(data.buildingsPositions[pos,0], data.buildingsPositions[pos,1], data.buildingsPositions[pos,2]),
                 new Quaternion(0, 0, 0, 0));
-            buildings[pos] = building.GetComponent<Building>();
-            building.GetComponent<Building>().team = data.buildingTeams[pos];
+            Building buildingComponent = building.GetComponent<Building>();
+            buildings[pos] = buildingComponent;
+            buildingComponent.team = data.buildingTeams[pos];
+            buildingComponent.constructed = data.isConstructed[pos];
+            building.GetComponentInChildren<ObjectLife>().setHealth(data.buildingsHealth[pos]);
+
+            Material[] materials = building.GetComponent<Building>().materials;
+            //////////////  Cambiar els colors depenent de l'edifici
+            ///
+            if (buildingComponent.constructed)
+            {
+                foreach (Material material in materials)
+                {
+                    material.color = new Color(1f, 1f, 1f, 1f);
+                }
+                buildingComponent.adjustMaterials();
+                buildingComponent.renderer.material = buildingComponent.opaqueMat;
+            }
+            else
+            {
+
+            }
+            
             pos += 1;
         }
 

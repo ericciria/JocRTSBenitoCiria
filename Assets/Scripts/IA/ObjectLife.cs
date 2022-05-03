@@ -113,4 +113,5 @@ public class ObjectLife : MonoBehaviour
     {
         healthBarImage.color = healthColor;
     }
+
 }

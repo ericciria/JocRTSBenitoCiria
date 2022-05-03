@@ -20,13 +20,14 @@ public class Building : MonoBehaviour
 
     private float life;
     [SerializeField] int maxLife;
-    [SerializeField] ObjectLife health;
-    [SerializeField] MeshRenderer renderer;
+    public ObjectLife health;
+    public MeshRenderer renderer;
     [SerializeField] float duration = 2f;
     [SerializeField] CameraController player;
+    private AIGeneral aiGeneral;
     public BuildingData data;
     public Material[] materials;
-    private Color teamColor;
+    public Color teamColor;
 
     private bool minant;
     private float t = 0;
@@ -71,6 +72,7 @@ public class Building : MonoBehaviour
         else if (team == 2)
         {
             teamColor = new Color(0.7F, 0.1F, 0.1F, 1F);
+            aiGeneral = GameObject.Find("/AIGeneral").GetComponent<AIGeneral>();
         }
     }
 
@@ -126,7 +128,7 @@ public class Building : MonoBehaviour
         
     }
 
-    private void adjustMaterials()
+    public void adjustMaterials()
     {
         if (name.Equals("Mine"))
         {
@@ -149,17 +151,32 @@ public class Building : MonoBehaviour
     {
         minant = true;
         yield return new WaitForSeconds(2);
-        player.monedes += 10;
-        //Debug.Log(player.monedes);
+        if (this.team == 1)
+        {
+            player.monedes += 10;
+            //Debug.Log(player.monedes);
+        }
+        else
+        {
+            aiGeneral.monedes += 10;
+        }
         minant = false;
+
     }
 
     IEnumerator sumarFusta()
     {
         minant = true;
         yield return new WaitForSeconds(2);
-        player.fusta += 10;
-        //Debug.Log(player.monedes);
+        if (this.team == 1)
+        {
+            player.fusta += 10;
+            //Debug.Log(player.monedes);
+        }
+        else
+        {
+            aiGeneral.metall += 10;
+        }
         minant = false;
     }
     IEnumerator constructTimer()

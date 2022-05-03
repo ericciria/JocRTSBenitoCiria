@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WarFactory
   m_EditorClassIdentifier: 
   buildingName: WarFactory
-  description: 
+  description: Construeix vehicles.
   icon: {fileID: 0}
   moneyCost: 800
   metalCost: 100

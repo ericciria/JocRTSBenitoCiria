@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LogisticCenter
   m_EditorClassIdentifier: 
   buildingName: LogisticCenter
-  description: 
+  description: Et permet fer millores.
   icon: {fileID: 0}
   moneyCost: 1000
   metalCost: 400

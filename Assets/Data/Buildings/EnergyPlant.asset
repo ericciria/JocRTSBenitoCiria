@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnergyPlant
   m_EditorClassIdentifier: 
   buildingName: EnergyPlant
-  description: 
+  description: Produeix electricitat.
   icon: {fileID: 0}
   moneyCost: 200
   metalCost: 50

@@ -7,10 +7,13 @@ public class AIGeneral : MonoBehaviour
     private delegate bool Condition();
     private delegate void Action();
 
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject[] enemyPrefabs;
+    [SerializeField] GameObject[] buildingsPrefabs;
 
     [SerializeField] Transform spawnPoint;
     private List<Unit> enemies;
+    private List<Unit> constructors;
+    private List<Building> buildings;
     private Unit enemy;
 
     public GameObject nearestEnemy;
@@ -26,14 +29,15 @@ public class AIGeneral : MonoBehaviour
     List<Condition> conditions = new List<Condition>();
     List<Action> actions = new List<Action>();
 
-    [SerializeField] Transform point1;
-    [SerializeField] Transform point2;
-    [SerializeField] Transform point3;
-    [SerializeField] Transform point4;
+    [SerializeField] Transform[] points;
     public Unit unit1;
     public Unit unit2;
     public Unit unit3;
     public Unit unit4;
+
+    public int metall;
+    public int monedes;
+    public int energia;
 
     // Regla: tupla de condicio-accio
 
@@ -52,11 +56,18 @@ public class AIGeneral : MonoBehaviour
     void Start()
     {
         enemies = new List<Unit>();
+        constructors = new List<Unit>();
+        buildings = new List<Building>();
         start = false;
-        unit1 = SpawnEnemy(point1.position);
-        unit2 = SpawnEnemy(point2.position);
-        unit3 = SpawnEnemy(point3.position);
-        unit4 = SpawnEnemy(point4.position);
+        unit1 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[1].position);
+        unit2 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[2].position);
+        unit3 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[3].position);
+        unit4 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[4].position);
+
+        metall = 500;
+        monedes = 2000;
+
+        StartCoroutine(startAI());
     }
 
     void Update()
@@ -77,23 +88,56 @@ public class AIGeneral : MonoBehaviour
             //Debug.Log(enemies.Count);
             //timeSinceLastSpawn = 0;
         }
+        if (Input.GetKey(KeyCode.C))
+        {
+            //checkClosestUnoccupiedMineral();
+            foreach (Unit constructor in constructors)
+            {
+                Debug.LogWarning(constructor.currentState);
+
+            }
+        }
     }
 
     private void Evaluate()
     {
-        Debug.Assert(conditions.Count == actions.Count); // Assert: Si no se cumple, el codigo peta y te indica donde
-        /*if (nearestEnemy != null)
+        // cada cop que comença l'avaluació netejo les llistes d'unitats i edificis per evitar que hi haguin nulls
+        if (enemies.Count > 0)
         {
-            for (int i = 0; i < conditions.Count; i++)
+            for (int i = enemies.Count - 1; i >= 0; i--)
             {
-                Debug.Log(enemies);
-                if (conditions[i]())
+                if (enemies[i] == null)
                 {
-                    actions[i]();
-                    break;
+                    enemies[i] = enemies[enemies.Count - 1];
+                    enemies.RemoveAt(enemies.Count - 1);
                 }
             }
-        }*/
+        }
+        if (constructors.Count > 0)
+        {
+            for (int i = constructors.Count - 1; i >= 0; i--)
+            {
+                if (constructors[i] == null)
+                {
+                    constructors[i] = constructors[constructors.Count - 1];
+                    constructors.RemoveAt(constructors.Count - 1);
+                }
+            }
+        }
+        if (buildings.Count > 0)
+        {
+            for (int i = buildings.Count - 1; i >= 0; i--)
+            {
+                if (buildings[i] == null)
+                {
+                    buildings[i] = buildings[buildings.Count - 1];
+                    buildings.RemoveAt(buildings.Count - 1);
+                }
+            }
+        }
+
+        Debug.Assert(conditions.Count == actions.Count); // Assert: Si no se cumple, el codigo peta y te indica donde
+
         for (int i = 0; i < conditions.Count; i++)
         {
             Debug.Log(enemies);
@@ -107,19 +151,41 @@ public class AIGeneral : MonoBehaviour
 
     private bool Condition1()
     {
-        return unit1 == null;
+        return constructors.Count<1 && monedes>500 && metall>50;
     }
     private void Action1()
     {
-        unit1 = SpawnEnemy(point1.position);
+        unit1 = SpawnEnemy(enemyPrefabs[1], this.transform.position, points[1].position);
+        constructors.Add(unit1);
+        monedes -= 500;
+        metall -= 50;
     }
     private bool Condition2()
     {
-        return unit2 == null;
+        bool mina = false;
+        foreach(Building building in buildings)
+        {
+            if (building.name.Equals("Mine"))
+            {
+                mina = true;
+                break;
+            }
+        }
+        return !mina;
     }
     private void Action2()
     {
-        unit2 = SpawnEnemy(point2.position);
+        Vector3 minePosition = checkClosestUnoccupiedMineral();
+        //Building mina = SpawnBuilding(buildingsPrefabs[1], minePosition);
+        foreach (Unit constructor in constructors)
+        {
+            /*if (constructor.currentState.Equals()
+            {
+                mina = true;
+                break;
+            }*/
+        }
+        //buildings.Add();
     }
     private bool Condition3()
     {
@@ -127,7 +193,7 @@ public class AIGeneral : MonoBehaviour
     }
     private void Action3()
     {
-        unit3 = SpawnEnemy(point3.position);
+        unit3 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[1].position);
     }
     private bool Condition4()
     {
@@ -135,7 +201,7 @@ public class AIGeneral : MonoBehaviour
     }
     private void Action4()
     {
-        unit4 = SpawnEnemy(point4.position);
+        unit4 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[1].position);
     }
 
     // Llista funcions-condicio i llista funcions-accio
@@ -241,19 +307,27 @@ public class AIGeneral : MonoBehaviour
     }*/
 
     //(int level, int hp)
-    public Unit SpawnEnemy(Vector3 point)
+    public Unit SpawnEnemy(GameObject prefab , Vector3 point, Vector3 destination)
     {
         timeSinceLastSpawn = 0;
         GameObject enemy =
-            Instantiate(enemyPrefab, this.transform.position, Quaternion.identity) as GameObject;
+            Instantiate(prefab, point, Quaternion.identity) as GameObject;
         Unit enemyUnit = enemy.GetComponentInChildren<Unit>();
+        
         enemyUnit.team = 2;
-        enemyUnit.agent.SetDestination(point);
-
-        //enemy.GetComponent<ActorController>().level = level;
-        //enemy.GetComponent<HealthComponent>().value = hp;
+        enemyUnit.agent.SetDestination(destination);
 
         return enemyUnit;
+    }
+    public Building SpawnBuilding(GameObject prefab, Vector3 point)
+    {
+        timeSinceLastSpawn = 0;
+        GameObject enemy =
+            Instantiate(prefab, point, Quaternion.identity) as GameObject;
+        Building enemyBuilding = enemy.GetComponent<Building>();
+        enemyBuilding.team = 2;
+
+        return enemyBuilding;
     }
 
     /*public GameObject FindClosestEnemy()
@@ -276,10 +350,42 @@ public class AIGeneral : MonoBehaviour
         return closest;
     }*/
 
+    private Vector3 checkClosestUnoccupiedMineral()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Minerals");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            // miro que no hi hahui cap edifici o unitat en aquell mineral
+            Collider[] hitColliders = Physics.OverlapSphere(go.transform.position, 3);
+
+            if (hitColliders.Length < 3)
+            {
+                Vector3 diff = go.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+                if (curDistance < distance)
+                {
+                    closest = go;
+                    distance = curDistance;
+                }
+            }
+        }
+        return closest.transform.position;
+    }
+
     IEnumerator checkClosestEnemy()
     {
         yield return new WaitForSeconds(2);
         //nearestEnemy = FindClosestEnemy();
+    }
+
+    IEnumerator startAI()
+    {
+        yield return new WaitForSeconds(5);
+        start = true;
     }
 
     void OnDrawGizmos()

@@ -107,7 +107,7 @@ public class CameraController : MonoBehaviour, IsSaveable
         textMonedes = GameObject.Find("/Canvas/monedes").GetComponent<Text>();
         textFusta = GameObject.Find("/Canvas/fusta").GetComponent<Text>();
 
-        monedes = 1000;
+        monedes = 2000;
         fusta = 500;
         
         team = 1;
@@ -460,6 +460,10 @@ public class CameraController : MonoBehaviour, IsSaveable
         buttonEdificiMilloraOcultar.SetActive(true);
         buttonEdificiTankOcultar.SetActive(true);
     }
+
+
+    //------------------------------------------ SaveSystem ------------------------------------------//
+
 
     [System.Serializable]
     struct PlayerData
