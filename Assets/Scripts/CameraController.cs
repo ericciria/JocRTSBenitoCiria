@@ -261,10 +261,7 @@ public class CameraController : MonoBehaviour, IsSaveable
             {
                if( hit.collider.gameObject.GetComponent<Unit>().constructor)
                 {
-                    buttonminaOcultar.SetActive(true);
-                    buttonFabricaOcultar.SetActive(true);
-                    buttonCentralOcultar.SetActive(true);
-                    buttonEdificiMilloraOcultar.SetActive(true);
+                    showConstructorButtons();
                 }
                 selectUnit(hit.collider.gameObject);
 
@@ -404,11 +401,7 @@ public class CameraController : MonoBehaviour, IsSaveable
                     if (unit.constructor)
                     {
                         hideButtons();
-                        buttonminaOcultar.SetActive(true);
-                        buttonFabricaOcultar.SetActive(true);
-                        buttonCentralOcultar.SetActive(true);
-                        buttonEdificiMilloraOcultar.SetActive(true);
-                        buttonEdificiTankOcultar.SetActive(true);
+                        showConstructorButtons();
                     }
                 }
             }
@@ -458,7 +451,14 @@ public class CameraController : MonoBehaviour, IsSaveable
         buttonTankOcultar.SetActive(false);
         buttonEdificiMilloraOcultar.SetActive(false);
         buttonEdificiTankOcultar.SetActive(false);
-
+    }
+    void showConstructorButtons()
+    {
+        buttonminaOcultar.SetActive(true);
+        buttonFabricaOcultar.SetActive(true);
+        buttonCentralOcultar.SetActive(true);
+        buttonEdificiMilloraOcultar.SetActive(true);
+        buttonEdificiTankOcultar.SetActive(true);
     }
 
     [System.Serializable]
