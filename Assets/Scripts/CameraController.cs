@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CameraController : MonoBehaviour
+
+public class CameraController : MonoBehaviour, IsSaveable
 {
 
     [SerializeField] float moveSpeed = 15;
@@ -14,6 +16,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform spawnPoint1;
     [SerializeField] Transform spawnPoint2;
     [SerializeField] GameObject unitPrefab;
+    public GameObject[] unitPrefabs;
     public int team;
     private Camera cam;
     public int monedes;
@@ -58,9 +61,8 @@ public class CameraController : MonoBehaviour
     private bool selection;
     private Text textMonedes;
     private Text textFusta;
-    
-
     private Slider consum;
+
     [System.Serializable]
     struct CursorMapping
     {
@@ -456,6 +458,52 @@ public class CameraController : MonoBehaviour
         buttonTankOcultar.SetActive(false);
         buttonEdificiMilloraOcultar.SetActive(false);
         buttonEdificiTankOcultar.SetActive(false);
+
+    }
+
+    [System.Serializable]
+    struct PlayerData
+    {
+        public int monedes;
+        public int fusta;
+        public float[] cameraPosition;
+        public float[] cameraRotation;
+    }
+
+    public object CaptureState()
+    {
+        PlayerData data;
+
+        data.fusta = fusta;
+        data.monedes = monedes;
+
+        data.cameraPosition = new float[3];
+        data.cameraPosition[0] = transform.position.x;
+        data.cameraPosition[1] = transform.position.y;
+        data.cameraPosition[2] = transform.position.z;
+
+        data.cameraRotation = new float[4];
+        data.cameraRotation[0] = transform.rotation.x;
+        data.cameraRotation[1] = transform.rotation.y;
+        data.cameraRotation[2] = transform.rotation.z;
+        data.cameraRotation[3] = transform.rotation.w;
+
+        return data;
+    }
+
+    public void RestoreState(object dataLoaded)
+    {
+
+        PlayerData data = (PlayerData)dataLoaded;
+
+
+        fusta = data.fusta;
+        monedes = data.monedes;
+        
+
+        transform.position = new Vector3(data.cameraPosition[0], data.cameraPosition[1], data.cameraPosition[2]);
+        transform.rotation.Set(data.cameraRotation[0], data.cameraRotation[1], data.cameraRotation[2], data.cameraRotation[3]);
+        
 
     }
 }

@@ -17,9 +17,8 @@ public class blue_script : MonoBehaviour
     private float largestSide;
     CameraController player;
     private List<Unit> playerUnits;
+    BuildingData data;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("/Camera").GetComponent<CameraController>();
@@ -45,6 +44,7 @@ public class blue_script : MonoBehaviour
         canConstruct2 = true;
         canConstruct3 = true;
         renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.5f));
+        data = prefab.GetComponent<Building>().data;
     }
 
     void Update()
@@ -62,6 +62,8 @@ public class blue_script : MonoBehaviour
             {
 
                 building = Instantiate(prefab, position, transform.rotation);
+                player.monedes -= data.MoneyCost;
+                player.fusta -= data.MetalCost;
                 player.buildings.Add(building);
                 foreach (Unit unit in playerUnits)
                 {

@@ -11,6 +11,7 @@ TagManager:
   - Unit
   - Building
   - Minerals
+  - Save
   layers:
   - Default
   - TransparentFX

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Opcions.unity
     guid: 8e69418f86237144ba5507ef4051fe6d
+  - enabled: 1
+    path: Assets/Scenes/ProvesCiria.unity
+    guid: 23bd7e311a8143943bf682f96ef0d122
   m_configObjects: {}

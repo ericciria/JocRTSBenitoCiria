@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(UniqueIdentifier))]
+
 public class Building : MonoBehaviour
 {
     public bool constructing;
@@ -22,24 +24,27 @@ public class Building : MonoBehaviour
     [SerializeField] MeshRenderer renderer;
     [SerializeField] float duration = 2f;
     [SerializeField] CameraController player;
-    [SerializeField] BuildingData data;
+    public BuildingData data;
     public Material[] materials;
     private Color teamColor;
 
     private bool minant;
     private float t = 0;
 
+    public string id;
+
 
     private void Awake()
     {
         materials = renderer.materials;
+        id = GetComponent<UniqueIdentifier>().id;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CameraController>();
-        player.monedes -= 100;
+        //player.monedes -= 100;
         constructing = false;
         constructed = false;
         life = 1;

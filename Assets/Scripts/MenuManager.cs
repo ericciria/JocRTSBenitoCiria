@@ -9,6 +9,7 @@ public class MenuManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        
     }
     public void Menu()
     {
@@ -28,10 +29,11 @@ public class MenuManager : MonoBehaviour
 
     public void Level1()
     {
-        
-        SceneManager.LoadScene("Scene1");
+
+        /*SceneManager.LoadScene("Scene1");
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.visible = false;*/
+        SceneManager.LoadScene("ProvesCiria");
     }
 
     public void LoadNextScene()
