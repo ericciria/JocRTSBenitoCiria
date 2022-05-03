@@ -47,10 +47,14 @@ public class AIGeneral : MonoBehaviour
         conditions.Add(Condition2);
         conditions.Add(Condition3);
         conditions.Add(Condition4);
+        conditions.Add(Condition5);
+        conditions.Add(Condition6);
         actions.Add(Action1);
         actions.Add(Action2);
         actions.Add(Action3);
         actions.Add(Action4);
+        actions.Add(Action5);
+        actions.Add(Action6);
     }
 
     void Start()
@@ -65,7 +69,7 @@ public class AIGeneral : MonoBehaviour
         unit4 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[4].position);
 
         metall = 500;
-        monedes = 2000;
+        monedes = 3000;
 
         StartCoroutine(startAI());
     }
@@ -90,12 +94,7 @@ public class AIGeneral : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.C))
         {
-            //checkClosestUnoccupiedMineral();
-            foreach (Unit constructor in constructors)
-            {
-                Debug.LogWarning(constructor.currentState);
 
-            }
         }
     }
 
@@ -140,7 +139,6 @@ public class AIGeneral : MonoBehaviour
 
         for (int i = 0; i < conditions.Count; i++)
         {
-            Debug.Log(enemies);
             if (conditions[i]())
             {
                 actions[i]();
@@ -151,160 +149,150 @@ public class AIGeneral : MonoBehaviour
 
     private bool Condition1()
     {
-        return constructors.Count<1 && monedes>500 && metall>50;
+        return constructors.Count<2 && monedes>200 && metall>50;
     }
     private void Action1()
     {
-        unit1 = SpawnEnemy(enemyPrefabs[1], this.transform.position, points[1].position);
+        unit1 = SpawnEnemy(enemyPrefabs[1], this.transform.position, this.transform.position);
         constructors.Add(unit1);
-        monedes -= 500;
+        monedes -= 200;
         metall -= 50;
     }
     private bool Condition2()
     {
-        bool mina = false;
+        int mina = 0;
         foreach(Building building in buildings)
         {
             if (building.name.Equals("Mine"))
             {
-                mina = true;
-                break;
+                mina ++;
             }
         }
-        return !mina;
+        return mina<2 && monedes > 500;
     }
     private void Action2()
     {
+        Building building = null;
         Vector3 minePosition = checkClosestUnoccupiedMineral();
         //Building mina = SpawnBuilding(buildingsPrefabs[1], minePosition);
         foreach (Unit constructor in constructors)
         {
-            /*if (constructor.currentState.Equals()
+            if (constructor.currentState.ToString().Equals("UnitIdleState"))
             {
-                mina = true;
+                building = SpawnBuilding(buildingsPrefabs[1], minePosition).GetComponent<Building>();
+                monedes -= 500;
+                constructor.target = building.transform;
                 break;
-            }*/
+            }
         }
-        //buildings.Add();
+        buildings.Add(building);
     }
     private bool Condition3()
     {
-        return unit3 == null;
+        bool petrolPump = false;
+        bool canConstruct = false;
+        int petrolPumps = 0;
+        foreach (Building building in buildings)
+        {
+            if (building.name.Equals("Mine"))
+            {
+                petrolPump = true;
+                petrolPumps++;
+                break;
+            }
+        }
+        foreach (Unit constructor in constructors)
+        {
+            if (constructor.currentState.ToString().Equals("UnitIdleState"))
+            {
+                canConstruct = true;
+                break;
+            }
+        }
+        //return !petrolPump && monedes > 400 && metall > 100;
+        return petrolPumps < 5 && monedes > 400 && metall > 100 && canConstruct;
     }
     private void Action3()
     {
-        unit3 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[1].position);
+        Building building = null;
+        Vector3 position = checkIfCanBuild();
+        bool canConstruct = false;
+        //Building mina = SpawnBuilding(buildingsPrefabs[1], minePosition);
+        foreach (Unit constructor in constructors)
+        {
+            if (constructor.currentState.ToString().Equals("UnitIdleState"))
+            {
+                building = SpawnBuilding(buildingsPrefabs[0], position).GetComponent<Building>();
+                monedes -= 500;
+                constructor.target = building.transform;
+                buildings.Add(building);
+                break;
+            }
+        }  
     }
     private bool Condition4()
     {
-        return unit4 == null;
+        return constructors.Count < 3 && monedes > 500 && metall > 50;
     }
     private void Action4()
     {
-        unit4 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[1].position);
+        unit1 = SpawnEnemy(enemyPrefabs[1], this.transform.position, this.transform.position);
+        constructors.Add(unit1);
+        monedes -= 500;
+        metall -= 50;
     }
-
-    // Llista funcions-condicio i llista funcions-accio
-    /*private bool Condition1()
+    private bool Condition5()
     {
-        float distanceToTarget = Vector3.Distance(
-            nearestEnemy.transform.position,
-            transform.position
-        );
-        Debug.Log("Condition1");
-        return distanceToTarget < dangerDistance;
-    }
-
-    private bool Condition2()
-    {
-        Debug.Log("Condition2");
-        //return Random.Range(0f, 1f) >= 0.5;     //50% - 1/2
-        return enemies.Count < 5 && timeSinceLastSpawn > spawnRate;
-    }
-
-    private bool Condition3()
-    {
-        Debug.Log("Condition3");
-        //return Random.Range(0f, 1f) >= 0.66;    // 33% - 1/3
-        return enemies.Count >= 5 && nearestEnemy != null ;
-    }
-
-    private bool Condition4()
-    {
-        Debug.Log("Condition4");
-        return nearestEnemy == null;
-        //return Random.Range(0f, 1f) >= 0.75;    // 25% - 1/4
-    }
-
-    //Si hi ha una unitat del jugador en la base l'ataca amb el que te
-    private void Action1()
-    {
-        if (timeSinceLastSpawn > spawnRate)
+        int mina = 0;
+        foreach (Building building in buildings)
         {
-            enemy = SpawnEnemy();
-            enemies.Add(enemy);
-            timeSinceLastSpawn = 0;
-        }
-        foreach (Unit enemy in enemies)
-        {
-            if (nearestEnemy != null)
+            if (building.name.Equals("PetrolPump"))
             {
-                enemy.target = nearestEnemy.transform;
+                mina++;
             }
         }
-        Debug.Log("Action1");
+        return mina<2 && monedes > 500;
     }
-
-    // Si te menys de 5 unitats en crea un altra
-    private void Action2()
+    private void Action5()
     {
-        enemy = SpawnEnemy();
-        enemies.Add(enemy);
-        Debug.Log("Action2");
-    }
-
-    // si te 5 o mes unitats ataca a la unitat del jugador mes propera i neteja la 
-    //  llista de nulls
-    private void Action3()
-    {
-        for (int i = enemies.Count - 1; i >= 0; i--)
+        Building building = null;
+        Vector3 minePosition = checkClosestUnoccupiedMineral();
+        //Building mina = SpawnBuilding(buildingsPrefabs[1], minePosition);
+        foreach (Unit constructor in constructors)
         {
-            if (enemies[i] == null)
+            if (constructor.currentState.ToString().Equals("UnitIdleState"))
             {
-                enemies[i] = enemies[enemies.Count - 1];
-                enemies.RemoveAt(enemies.Count - 1);
-            }
-            else
-            {
-                if (nearestEnemy != null)
-                {
-                    enemies[i].target = nearestEnemy.transform;
-                    Debug.Log("Action3AA");
-                }
+                building = SpawnBuilding(buildingsPrefabs[1], minePosition).GetComponent<Building>();
+                monedes -= 500;
+                constructor.target = building.transform;
+                buildings.Add(building);
+                break;
             }
         }
-        Debug.Log("Action3");
+        
     }
-
-    // quan no te res mes a fer neteja la llista d'unitats i elimina
-    // les unitats que s'han destruit i a la llista son nulls
-    private void Action4()
+    private bool Condition6()
     {
-        Debug.Log("Action4");
-
-        for (int i = enemies.Count - 1; i >= 0; i--)
+        return enemies.Count < 4 && monedes > 200 && metall > 300;
+    }
+    private void Action6()
+    {
+        Unit unit = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[1].position);
+        enemies.Add(unit);
+        monedes -= 200;
+        metall -= 300;
+        GameObject target = FindClosestEnemy();
+        if (target != null)
         {
-            if (enemies[i] != null)
-            {
-                enemies[i].agent.SetDestination(spawnPoint.position);
-            }
-            else
-            {
-                enemies[i] = enemies[enemies.Count - 1];
-                enemies.RemoveAt(enemies.Count - 1);
-            }
+            unit.target = target.transform;
         }
-    }*/
+        else
+        {
+            target = FindClosestEnemyBuilding();
+            unit.target = target.transform;
+        }
+        
+    }
 
     //(int level, int hp)
     public Unit SpawnEnemy(GameObject prefab , Vector3 point, Vector3 destination)
@@ -330,25 +318,50 @@ public class AIGeneral : MonoBehaviour
         return enemyBuilding;
     }
 
-    /*public GameObject FindClosestEnemy()
+    public GameObject FindClosestEnemy()
     {
         GameObject[] gos;
-        gos = GameObject.FindGameObjectsWithTag("PlayerUnit");
+        gos = GameObject.FindGameObjectsWithTag("Unit");
         GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
         foreach (GameObject go in gos)
         {
-            Vector3 diff = go.transform.position - position;
-            float curDistance = diff.sqrMagnitude;
-            if (curDistance < distance)
+            if (go.GetComponent<Unit>().team != 2)
             {
-                closest = go;
-                distance = curDistance;
+                Vector3 diff = go.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+                if (curDistance < distance)
+                {
+                    closest = go;
+                    distance = curDistance;
+                }
             }
         }
         return closest;
-    }*/
+    }
+    public GameObject FindClosestEnemyBuilding()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Building");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            if (go.GetComponentInParent<Building>().team != 2)
+            {
+                Vector3 diff = go.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+                if (curDistance < distance)
+                {
+                    closest = go;
+                    distance = curDistance;
+                }
+            }
+        }
+        return closest;
+    }
 
     private Vector3 checkClosestUnoccupiedMineral()
     {
@@ -374,6 +387,30 @@ public class AIGeneral : MonoBehaviour
             }
         }
         return closest.transform.position;
+    }
+
+    private Vector3 checkIfCanBuild()
+    {
+        int unstuck = 0;
+        bool canbuild = false;
+        Vector3 randomPosition = RandomPointOnCircleEdge(dangerDistance);
+        while (unstuck<20 || canbuild)
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(randomPosition, 3);
+            if (hitColliders.Length > 1)
+            {
+                Debug.LogWarning(hitColliders.Length);
+                randomPosition = RandomPointOnCircleEdge(dangerDistance);
+            }
+            else
+            {
+                break;
+            }
+            Debug.LogWarning(hitColliders[0].name);
+            
+            unstuck++;
+        }
+        return randomPosition;
     }
 
     IEnumerator checkClosestEnemy()
@@ -429,5 +466,11 @@ public class AIGeneral : MonoBehaviour
             * Mathf.Atan2(forwardLimitPos.z - position.z, forwardLimitPos.x - position.x);
 
         return srcAngles;
+    }
+
+    private Vector3 RandomPointOnCircleEdge(float radius)
+    {
+        var vector2 = Random.insideUnitCircle * radius;
+        return (new Vector3(vector2.x, 0, vector2.y) + this.transform.position);
     }
 }

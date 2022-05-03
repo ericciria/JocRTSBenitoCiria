@@ -15,7 +15,7 @@ MonoBehaviour:
   unitName: VehicleConstructor
   description: 
   icon: {fileID: 0}
-  moneyCost: 500
+  moneyCost: 200
   metalCost: 50
   attackDamage: 0
   typeOfUnit: Vehicle
