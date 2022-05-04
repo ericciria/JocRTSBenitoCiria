@@ -45,6 +45,7 @@ public class Unit : MonoBehaviour, IsSaveable
 
     public UnitStates currentState = new UnitIdleState();
     public string id;
+    public Animator anim;
 
 
 
@@ -67,6 +68,7 @@ public class Unit : MonoBehaviour, IsSaveable
         attackDistance = unitData.AttackDistance;
         attackCooldown = unitData.AttackCooldown;
         constructor = unitData.Constructor;
+        anim = GetComponent<Animator>();
 
         materials = renderer.materials;
 
@@ -75,6 +77,7 @@ public class Unit : MonoBehaviour, IsSaveable
     }
     void Start()
     {
+        
         if (team == 1)
         {
             teamColor = new Color(0.1F, 0.1F, 0.7F, 1F);
@@ -119,6 +122,15 @@ public class Unit : MonoBehaviour, IsSaveable
             checking = true;
             StartCoroutine(getClosestEnemyInRadius());
         }
+        if (currentState.ToString().Equals("UnitConstructState"))
+        {
+            anim.SetBool("isBuilding", true);
+        }
+        else
+        {
+            anim.SetBool("isBuilding", false);
+        }
+        
     }
 
     public void setObjective(RaycastHit hit, float offset)
@@ -135,6 +147,7 @@ public class Unit : MonoBehaviour, IsSaveable
             {
                 if (hit.collider.gameObject.GetComponentInParent<Building>().team != team) {
                     target = hit.collider.gameObject.transform;
+
                 }
             }
             else
