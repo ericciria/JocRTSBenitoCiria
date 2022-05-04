@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour, IsSaveable
     public float attackCooldown;
     public float timeSinceLastAttack = Mathf.Infinity;
     public GameObject nearestEnemy;
+    public int moneyCost, metalCost;
 
     public float health = 0;
     public ObjectLife objectLife;
@@ -68,8 +69,9 @@ public class Unit : MonoBehaviour, IsSaveable
         attackDistance = unitData.AttackDistance;
         attackCooldown = unitData.AttackCooldown;
         constructor = unitData.Constructor;
+        moneyCost = unitData.MoneyCost;
+        metalCost = unitData.MetalCost;
         anim = GetComponentInChildren<Animator>();
-        Debug.Log(anim);
 
         materials = renderer.materials;
 

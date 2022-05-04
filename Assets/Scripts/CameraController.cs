@@ -277,7 +277,8 @@ public class CameraController : MonoBehaviour, IsSaveable
                 }
             }
 
-            //Debug.Log(hit.collider.gameObject.tag);
+            Debug.Log(hit.collider.gameObject.tag);
+            Debug.Log(hit.collider.gameObject.GetComponentInParent<Building>());
             if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1)
             {
                if( hit.collider.gameObject.GetComponent<Unit>().constructor)
@@ -295,13 +296,22 @@ public class CameraController : MonoBehaviour, IsSaveable
                 {
                     seleccio.SetActive(true);
                 }
-                /*if (building.buildingName.Equals("Mina"))
+                if (building.name.Equals("WarFactory"))
+                {
+                    buttonTankOcultar.SetActive(true);
+                }
+                if (building.name.Equals("Base"))
+                {
+                    buttonConstructorOcultar.SetActive(true);
+                }
+                if (building.name.Equals("Barracks"))
                 {
 
-                }*/
-                buttonMilloraOcultar.SetActive(true);
-                buttonConstructorOcultar.SetActive(true);
-                buttonTankOcultar.SetActive(true);
+                }
+                if (building.name.Equals("LogisticCenter"))
+                {
+                    buttonMilloraOcultar.SetActive(true);
+                }
             }
         }
         if (Input.GetMouseButton(0) && selection)
@@ -404,17 +414,6 @@ public class CameraController : MonoBehaviour, IsSaveable
         }
     }
 
-    /*public AIPlayerunit SpawnUnit()
-    {
-        timeSinceLastSpawn = 0;
-        GameObject unit =
-            Instantiate(unitPrefab, spawnPoint1.position, Quaternion.identity) as GameObject;
-        AIPlayerunit playerUnit = unit.GetComponentInChildren<AIPlayerunit>();
-        playerUnit.agent.SetDestination(spawnPoint2.position);
-
-        return playerUnit;
-    }*/
-
     void updateSelectionBox(Vector2 cursor)
     {
         if (!selectionBox.gameObject.activeInHierarchy)
@@ -468,25 +467,6 @@ public class CameraController : MonoBehaviour, IsSaveable
         textMonedes.text = monedes.ToString();
         textFusta.text = fusta.ToString();
         consum.value = electricitat;
-
-        /*if (monedes >= 100)
-        {
-            buttonmina.interactable = true;
-            buttonFabrica.interactable = true;
-        }
-        else
-        {
-            buttonmina.interactable = false;
-            buttonFabrica.interactable = false;
-        }
-        if (monedes >= 10)
-        {
-            buttonMilloraOcultar.GetComponent<Button>().interactable = true;
-        }
-        else
-        {
-            buttonMilloraOcultar.GetComponent<Button>().interactable = false;
-        }*/
     }
     void selectUnit(GameObject unit)
     {
