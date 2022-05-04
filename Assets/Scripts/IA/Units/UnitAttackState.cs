@@ -35,8 +35,10 @@ public class UnitAttackState : UnitStates
             {
                 if (unit.timeSinceLastAttack > unit.attackCooldown)
                 {
+                    
                     unit.GetComponent<ParticleSystem>().Play();
                     Debug.Log("Attack");
+                    unit.anim.SetBool("shoot",true);
                     if (unit.target.GetComponent<Unit>() != null)
                     {
                         if (unit.target.GetComponent<Unit>().typeOfUnit.Equals(unit.damageMultiplierType))
@@ -106,7 +108,7 @@ public class UnitAttackState : UnitStates
         {
             return new UnitIdleState();
         }
-
+        unit.anim.SetBool("shoot", false);
         return null;
     }
 }
