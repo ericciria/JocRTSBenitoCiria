@@ -121,16 +121,7 @@ public class Unit : MonoBehaviour, IsSaveable
         {
             checking = true;
             StartCoroutine(getClosestEnemyInRadius());
-        }
-        if (currentState.ToString().Equals("UnitConstructState"))
-        {
-            anim.SetBool("isBuilding", true);
-        }
-        else
-        {
-            anim.SetBool("isBuilding", false);
-        }
-        
+        }      
     }
 
     public void setObjective(RaycastHit hit, float offset)

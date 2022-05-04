@@ -4,45 +4,44 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BuildingDetails : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UnitsButtonManager : MonoBehaviour
 {
 
-    [SerializeField] BuildingData data;
+    [SerializeField] GameObject unitPrefab;
+    UnitData data;
+    CameraController player;
+    private Button button;
     private GameObject dataCanvas;
     private string name;
     private int money, metal;
     private string description;
-    private CameraController player;
-    private Button button;
-    // Start is called before the first frame update
 
     private void Awake()
     {
         dataCanvas = GameObject.Find("/Canvas/Info");
     }
-
     void Start()
     {
+        data = unitPrefab.GetComponentInChildren<Unit>().unitData;
         player = GameObject.Find("/Camera").GetComponent<CameraController>();
-        button = GetComponent<Button>() ;
+        button = GetComponent<Button>();
         name = data.name;
         money = data.MoneyCost;
         metal = data.MetalCost;
         description = data.Description;
-
-        // se que aizò s'executarà varies vegades, pero no he trobat cap altra forma de fer-ho sense que doni algun error
-        dataCanvas.SetActive(false);    
     }
-    private void Update()
+
+    // Update is called once per frame
+    void Update()
     {
-        if (player.fusta >= metal && player.monedes >= money)
+        if (player.building.canSpawn && player.fusta >= metal && player.monedes >= money)
         {
             button.interactable = true;
         }
         else
         {
             button.interactable = false;
-        }
+        } 
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -52,7 +51,7 @@ public class BuildingDetails : MonoBehaviour, IPointerEnterHandler, IPointerExit
         dataCanvas.transform.Find("MetallQ").GetComponent<Text>().text = metal.ToString();
         dataCanvas.transform.Find("Description").GetComponent<Text>().text = description;
 
-        dataCanvas.transform.position = new Vector3(this.transform.position.x-50, dataCanvas.transform.position.y, dataCanvas.transform.position.z);
+        dataCanvas.transform.position = new Vector3(this.transform.position.x - 50, dataCanvas.transform.position.y, dataCanvas.transform.position.z);
 
         dataCanvas.SetActive(true);
     }
