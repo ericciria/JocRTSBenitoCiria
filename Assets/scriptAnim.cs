@@ -6,6 +6,6 @@ public class scriptAnim : MonoBehaviour
 {
     Animation anim;
 
-    if
+    //if
    
 }

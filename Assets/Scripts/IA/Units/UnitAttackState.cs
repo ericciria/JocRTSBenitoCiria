@@ -7,6 +7,7 @@ public class UnitAttackState : UnitStates
     void UnitStates.OnEnterState(Unit unit)
     {
         //Debug.Log("Enter Attack State");
+        //unit.anim.SetBool
     }
 
     void UnitStates.OnExitState(Unit unit)
