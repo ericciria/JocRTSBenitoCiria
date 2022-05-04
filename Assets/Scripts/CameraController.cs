@@ -158,6 +158,15 @@ public class CameraController : MonoBehaviour, IsSaveable
             releaseSelectionBox();
             selection = false;
         }
+        if (Input.GetKey(KeyCode.Delete))
+        {
+            fusta += building.metalCost / 2;
+            monedes += building.moneyCost / 2;
+            electricitat -= building.energy;
+            Destroy(building.transform.gameObject);
+            building = null;
+        }
+            
     }
 
     private void Move()
@@ -268,7 +277,6 @@ public class CameraController : MonoBehaviour, IsSaveable
                 }
             }
 
-            //Debug.Log(hit.collider.gameObject.tag);
             if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1)
             {
                if( hit.collider.gameObject.GetComponent<Unit>().constructor)
@@ -341,13 +349,42 @@ public class CameraController : MonoBehaviour, IsSaveable
             }
             if (Input.GetMouseButtonDown(1))
             {
-                float asd = 0 - selectedUnits.Count * 1.95f;
+                int pos = 0;
+                Vector3 total = new Vector3(0,0,0);
                 foreach (Unit unit in selectedUnits)
                 {
-                    asd += 2;
                     if (unit != null)
                     {
-                        unit.setObjective(hit, asd);
+                        if (pos == 0)
+                        {
+                            total = unit.transform.position;
+                        }
+                        else
+                        {
+                            total += unit.transform.position;
+                        }
+                        pos++;
+                    }
+                }
+                //finding the center point of all the units positions
+                Vector3 center = total / selectedUnits.Count;  //Center point of grouped units
+                Vector3 offset;
+                
+                foreach (Unit unit in selectedUnits)
+                {
+                    if (unit != null)
+                    {
+                        offset = unit.transform.position - center;
+                        if(offset.x <-5 || offset.x > 5)
+                        {
+                            offset = offset / 4;
+                        }
+                        if (offset.z < -5 || offset.z > 5)
+                        {
+                            offset = offset / 4;
+                        }
+
+                        unit.setObjective(hit, offset);
                     }
                 }
             }

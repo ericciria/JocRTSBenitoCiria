@@ -12,6 +12,8 @@ public class UnitConstructState : UnitStates
         building = unit.target.gameObject.GetComponentInParent<Building>();
         Debug.Log(building);
         unit.agent.SetDestination(unit.transform.position);
+        Vector3 directionToTarget = new Vector3(unit.transform.position.x - unit.target.parent.position.x, 0, unit.transform.position.z - unit.target.parent.position.z); ;
+        float angle = Vector3.Angle(unit.transform.forward, directionToTarget); ;
     }
 
     void UnitStates.OnExitState(Unit unit)
@@ -22,9 +24,14 @@ public class UnitConstructState : UnitStates
 
     UnitStates UnitStates.OnUpdate(Unit unit)
     {
+        
+
         if (unit.target != null && !building.constructed)
         {
             building.Construct();
+
+            unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.position - unit.transform.position), 5 * Time.deltaTime);
+            
         }
         else
         {

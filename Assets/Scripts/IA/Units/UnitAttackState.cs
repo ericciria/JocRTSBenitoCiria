@@ -22,7 +22,7 @@ public class UnitAttackState : UnitStates
         if (unit.target != null)
         {
             distanceToPlayer = Vector3.Distance(unit.target.position, unit.transform.position);
-            directionToTarget = unit.transform.position - unit.target.position;
+            directionToTarget = new Vector3(unit.transform.position.x - unit.target.position.x,0, unit.transform.position.z - unit.target.position.z);
             angle = Vector3.Angle(unit.transform.forward, directionToTarget);
             //Debug.Log(Mathf.Abs(angle));
 

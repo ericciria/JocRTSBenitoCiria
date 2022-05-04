@@ -60,7 +60,7 @@ public class Unit : MonoBehaviour, IsSaveable
         description = unitData.Description;
         icon = unitData.Icon;
         attackDamage = unitData.AttackDamage;
-        typeOfUnit = unitData.TypeOfUnit;
+        typeOfUnit = unitData.name;
         damageMultiplierType = unitData.DamageMultiplierType;
         damageMultiplierAmount = unitData.DamageMultiplierAmount;
         maxHealth = unitData.MaxHealth;
@@ -95,7 +95,7 @@ public class Unit : MonoBehaviour, IsSaveable
 
         agent.speed = unitData.MovementSpeed;
         agent.acceleration = agent.speed - 2;
-        if (typeOfUnit.Equals("Constructor"))
+        if (typeOfUnit.Equals("VehicleConstructor"))
         {
             agent.acceleration = agent.acceleration + 10;
         }
@@ -158,6 +158,44 @@ public class Unit : MonoBehaviour, IsSaveable
         {
             target = null;
             agent.SetDestination(hit.point + new Vector3(offset, 0, 0));
+        }
+    }
+    public void setObjective(RaycastHit hit, Vector3 offset)
+    {
+        if (!constructor)
+        {
+            if (hit.collider.gameObject.tag.Equals("Unit"))
+            {
+                if (hit.collider.gameObject.GetComponent<Unit>().team != team)
+                {
+                    target = hit.collider.gameObject.transform;
+                }
+            }
+            else if (hit.collider.gameObject.tag.Equals("Building"))
+            {
+                if (hit.collider.gameObject.GetComponentInParent<Building>().team != team)
+                {
+                    target = hit.collider.gameObject.transform;
+
+                }
+            }
+            else
+            {
+                target = null;
+                agent.SetDestination(hit.point + offset);
+            }
+        }
+        else if (constructor && hit.collider.gameObject.tag.Equals("Building"))
+        {
+            if (hit.collider.gameObject.GetComponentInParent<Building>().team == team)
+            {
+                target = hit.collider.gameObject.transform;
+            }
+        }
+        else
+        {
+            target = null;
+            agent.SetDestination(hit.point + offset);
         }
     }
 

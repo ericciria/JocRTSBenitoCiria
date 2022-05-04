@@ -31,6 +31,7 @@ public class ObjectLife : MonoBehaviour
                 if (GetComponentInParent<Building>().team == 1)
                 {
                     GameObject.Find("/Camera").GetComponent<CameraController>().buildings.Remove(this.transform.parent.gameObject);
+                    GameObject.Find("/Camera").GetComponent<CameraController>().electricitat -= GetComponentInParent<Building>().energy;
                 }
             }
             Destroy(transform.parent.gameObject);

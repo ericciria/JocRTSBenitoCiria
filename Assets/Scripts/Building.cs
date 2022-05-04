@@ -80,20 +80,14 @@ public class Building : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (constructed && !minant && data.BuildingName.Equals("PetrolPump"))
+        if (constructed && !minant && data.BuildingName.Equals("PetrolPump") && player.electricitat + energy >= 0)
         {
             StartCoroutine(SumarFusta());
         }
-        if (constructed && !minant && data.BuildingName.Equals("Mine"))
+        if (constructed && !minant && data.BuildingName.Equals("Mine") && player.electricitat + energy >= 0)
         {
             StartCoroutine(SumarMonedes());
         }
-        if (constructed && !minant && data.BuildingName.Equals("EnergyPlant"))
-        {
-            minant = true;
-            player.electricitat += energy;
-        }
-
     }
 
     public void Construct()
@@ -109,6 +103,7 @@ public class Building : MonoBehaviour
             {
                 constructed = true;
                 renderer.material = opaqueMat;
+                player.electricitat += energy;
                 AdjustMaterials();
                 //destroyScafolding();
             }
