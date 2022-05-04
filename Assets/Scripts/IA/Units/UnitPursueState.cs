@@ -6,6 +6,7 @@ public class UnitPursueState : UnitStates
 {
     void UnitStates.OnEnterState(Unit unit)
     {
+
         //Debug.Log("Enter Pursue State");
         if (unit.constructor)
         {

@@ -277,6 +277,7 @@ public class CameraController : MonoBehaviour, IsSaveable
                 }
             }
 
+            //Debug.Log(hit.collider.gameObject.tag);
             if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1)
             {
                if( hit.collider.gameObject.GetComponent<Unit>().constructor)
