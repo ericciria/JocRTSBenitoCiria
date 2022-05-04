@@ -68,7 +68,7 @@ public class Unit : MonoBehaviour, IsSaveable
         attackDistance = unitData.AttackDistance;
         attackCooldown = unitData.AttackCooldown;
         constructor = unitData.Constructor;
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
 
         materials = renderer.materials;
 
