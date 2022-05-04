@@ -140,9 +140,13 @@ public class CameraController : MonoBehaviour, IsSaveable
             }
             
         }
-        if(timeSinceLastSpawn > spawnRate && Input.GetKey(KeyCode.E))
+        if(Input.GetKey(KeyCode.E))
         {
             //SpawnUnit();
+            if (building.canSpawn)
+            {
+                building.SpawnUnitActivator(unitPrefabs[0]);
+            }
         }
 
         if (Input.GetMouseButton(0) && selection)
@@ -255,6 +259,14 @@ public class CameraController : MonoBehaviour, IsSaveable
             selectedUnits = new List<Unit>();
             startPos = Input.mousePosition;
             selection = true;
+            if (building != null)
+            {
+                seleccio = building.transform.Find("Selection").gameObject;
+                if (seleccio != null)
+                {
+                    seleccio.SetActive(false);
+                }
+            }
 
             //Debug.Log(hit.collider.gameObject.tag);
             if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1)
@@ -269,6 +281,11 @@ public class CameraController : MonoBehaviour, IsSaveable
             else if(hit.collider.gameObject.tag.Equals("Building") && hit.collider.gameObject.GetComponentInParent<Building>().team == 1)
             {
                 building = hit.collider.gameObject.GetComponentInParent<Building>();
+                seleccio = building.transform.Find("Selection").gameObject;
+                if(seleccio != null)
+                {
+                    seleccio.SetActive(true);
+                }
                 /*if (building.buildingName.Equals("Mina"))
                 {
 

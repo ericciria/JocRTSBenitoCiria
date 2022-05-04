@@ -7,6 +7,7 @@ public class UnitConstructState : UnitStates
     Building building;
     void UnitStates.OnEnterState(Unit unit)
     {
+        unit.anim.SetBool("isBuilding", true);
         Debug.Log("Enter Construct State");
         building = unit.target.gameObject.GetComponentInParent<Building>();
         Debug.Log(building);
@@ -15,6 +16,7 @@ public class UnitConstructState : UnitStates
 
     void UnitStates.OnExitState(Unit unit)
     {
+        unit.anim.SetBool("isBuilding", false);
         //Debug.Log("Exit Construct State");
     }
 

@@ -11,8 +11,7 @@ public class build : MonoBehaviour
     public GameObject build_tanko;
     public GameObject btn_Hosue;
     public GameObject btn_Mina;
-    public GameObject constructor;
-    public GameObject tank;
+    public GameObject[] unitPrefabs;
 
     public CameraController player;
     private Vector3 position;
@@ -74,17 +73,13 @@ public class build : MonoBehaviour
     }
 
 
-    public void spawn_constructor()
+    public void spawnUnit(int prefab)
     {
-        GameObject unit = Instantiate(constructor, player.building.transform.position + new Vector3(0, 0, -2), Quaternion.identity);
-        Unit playerUnit = unit.GetComponentInChildren<Unit>();
-        playerUnit.agent.SetDestination(player.building.transform.position + new Vector3(0,0,-5));
+        UnitData unitData = unitPrefabs[prefab].GetComponentInChildren<Unit>().unitData;
+        player.building.SpawnUnitActivator(unitPrefabs[prefab]);
+        player.monedes -= unitData.MoneyCost;
+        player.fusta -= unitData.MetalCost;
     }
-    public void spawn_tank()
-    {
-        GameObject unit = Instantiate(tank, player.building.transform.position + new Vector3(0, 0, -2), Quaternion.identity);
-        Unit playerUnit = unit.GetComponentInChildren<Unit>();
-        playerUnit.agent.SetDestination(player.building.transform.position + new Vector3(0, 0, -5));
-    }
+
 
 }

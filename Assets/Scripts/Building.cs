@@ -8,13 +8,10 @@ using UnityEngine.UI;
 
 public class Building : MonoBehaviour
 {
-    public bool constructing;
-    public bool constructed;
+    public bool constructing, constructed, canSpawn;
     public Material opaqueMat;
     public int team = 1;
-    public int moneyCost;
-    public int metalCost;
-    public int energy;
+    public int moneyCost, metalCost, energy;
     private int attackDamage;
     public string name;
 
@@ -30,6 +27,8 @@ public class Building : MonoBehaviour
     public Color teamColor;
 
     private bool minant;
+    private float spawnTimer, timerAmount;
+    [SerializeField] GameObject[] spawnableUnits;
     private float t = 0;
 
     public string id;
@@ -51,8 +50,9 @@ public class Building : MonoBehaviour
         life = 1;
         renderer.material.SetColor("_Color", new Color(0.5f, 0.8f, 0.5f, 0.3f));
         minant = false;
+        canSpawn = true;
 
-       
+
         moneyCost = data.MoneyCost;
         metalCost = data.MetalCost;
         energy = data.EnergyCost;
@@ -60,6 +60,7 @@ public class Building : MonoBehaviour
         attackDamage = data.AttackDamage;
         name = data.BuildingName;
         health.setMaxHealth(maxLife);
+        spawnTimer = 10f;
 
         foreach (Material material in materials)
         {
@@ -81,11 +82,11 @@ public class Building : MonoBehaviour
     {
         if (constructed && !minant && data.BuildingName.Equals("PetrolPump"))
         {
-            StartCoroutine(sumarFusta());
+            StartCoroutine(SumarFusta());
         }
         if (constructed && !minant && data.BuildingName.Equals("Mine"))
         {
-            StartCoroutine(sumarMonedes());
+            StartCoroutine(SumarMonedes());
         }
         if (constructed && !minant && data.BuildingName.Equals("EnergyPlant"))
         {
@@ -101,22 +102,20 @@ public class Building : MonoBehaviour
         {
             if (life < maxLife)
             {
-                StartCoroutine(constructTimer());
+                StartCoroutine(ConstructTimer());
                 //Debug.Log("Life: " + life);
-                
             }
             else
             {
                 constructed = true;
                 renderer.material = opaqueMat;
-                adjustMaterials();
-                destroyScafolding();
-
+                AdjustMaterials();
+                //destroyScafolding();
             }
         }
     }
 
-    private void destroyScafolding()
+    private void DestroyScafolding()
     {
         if (transform.childCount>1)
         {
@@ -128,7 +127,7 @@ public class Building : MonoBehaviour
         
     }
 
-    public void adjustMaterials()
+    public void AdjustMaterials()
     {
         if (name.Equals("Mine"))
         {
@@ -147,7 +146,7 @@ public class Building : MonoBehaviour
         }*/
     }
 
-    IEnumerator sumarMonedes()
+    IEnumerator SumarMonedes()
     {
         minant = true;
         yield return new WaitForSeconds(2);
@@ -164,7 +163,7 @@ public class Building : MonoBehaviour
 
     }
 
-    IEnumerator sumarFusta()
+    IEnumerator SumarFusta()
     {
         minant = true;
         yield return new WaitForSeconds(2);
@@ -179,7 +178,7 @@ public class Building : MonoBehaviour
         }
         minant = false;
     }
-    IEnumerator constructTimer()
+    IEnumerator ConstructTimer()
     {
         constructing = true;
 
@@ -197,6 +196,21 @@ public class Building : MonoBehaviour
         //renderer.material.color = Color.Lerp(new Color(0.5f, 0.8f, 0.5f, 0.3f), new Color(1f, 0.5f, 0.5f, 1f), t);
 
         constructing = false;
+    }
+
+    public void SpawnUnitActivator(GameObject unit)
+    {
+        StartCoroutine(SpawnUnit(unit));
+    }
+
+    IEnumerator SpawnUnit(GameObject unit)
+    {
+        canSpawn = false;
+        yield return new WaitForSeconds(1f);
+        GameObject spawnedUnit = Instantiate(unit, this.transform.position, Quaternion.identity) as GameObject;
+        Unit unitComponent = spawnedUnit.GetComponentInChildren<Unit>();
+        unitComponent.agent.SetDestination(this.transform.position - new Vector3(0, 0, +5));
+        canSpawn = true;
     }
 
 }

@@ -238,7 +238,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                 {
                     material.color = new Color(1f, 1f, 1f, 1f);
                 }
-                buildingComponent.adjustMaterials();
+                buildingComponent.AdjustMaterials();
                 buildingComponent.renderer.material = buildingComponent.opaqueMat;
             }
             else

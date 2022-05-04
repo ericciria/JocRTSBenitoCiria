@@ -384,6 +384,7 @@ GameObject:
   - component: {fileID: 7916590262369048863}
   - component: {fileID: 2261305794327264986}
   - component: {fileID: 1275686931344920457}
+  - component: {fileID: 5488867898789607244}
   m_Layer: 5
   m_Name: SpawnTank
   m_TagString: Untagged
@@ -494,16 +495,30 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4706742202442579236}
         m_TargetAssemblyTypeName: build, Assembly-CSharp
-        m_MethodName: spawn_tank
-        m_Mode: 1
+        m_MethodName: spawnUnit
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5488867898789607244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008988577591235152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3e811459a3b9047ab35b0734db7d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitPrefab: {fileID: 6988218168116673968, guid: 8f863777f739b33488d806b71d39e8b4, type: 3}
+  data: {fileID: 0}
 --- !u!1 &2159982271398394895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,6 +1170,7 @@ GameObject:
   - component: {fileID: 9143078108096643660}
   - component: {fileID: 8588071067006806651}
   - component: {fileID: 3288003515298062364}
+  - component: {fileID: 7607891175253241358}
   m_Layer: 5
   m_Name: SpawnConstructor
   m_TagString: Untagged
@@ -1265,8 +1281,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4706742202442579236}
         m_TargetAssemblyTypeName: build, Assembly-CSharp
-        m_MethodName: spawn_constructor
-        m_Mode: 1
+        m_MethodName: spawnUnit
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1275,6 +1291,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7607891175253241358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3553697189027413702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3e811459a3b9047ab35b0734db7d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitPrefab: {fileID: 5993847726292489592, guid: 1545f501e79e9c04e90add453d2a3957, type: 3}
+  data: {fileID: 0}
 --- !u!1 &4033147170725842126
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,8 +1757,7 @@ MonoBehaviour:
   build_tanko: {fileID: 2882113720356147569, guid: 0446b8a03afea7a4989b769f3c04fd3f, type: 3}
   btn_Hosue: {fileID: 4472563727450971805}
   btn_Mina: {fileID: 5366564545082678788}
-  constructor: {fileID: 5993847726292489592, guid: 1545f501e79e9c04e90add453d2a3957, type: 3}
-  tank: {fileID: 0}
+  unitPrefabs: []
   player: {fileID: 0}
 --- !u!1 &4472563727450971805
 GameObject:
