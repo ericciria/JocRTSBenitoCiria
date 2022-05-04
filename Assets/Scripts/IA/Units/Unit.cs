@@ -69,6 +69,7 @@ public class Unit : MonoBehaviour, IsSaveable
         attackCooldown = unitData.AttackCooldown;
         constructor = unitData.Constructor;
         anim = GetComponentInChildren<Animator>();
+        Debug.Log(anim);
 
         materials = renderer.materials;
 
