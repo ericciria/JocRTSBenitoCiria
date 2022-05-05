@@ -10,6 +10,7 @@ public class build : MonoBehaviour
     public GameObject build_millores;
     public GameObject build_tanko;
     public GameObject build_paleta;
+    public GameObject build_basemilitar;
     public GameObject btn_Hosue;
     public GameObject btn_Mina;
     public GameObject[] unitPrefabs;
@@ -81,6 +82,16 @@ public class build : MonoBehaviour
             Destroy(blueprint);
         }
         Instantiate(build_paleta);
+    }
+
+    public void spawn_base()
+    {
+        GameObject blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+        if (blueprint != null)
+        {
+            Destroy(blueprint);
+        }
+        Instantiate(build_basemilitar);
     }
 
     public void spawnUnit(int prefab)
