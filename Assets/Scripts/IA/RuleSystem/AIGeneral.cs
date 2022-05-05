@@ -226,8 +226,9 @@ public class AIGeneral : MonoBehaviour
         {
             if (constructor.currentState.ToString().Equals("UnitIdleState"))
             {
-                building = SpawnBuilding(buildingsPrefabs[1], minePosition).GetComponent<Building>();
+                building = SpawnBuilding(buildingsPrefabs[1], minePosition);
                 constructor.target = building.transform;
+                Debug.LogWarning(building.transform);
                 break;
             }
         }
@@ -507,14 +508,12 @@ public class AIGeneral : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(randomPosition, 3);
             if (hitColliders.Length > 1)
             {
-                Debug.LogWarning(hitColliders.Length);
                 randomPosition = RandomPointOnCircleEdge(dangerDistance/2);
             }
             else
             {
                 break;
             }
-            Debug.LogWarning(hitColliders[0].name);
             
             unstuck++;
         }

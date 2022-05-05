@@ -35,7 +35,7 @@ public class ObjectLife : MonoBehaviour
                     player.electricitat -= GetComponentInParent<Building>().energy;
                     if (GetComponentInParent<Building>().name.Equals("Base"))
                     {
-                        // Activar gameover
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
                     }
                     if (player.electricitat < 0)
                     {
@@ -56,7 +56,7 @@ public class ObjectLife : MonoBehaviour
                     GameObject.Find("/AIGeneral").GetComponent<AIGeneral>().energia -= GetComponentInParent<Building>().energy;
                     if (GetComponentInParent<Building>().name.Equals("Base"))
                     {
-                        // Activar victoria
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("GameWin");
                     }
                 }
             }

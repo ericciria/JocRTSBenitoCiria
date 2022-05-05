@@ -10,6 +10,7 @@ public class SaveSystemComplet : MonoBehaviour, IsSaveable
     Dictionary<string, object> data = new Dictionary<string, object>();
     private string escena;
     SceneLoader sceneLoader;
+    
 
     private void Awake()
     {
@@ -25,8 +26,8 @@ public class SaveSystemComplet : MonoBehaviour, IsSaveable
     private void Start()
     {
         sceneLoader = GameObject.Find("/SceneLoader").GetComponent<SceneLoader>();
+        
     }
-
 
     public void Save()
     {

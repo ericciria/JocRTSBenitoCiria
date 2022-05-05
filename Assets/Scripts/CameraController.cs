@@ -107,8 +107,8 @@ public class CameraController : MonoBehaviour, IsSaveable
         textMonedes = GameObject.Find("/Canvas/monedes").GetComponent<Text>();
         textFusta = GameObject.Find("/Canvas/fusta").GetComponent<Text>();
 
-        monedes = 2000;
-        fusta = 500;
+        monedes = 4000;
+        fusta = 1000;
         
         team = 1;
     }
@@ -296,7 +296,7 @@ public class CameraController : MonoBehaviour, IsSaveable
                 {
                     seleccio.SetActive(true);
                 }
-                if (building.name.Equals("WarFactory"))
+                if (building.name.Equals("WarFactory") && building.constructed)
                 {
                     buttonTankOcultar.SetActive(true);
                 }

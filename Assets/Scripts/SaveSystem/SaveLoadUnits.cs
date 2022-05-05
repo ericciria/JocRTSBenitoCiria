@@ -39,6 +39,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         
         int pos = 0;
         GameObject[] unitsSave = GameObject.FindGameObjectsWithTag("Unit");
+        Debug.LogWarning(unitsSave.Length);
 
         data.unitTypes = new string[unitsSave.Length];
         data.unitsHealth = new float[unitsSave.Length];
@@ -70,13 +71,19 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
 
             if (unitData.target!= null)
             {
+                Debug.LogWarning(unitData.target);
                 if (unitData.target.gameObject.tag.Equals("Building"))
                 {
                     data.targetsID[pos] = unitData.target.gameObject.GetComponentInParent<Building>().id;
                 }
-                else 
+                else if (unitData.target.gameObject.tag.Equals("Unit"))
                 {
                     data.targetsID[pos] = unitData.target.gameObject.GetComponent<Unit>().id;
+                }
+                else 
+                {
+                    data.targetsID[pos] = unitData.target.gameObject.GetComponent<Building>().id;
+
                 }
                 
             }
@@ -93,6 +100,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
 
         pos = 0;
         GameObject[] buildingsSave = GameObject.FindGameObjectsWithTag("Building");
+        Debug.LogWarning(buildingsSave.Length);
 
         data.buildingTypes = new string[buildingsSave.Length];
         data.buildingsHealth = new float[buildingsSave.Length];
@@ -117,7 +125,14 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                 data.buildingsPositions[pos, 1] = building.transform.position.y-1.5f;
                 data.buildingsPositions[pos, 2] = building.transform.position.z-1f;
             }
-            else{
+            else if (buildingData.data.BuildingName.Equals("Base"))
+            {
+                data.buildingsPositions[pos, 0] = building.transform.position.x ;
+                data.buildingsPositions[pos, 1] = building.transform.position.y - 2f;
+                data.buildingsPositions[pos, 2] = building.transform.position.z ;
+            }
+            else
+            {
                 data.buildingsPositions[pos, 0] = building.transform.position.x;
                 data.buildingsPositions[pos, 1] = building.transform.position.y;
                 data.buildingsPositions[pos, 2] = building.transform.position.z;
@@ -216,6 +231,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         pos = 0;
         foreach (string buildingType in data.buildingTypes)
         {
+            Debug.LogWarning(buildingType);
             ////// --------------  Arreglar quan hi haguin tots els edificis ------------------------ //////////////
             GameObject building = null;
             switch(buildingType)
@@ -234,6 +250,9 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                     break;
                 case "WarFactory":
                     numType = 4;
+                    break;
+                case "Base":
+                    numType = 5;
                     break;
 
 
@@ -280,7 +299,6 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                 {
                     if (target.id == data.targetsID[pos])
                     {
-                        Debug.LogWarning("AAAAAAAAAAAAAAAAAAAAAA");
                         unit.target = target.transform;
                         break;
                     }
@@ -292,13 +310,11 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                     {
                         if (target.id == data.targetsID[pos])
                         {
-                            Debug.LogWarning("BBBBBBBBBBBBBBBBBBBBBBB");
                             unit.target = target.GetComponentInChildren<Transform>();
                             break;
                         }
                     }
                 }
-            Debug.LogWarning(unit.target);
             
             pos ++;
         }
