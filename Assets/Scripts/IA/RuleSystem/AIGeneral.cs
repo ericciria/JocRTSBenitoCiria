@@ -14,6 +14,7 @@ public class AIGeneral : MonoBehaviour
     public List<Unit> enemies;
     public List<Unit> constructors;
     public List<Building> buildings;
+    public Building enemyBase;
     private Unit enemy;
 
     public GameObject nearestEnemy;
@@ -71,6 +72,8 @@ public class AIGeneral : MonoBehaviour
         enemies = new List<Unit>();
         constructors = new List<Unit>();
         buildings = new List<Building>();
+
+        enemyBase = GameObject.Find("/EnemyBase").GetComponent<Building>();
     }
 
     void Start()
@@ -187,11 +190,17 @@ public class AIGeneral : MonoBehaviour
     // Condició 2 - Si hi menys de 2 constructors i hi han prous recursos spawneja constructors
     private bool Condition2()
     {
-        return constructors.Count<2 && monedes>200 && metall>50;
+        bool canSpawn = false;
+        if (enemyBase!=null && enemyBase.canSpawn)
+        {
+            canSpawn=true;
+        }
+        
+        return constructors.Count<2 && monedes>200 && metall>50 && canSpawn;
     }
     private void Action2()
     {
-        unit1 = SpawnEnemy(enemyPrefabs[1], this.transform.position, this.transform.position);
+        unit1 = SpawnEnemy(enemyPrefabs[1], enemyBase.transform.position, enemyBase.transform.position-new Vector3(0,0,10));
         constructors.Add(unit1);
     }
 
@@ -266,11 +275,16 @@ public class AIGeneral : MonoBehaviour
     }
     private bool Condition5()
     {
-        return constructors.Count < 3 && monedes > 500 && metall > 50;
+        bool canSpawn = false;
+        if (enemyBase != null && enemyBase.canSpawn)
+        {
+            canSpawn = true;
+        }
+        return constructors.Count < 3 && monedes > 500 && metall > 50 && canSpawn;
     }
     private void Action5()
     {
-        unit1 = SpawnEnemy(enemyPrefabs[1], this.transform.position, this.transform.position);
+        unit1 = SpawnEnemy(enemyPrefabs[1], enemyBase.transform.position, enemyBase.transform.position - new Vector3(0, 0, 10));
         constructors.Add(unit1);
     }
     private bool Condition6()

@@ -33,6 +33,10 @@ public class ObjectLife : MonoBehaviour
                     CameraController player = GameObject.Find("/Camera").GetComponent<CameraController>();
                     player.buildings.Remove(transform.parent.gameObject);
                     player.electricitat -= GetComponentInParent<Building>().energy;
+                    if (GetComponentInParent<Building>().name.Equals("Base"))
+                    {
+                        // Activar gameover
+                    }
                     if (player.electricitat < 0)
                     {
                         GameObject.Find("/Canvas/Slider/Background").GetComponent<Image>().color = Color.red;
@@ -50,6 +54,10 @@ public class ObjectLife : MonoBehaviour
                 {
                     GameObject.Find("/AIGeneral").GetComponent<AIGeneral>().buildings.Remove(GetComponentInParent<Building>());
                     GameObject.Find("/AIGeneral").GetComponent<AIGeneral>().energia -= GetComponentInParent<Building>().energy;
+                    if (GetComponentInParent<Building>().name.Equals("Base"))
+                    {
+                        // Activar victoria
+                    }
                 }
             }
             Destroy(transform.parent.gameObject);
