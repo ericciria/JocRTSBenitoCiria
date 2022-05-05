@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4883379017249741240}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.0091747, y: 1.7715, z: -0.069432}
+  m_LocalScale: {x: 0.26699, y: 0.26699, z: 0.26699}
   m_Children:
   - {fileID: 4883379017315459182}
   m_Father: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constructing: 0
   constructed: 0
+  canSpawn: 0
   opaqueMat: {fileID: -3577734810388428211, guid: 13b11490d7657fb4f8f0962f52fd1f6f, type: 3}
   team: 1
   moneyCost: 0
@@ -60,6 +61,8 @@ MonoBehaviour:
   player: {fileID: 0}
   data: {fileID: 11400000, guid: 47eb1d159fcc4e74fba087d48fd0c080, type: 2}
   materials: []
+  teamColor: {r: 0, g: 0, b: 0, a: 0}
+  spawnableUnits: []
   id: 
 --- !u!114 &8836701102031066094
 MonoBehaviour:
