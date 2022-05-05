@@ -23,7 +23,7 @@ public class UnitAttackState : UnitStates
         if (unit.target != null)
         {
             distanceToPlayer = Vector3.Distance(unit.target.position, unit.transform.position);
-            directionToTarget = unit.transform.position - unit.target.position;
+            directionToTarget = new Vector3(unit.transform.position.x - unit.target.position.x,0, unit.transform.position.z - unit.target.position.z);
             angle = Vector3.Angle(unit.transform.forward, directionToTarget);
             //Debug.Log(Mathf.Abs(angle));
 
@@ -37,8 +37,8 @@ public class UnitAttackState : UnitStates
                 {
                     
                     unit.GetComponent<ParticleSystem>().Play();
-                    Debug.Log("Attack");
-                    unit.anim.SetBool("shoot",true);
+                    //Debug.Log("Attack");
+                    //unit.anim.SetBool("shoot",true);
                     if (unit.target.GetComponent<Unit>() != null)
                     {
                         if (unit.target.GetComponent<Unit>().typeOfUnit.Equals(unit.damageMultiplierType))
@@ -108,7 +108,7 @@ public class UnitAttackState : UnitStates
         {
             return new UnitIdleState();
         }
-        unit.anim.SetBool("shoot", false);
+        //unit.anim.SetBool("shoot", false);
         return null;
     }
 }

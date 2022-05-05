@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UnitsButtonManager : MonoBehaviour
+public class UnitsButtonManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
     [SerializeField] GameObject unitPrefab;
@@ -34,7 +34,7 @@ public class UnitsButtonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.building.canSpawn && player.fusta >= metal && player.monedes >= money)
+        if (player.building.canSpawn && player.fusta >= metal && player.monedes >= money && player.electricitat>=0)
         {
             button.interactable = true;
         }

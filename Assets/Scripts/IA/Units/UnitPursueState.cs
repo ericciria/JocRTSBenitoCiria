@@ -8,7 +8,11 @@ public class UnitPursueState : UnitStates
     {
 
         //Debug.Log("Enter Pursue State");
-        unit.anim.SetBool("walk", true);
+        if (unit.anim != null)
+        {
+            unit.anim.SetBool("walk", true);
+        }
+        
         if (unit.constructor)
         {
             unit.agent.SetDestination(unit.target.position);
@@ -18,7 +22,10 @@ public class UnitPursueState : UnitStates
     void UnitStates.OnExitState(Unit unit)
     {
         //Debug.Log("Exit Pursue State");
-        unit.anim.SetBool("walk", false);
+        if (unit.anim != null)
+        {
+            unit.anim.SetBool("walk", false);
+        }
     }
 
     UnitStates UnitStates.OnUpdate(Unit unit)

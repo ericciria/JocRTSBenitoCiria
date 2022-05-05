@@ -13,12 +13,12 @@ public class AIGeneral : MonoBehaviour
     [SerializeField] Transform spawnPoint;
     private List<Unit> enemies;
     private List<Unit> constructors;
-    private List<Building> buildings;
+    public List<Building> buildings;
     private Unit enemy;
 
     public GameObject nearestEnemy;
 
-    [SerializeField] float evaluationRate = 1f;
+    [SerializeField] float evaluationRate = 100f;
     private float timeSinceLastEvaluation = Mathf.Infinity;
 
     [SerializeField] float spawnRate = 10f;
@@ -49,12 +49,24 @@ public class AIGeneral : MonoBehaviour
         conditions.Add(Condition4);
         conditions.Add(Condition5);
         conditions.Add(Condition6);
+        conditions.Add(Condition7);
+        conditions.Add(Condition8);
+        conditions.Add(Condition9);
+        /*conditions.Add(Condition10);
+        conditions.Add(Condition11);
+        conditions.Add(Condition12);*/
         actions.Add(Action1);
         actions.Add(Action2);
         actions.Add(Action3);
         actions.Add(Action4);
         actions.Add(Action5);
         actions.Add(Action6);
+        actions.Add(Action7);
+        actions.Add(Action8);
+        actions.Add(Action9);
+        /*actions.Add(Action10);
+        actions.Add(Action11);
+        actions.Add(Action12);*/
     }
 
     void Start()
@@ -63,13 +75,10 @@ public class AIGeneral : MonoBehaviour
         constructors = new List<Unit>();
         buildings = new List<Building>();
         start = false;
-        unit1 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[1].position);
-        unit2 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[2].position);
-        unit3 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[3].position);
-        unit4 = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[4].position);
 
         metall = 500;
         monedes = 3000;
+        energia = 0;
 
         StartCoroutine(startAI());
     }
@@ -80,17 +89,12 @@ public class AIGeneral : MonoBehaviour
         if (timeSinceLastEvaluation > evaluationRate && start)
         {
             Evaluate();
-            StartCoroutine(checkClosestEnemy());
             timeSinceLastEvaluation = 0;
         }
         timeSinceLastSpawn += Time.deltaTime;
         if (timeSinceLastSpawn > spawnRate && Input.GetKey(KeyCode.L))
         {
             start = true;
-            //enemy = SpawnEnemy();
-            //enemies.Add(enemy);
-            //Debug.Log(enemies.Count);
-            //timeSinceLastSpawn = 0;
         }
         if (Input.GetKey(KeyCode.C))
         {
@@ -142,63 +146,92 @@ public class AIGeneral : MonoBehaviour
             if (conditions[i]())
             {
                 actions[i]();
+                //Debug.LogWarning(i);
                 break;
             }
         }
     }
 
+    // Condició 1 - Si hi ha un edifici ferit envia totes les unitats a atacar a la unitat del jugador mes aprop de la base
     private bool Condition1()
     {
-        return constructors.Count<2 && monedes>200 && metall>50;
+        bool ret = false;
+        foreach(Building building in buildings)
+        {
+            if(building.constructed && building.health.getHealth()< building.health.maxHealth)
+            {
+                ret = true;
+                break;
+            }
+        }
+        return ret;
     }
     private void Action1()
     {
+        GameObject nearestEnemy = FindClosestEnemy();
+        foreach(Unit unit in enemies)
+        {
+            unit.target = nearestEnemy.transform;
+        }
+        foreach (Unit constructor in constructors)
+        {
+            if (constructor.currentState.ToString().Equals("UnitIdleState"))
+            {
+                break;
+            }
+        }
+    }
+
+    // Condició 2 - Si hi menys de 2 constructors i hi han prous recursos spawneja constructors
+    private bool Condition2()
+    {
+        return constructors.Count<2 && monedes>200 && metall>50;
+    }
+    private void Action2()
+    {
         unit1 = SpawnEnemy(enemyPrefabs[1], this.transform.position, this.transform.position);
         constructors.Add(unit1);
-        monedes -= 200;
-        metall -= 50;
     }
-    private bool Condition2()
+
+    // Condició 3 - Si hi menys de 2 mines, hi han constructors lliures i hi han prous recursos spawneja mines i envia constructors a construïr
+    private bool Condition3()
     {
         int mina = 0;
         foreach(Building building in buildings)
         {
+            
             if (building.name.Equals("Mine"))
             {
                 mina ++;
             }
         }
-        return mina<2 && monedes > 500;
+        return (mina<2 && monedes > 500 && energia >= 5);
     }
-    private void Action2()
+    private void Action3()
     {
         Building building = null;
         Vector3 minePosition = checkClosestUnoccupiedMineral();
-        //Building mina = SpawnBuilding(buildingsPrefabs[1], minePosition);
         foreach (Unit constructor in constructors)
         {
             if (constructor.currentState.ToString().Equals("UnitIdleState"))
             {
                 building = SpawnBuilding(buildingsPrefabs[1], minePosition).GetComponent<Building>();
-                monedes -= 500;
                 constructor.target = building.transform;
                 break;
             }
         }
         buildings.Add(building);
     }
-    private bool Condition3()
+    private bool Condition4()
     {
-        bool petrolPump = false;
         bool canConstruct = false;
         int petrolPumps = 0;
         foreach (Building building in buildings)
         {
-            if (building.name.Equals("Mine"))
+            Debug.Log(building.name);
+            if (building.name.Equals("PetrolPump"))
             {
-                petrolPump = true;
                 petrolPumps++;
-                break;
             }
         }
         foreach (Unit constructor in constructors)
@@ -210,60 +243,55 @@ public class AIGeneral : MonoBehaviour
             }
         }
         //return !petrolPump && monedes > 400 && metall > 100;
-        return petrolPumps < 5 && monedes > 400 && metall > 100 && canConstruct;
+        return petrolPumps < 5 && monedes > 400 && metall > 100 && canConstruct && energia >=5;
     }
-    private void Action3()
+    private void Action4()
     {
         Building building = null;
         Vector3 position = checkIfCanBuild();
-        bool canConstruct = false;
         //Building mina = SpawnBuilding(buildingsPrefabs[1], minePosition);
         foreach (Unit constructor in constructors)
         {
             if (constructor.currentState.ToString().Equals("UnitIdleState"))
             {
                 building = SpawnBuilding(buildingsPrefabs[0], position).GetComponent<Building>();
-                monedes -= 500;
+                buildings.Add(building);
                 constructor.target = building.transform;
                 buildings.Add(building);
                 break;
             }
         }  
     }
-    private bool Condition4()
+    private bool Condition5()
     {
         return constructors.Count < 3 && monedes > 500 && metall > 50;
     }
-    private void Action4()
+    private void Action5()
     {
         unit1 = SpawnEnemy(enemyPrefabs[1], this.transform.position, this.transform.position);
         constructors.Add(unit1);
-        monedes -= 500;
-        metall -= 50;
     }
-    private bool Condition5()
+    private bool Condition6()
     {
         int mina = 0;
         foreach (Building building in buildings)
         {
-            if (building.name.Equals("PetrolPump"))
+            if (building.name.Equals("Mine"))
             {
                 mina++;
             }
         }
         return mina<2 && monedes > 500;
     }
-    private void Action5()
+    private void Action6()
     {
         Building building = null;
         Vector3 minePosition = checkClosestUnoccupiedMineral();
-        //Building mina = SpawnBuilding(buildingsPrefabs[1], minePosition);
         foreach (Unit constructor in constructors)
         {
             if (constructor.currentState.ToString().Equals("UnitIdleState"))
             {
                 building = SpawnBuilding(buildingsPrefabs[1], minePosition).GetComponent<Building>();
-                monedes -= 500;
                 constructor.target = building.transform;
                 buildings.Add(building);
                 break;
@@ -271,16 +299,73 @@ public class AIGeneral : MonoBehaviour
         }
         
     }
-    private bool Condition6()
+    private bool Condition7()
     {
-        return enemies.Count < 4 && monedes > 200 && metall > 300;
+        return energia<20 && monedes > 200 && metall > 50;
     }
-    private void Action6()
+    private void Action7()
     {
-        Unit unit = SpawnEnemy(enemyPrefabs[0], this.transform.position, points[1].position);
+        Building building = null;
+        Vector3 minePosition = checkIfCanBuild();
+        foreach (Unit constructor in constructors)
+        {
+            if (constructor.currentState.ToString().Equals("UnitIdleState"))
+            {
+                building = SpawnBuilding(buildingsPrefabs[2], minePosition).GetComponent<Building>();
+                constructor.target = building.transform;
+                buildings.Add(building);
+                break;
+            }
+        }
+
+    }
+    private bool Condition8()
+    {
+        int WarFactory = 0;
+        foreach (Building building in buildings)
+        {
+            if (building.name.Equals("WarFactory"))
+            {
+                WarFactory++;
+            }
+        }
+        return WarFactory < 1 && monedes > 800 && metall > 100;
+    }
+    private void Action8()
+    {
+        Building building = null;
+        Vector3 position = checkIfCanBuild();
+        foreach (Unit constructor in constructors)
+        {
+            if (constructor.currentState.ToString().Equals("UnitIdleState"))
+            {
+                building = SpawnBuilding(buildingsPrefabs[3], position).GetComponent<Building>();
+                buildings.Add(building);
+                constructor.target = building.transform;
+                buildings.Add(building);
+                break;
+            }
+        }
+    }
+
+    private bool Condition9()
+    {
+        int warFactory = 0;
+        foreach (Building building in buildings)
+        {
+            if (building.name.Equals("WarFactory") && building.constructed)
+            {
+                warFactory++;
+                spawnPoint = building.transform;
+                break;
+            }
+        }
+        return enemies.Count < 4 && monedes > 200 && metall > 300 && warFactory>0;
+    }
+    private void Action9()
+    {
+        Unit unit = SpawnEnemy(enemyPrefabs[0], spawnPoint.position, points[1].position);
         enemies.Add(unit);
-        monedes -= 200;
-        metall -= 300;
         GameObject target = FindClosestEnemy();
         if (target != null)
         {
@@ -291,7 +376,7 @@ public class AIGeneral : MonoBehaviour
             target = FindClosestEnemyBuilding();
             unit.target = target.transform;
         }
-        
+
     }
 
     //(int level, int hp)
@@ -301,7 +386,8 @@ public class AIGeneral : MonoBehaviour
         GameObject enemy =
             Instantiate(prefab, point, Quaternion.identity) as GameObject;
         Unit enemyUnit = enemy.GetComponentInChildren<Unit>();
-        
+        RestarRecursos(enemyUnit.unitData.MoneyCost, enemyUnit.unitData.MetalCost);
+
         enemyUnit.team = 2;
         enemyUnit.agent.SetDestination(destination);
 
@@ -310,12 +396,18 @@ public class AIGeneral : MonoBehaviour
     public Building SpawnBuilding(GameObject prefab, Vector3 point)
     {
         timeSinceLastSpawn = 0;
-        GameObject enemy =
-            Instantiate(prefab, point, Quaternion.identity) as GameObject;
+        GameObject enemy = Instantiate(prefab, point, Quaternion.identity) as GameObject;
         Building enemyBuilding = enemy.GetComponent<Building>();
         enemyBuilding.team = 2;
 
+        RestarRecursos(enemyBuilding.data.MoneyCost, enemyBuilding.data.MetalCost);        
+
         return enemyBuilding;
+    }
+    public void RestarRecursos(int money, int metal)
+    {
+        metall -= metal;
+        monedes -= money;
     }
 
     public GameObject FindClosestEnemy()
@@ -393,14 +485,14 @@ public class AIGeneral : MonoBehaviour
     {
         int unstuck = 0;
         bool canbuild = false;
-        Vector3 randomPosition = RandomPointOnCircleEdge(dangerDistance);
+        Vector3 randomPosition = RandomPointOnCircleEdge(dangerDistance/2);
         while (unstuck<20 || canbuild)
         {
             Collider[] hitColliders = Physics.OverlapSphere(randomPosition, 3);
             if (hitColliders.Length > 1)
             {
                 Debug.LogWarning(hitColliders.Length);
-                randomPosition = RandomPointOnCircleEdge(dangerDistance);
+                randomPosition = RandomPointOnCircleEdge(dangerDistance/2);
             }
             else
             {
@@ -411,12 +503,6 @@ public class AIGeneral : MonoBehaviour
             unstuck++;
         }
         return randomPosition;
-    }
-
-    IEnumerator checkClosestEnemy()
-    {
-        yield return new WaitForSeconds(2);
-        //nearestEnemy = FindClosestEnemy();
     }
 
     IEnumerator startAI()

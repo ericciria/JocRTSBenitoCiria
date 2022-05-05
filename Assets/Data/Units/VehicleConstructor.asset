@@ -18,7 +18,7 @@ MonoBehaviour:
   moneyCost: 200
   metalCost: 50
   attackDamage: 0
-  typeOfUnit: Vehicle
+  typeOfUnit: Infantry
   damageMultiplierType: 
   damageMultiplierAmount: 0
   maxHealth: 100

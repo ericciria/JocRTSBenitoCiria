@@ -82,18 +82,27 @@ public class Building : MonoBehaviour
     {
         if (constructed && !minant && data.BuildingName.Equals("PetrolPump"))
         {
-            StartCoroutine(SumarFusta());
+            if(team==1 && player.electricitat >= 0)
+            {
+                StartCoroutine(SumarFusta());
+            }
+            else if(team==2 && aiGeneral.energia >= 0)
+            {
+                StartCoroutine(SumarFusta());
+            }
+            
         }
         if (constructed && !minant && data.BuildingName.Equals("Mine"))
         {
-            StartCoroutine(SumarMonedes());
+            if (team == 1 && player.electricitat >= 0)
+            {
+                StartCoroutine(SumarMonedes());
+            }
+            else if (team == 2 && aiGeneral.energia >= 0)
+            {
+                StartCoroutine(SumarMonedes());
+            }
         }
-        if (constructed && !minant && data.BuildingName.Equals("EnergyPlant"))
-        {
-            minant = true;
-            player.electricitat += energy;
-        }
-
     }
 
     public void Construct()
@@ -109,6 +118,14 @@ public class Building : MonoBehaviour
             {
                 constructed = true;
                 renderer.material = opaqueMat;
+                if (team == 1)
+                {
+                    player.electricitat += energy;
+                }
+                else
+                {
+                    aiGeneral.energia += energy;
+                }
                 AdjustMaterials();
                 //destroyScafolding();
             }

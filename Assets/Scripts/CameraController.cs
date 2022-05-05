@@ -158,6 +158,15 @@ public class CameraController : MonoBehaviour, IsSaveable
             releaseSelectionBox();
             selection = false;
         }
+        if (Input.GetKey(KeyCode.Delete))
+        {
+            fusta += building.metalCost / 2;
+            monedes += building.moneyCost / 2;
+            electricitat -= building.energy;
+            Destroy(building.transform.gameObject);
+            building = null;
+        }
+            
     }
 
     private void Move()
@@ -269,6 +278,7 @@ public class CameraController : MonoBehaviour, IsSaveable
             }
 
             Debug.Log(hit.collider.gameObject.tag);
+            Debug.Log(hit.collider.gameObject.GetComponentInParent<Building>());
             if (hit.collider.gameObject.tag.Equals("Unit") && hit.collider.gameObject.GetComponent<Unit>().team == 1)
             {
                if( hit.collider.gameObject.GetComponent<Unit>().constructor)
@@ -286,13 +296,22 @@ public class CameraController : MonoBehaviour, IsSaveable
                 {
                     seleccio.SetActive(true);
                 }
-                /*if (building.buildingName.Equals("Mina"))
+                if (building.name.Equals("WarFactory"))
+                {
+                    buttonTankOcultar.SetActive(true);
+                }
+                if (building.name.Equals("Base"))
+                {
+                    buttonConstructorOcultar.SetActive(true);
+                }
+                if (building.name.Equals("Barracks"))
                 {
 
-                }*/
-                buttonMilloraOcultar.SetActive(true);
-                buttonConstructorOcultar.SetActive(true);
-                buttonTankOcultar.SetActive(true);
+                }
+                if (building.name.Equals("LogisticCenter"))
+                {
+                    buttonMilloraOcultar.SetActive(true);
+                }
             }
         }
         if (Input.GetMouseButton(0) && selection)
@@ -341,13 +360,42 @@ public class CameraController : MonoBehaviour, IsSaveable
             }
             if (Input.GetMouseButtonDown(1))
             {
-                float asd = 0 - selectedUnits.Count * 1.95f;
+                int pos = 0;
+                Vector3 total = new Vector3(0,0,0);
                 foreach (Unit unit in selectedUnits)
                 {
-                    asd += 2;
                     if (unit != null)
                     {
-                        unit.setObjective(hit, asd);
+                        if (pos == 0)
+                        {
+                            total = unit.transform.position;
+                        }
+                        else
+                        {
+                            total += unit.transform.position;
+                        }
+                        pos++;
+                    }
+                }
+                //finding the center point of all the units positions
+                Vector3 center = total / selectedUnits.Count;  //Center point of grouped units
+                Vector3 offset;
+                
+                foreach (Unit unit in selectedUnits)
+                {
+                    if (unit != null)
+                    {
+                        offset = unit.transform.position - center;
+                        if(offset.x <-5 || offset.x > 5)
+                        {
+                            offset = offset / 4;
+                        }
+                        if (offset.z < -5 || offset.z > 5)
+                        {
+                            offset = offset / 4;
+                        }
+
+                        unit.setObjective(hit, offset);
                     }
                 }
             }
@@ -365,17 +413,6 @@ public class CameraController : MonoBehaviour, IsSaveable
             ChangeCursor(CursorTypes.DEFAULT);
         }
     }
-
-    /*public AIPlayerunit SpawnUnit()
-    {
-        timeSinceLastSpawn = 0;
-        GameObject unit =
-            Instantiate(unitPrefab, spawnPoint1.position, Quaternion.identity) as GameObject;
-        AIPlayerunit playerUnit = unit.GetComponentInChildren<AIPlayerunit>();
-        playerUnit.agent.SetDestination(spawnPoint2.position);
-
-        return playerUnit;
-    }*/
 
     void updateSelectionBox(Vector2 cursor)
     {
@@ -430,25 +467,6 @@ public class CameraController : MonoBehaviour, IsSaveable
         textMonedes.text = monedes.ToString();
         textFusta.text = fusta.ToString();
         consum.value = electricitat;
-
-        /*if (monedes >= 100)
-        {
-            buttonmina.interactable = true;
-            buttonFabrica.interactable = true;
-        }
-        else
-        {
-            buttonmina.interactable = false;
-            buttonFabrica.interactable = false;
-        }
-        if (monedes >= 10)
-        {
-            buttonMilloraOcultar.GetComponent<Button>().interactable = true;
-        }
-        else
-        {
-            buttonMilloraOcultar.GetComponent<Button>().interactable = false;
-        }*/
     }
     void selectUnit(GameObject unit)
     {
