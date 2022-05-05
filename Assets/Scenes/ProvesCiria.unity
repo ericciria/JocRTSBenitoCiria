@@ -2848,6 +2848,8 @@ MonoBehaviour:
   attackCooldown: 0
   timeSinceLastAttack: Infinity
   nearestEnemy: {fileID: 0}
+  moneyCost: 0
+  metalCost: 0
   health: 0
   objectLife: {fileID: 0}
   team: 1
@@ -8228,8 +8230,9 @@ MonoBehaviour:
   - {fileID: 4085825007557735938, guid: 641d6c502698e834babcfa5d277ab366, type: 3}
   - {fileID: 4883379017249741240, guid: f9a59741c98282d438bba7aae3906acc, type: 3}
   spawnPoint: {fileID: 0}
+  buildings: []
   nearestEnemy: {fileID: 0}
-  evaluationRate: 1
+  evaluationRate: 2
   spawnRate: 10
   points:
   - {fileID: 643587741}

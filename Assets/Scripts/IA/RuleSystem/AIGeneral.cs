@@ -11,8 +11,8 @@ public class AIGeneral : MonoBehaviour
     [SerializeField] GameObject[] buildingsPrefabs;
 
     [SerializeField] Transform spawnPoint;
-    private List<Unit> enemies;
-    private List<Unit> constructors;
+    public List<Unit> enemies;
+    public List<Unit> constructors;
     public List<Building> buildings;
     private Unit enemy;
 
@@ -67,13 +67,15 @@ public class AIGeneral : MonoBehaviour
         /*actions.Add(Action10);
         actions.Add(Action11);
         actions.Add(Action12);*/
+
+        enemies = new List<Unit>();
+        constructors = new List<Unit>();
+        buildings = new List<Building>();
     }
 
     void Start()
     {
-        enemies = new List<Unit>();
-        constructors = new List<Unit>();
-        buildings = new List<Building>();
+        
         start = false;
 
         metall = 500;

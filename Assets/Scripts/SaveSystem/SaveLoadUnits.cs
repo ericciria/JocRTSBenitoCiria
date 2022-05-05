@@ -74,7 +74,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                 {
                     data.targetsID[pos] = unitData.target.gameObject.GetComponentInParent<Building>().id;
                 }
-                else
+                else 
                 {
                     data.targetsID[pos] = unitData.target.gameObject.GetComponent<Unit>().id;
                 }
@@ -82,7 +82,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
             }
             else
             {
-                data.targetsID[pos] = null;
+                data.targetsID[pos] = "";
             }
             
 
@@ -159,7 +159,11 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         if (general != null)
         {
             aiGeneral = GameObject.Find("/AIGeneral").GetComponent<AIGeneral>();
-        };
+        }
+        else
+        {
+            aiGeneral = general.GetComponent<AIGeneral>();
+        }
 
         units = new Unit[data.unitTypes.Length];
         buildings = new Building[data.buildingTypes.Length];
@@ -167,24 +171,40 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         int pos = 0;
         foreach (string unitType in data.unitTypes)
         {
+            //Debug.LogWarning(unitType);
             GameObject unit = null;
             ////// --------------  Arreglar quan hi haguin totes les unitats ------------------------ //////////////
-            if (unitType.Equals("Tank"))
+            if (unitType.Equals("VehicleTank"))
             {
                 unit = Instantiate(dataUnits[0],
                 new Vector3(data.unitPositions[pos,0], data.unitPositions[pos,1], data.unitPositions[pos,2]),
                 new Quaternion(data.unitRotations[pos,0], data.unitRotations[pos,1], data.unitRotations[pos,2], data.unitRotations[pos,3]));
+
             }
             else{
-                unit = Instantiate(dataUnits[0],
+                unit = Instantiate(dataUnits[1],
                 new Vector3(data.unitPositions[pos, 0], data.unitPositions[pos, 1], data.unitPositions[pos, 2]),
                 new Quaternion(data.unitRotations[pos, 0], data.unitRotations[pos, 1], data.unitRotations[pos, 2], data.unitRotations[pos, 3]));
             }
+
 
             Unit unitComponent = unit.GetComponentInChildren<Unit>();
             Debug.Log(unitComponent);
             units[pos] = unitComponent;
             unitComponent.team = data.unitTeams[pos];
+
+            if (unitComponent.team == 2)
+            {
+                if (unitComponent.constructor)
+                {
+                    aiGeneral.constructors.Add(unitComponent);
+                }
+                else
+                {
+                    aiGeneral.enemies.Add(unitComponent);
+                }
+
+            }
 
             units[pos].health = data.unitsHealth[pos];
             units[pos].id = data.unitsID[pos];
@@ -228,6 +248,10 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
             buildingComponent.team = data.buildingTeams[pos];
             buildingComponent.constructed = data.isConstructed[pos];
             building.GetComponentInChildren<ObjectLife>().setHealth(data.buildingsHealth[pos]);
+            if (buildingComponent.team == 2)
+            {
+                aiGeneral.buildings.Add(buildingComponent);
+            }
 
             Material[] materials = building.GetComponent<Building>().materials;
             //////////////  Cambiar els colors depenent de l'edifici
@@ -241,27 +265,22 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                 buildingComponent.AdjustMaterials();
                 buildingComponent.renderer.material = buildingComponent.opaqueMat;
             }
-            else
-            {
+            buildingComponent.id = data.buildingsID[pos];
 
-            }
-            
             pos += 1;
         }
 
         // Quan ja estan instanciades totes les unitats els hi poso els targets i si són de l'equip 2 els hi assigno a la IA enemiga
         pos = 0;
-        int posAI = 0;
         foreach(Unit unit in units)
         {
             
-            if (unit.target != null)
-            {
                 // miro les ID de totes les unitats
                 foreach (Unit target in units)
                 {
                     if (target.id == data.targetsID[pos])
                     {
+                        Debug.LogWarning("AAAAAAAAAAAAAAAAAAAAAA");
                         unit.target = target.transform;
                         break;
                     }
@@ -273,32 +292,15 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                     {
                         if (target.id == data.targetsID[pos])
                         {
+                            Debug.LogWarning("BBBBBBBBBBBBBBBBBBBBBBB");
                             unit.target = target.GetComponentInChildren<Transform>();
                             break;
                         }
                     }
                 }
-            }
-            if (unit.team == 2)
-            {
-                switch (posAI)
-                {
-                    case 0:
-                        aiGeneral.unit1 = unit;
-                        break;
-                    case 1:
-                        aiGeneral.unit2 = unit;
-                        break;
-                    case 2:
-                        aiGeneral.unit3 = unit;
-                        break;
-                    case 3:
-                        aiGeneral.unit4 = unit;
-                        break;
-                }
-                posAI += 1;
-            }
-            pos += 1;
+            Debug.LogWarning(unit.target);
+            
+            pos ++;
         }
     }
     IEnumerator timerCoroutina()

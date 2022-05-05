@@ -30,8 +30,21 @@ public class ObjectLife : MonoBehaviour
             {
                 if (GetComponentInParent<Building>().team == 1)
                 {
-                    GameObject.Find("/Camera").GetComponent<CameraController>().buildings.Remove(transform.parent.gameObject);
-                    GameObject.Find("/Camera").GetComponent<CameraController>().electricitat -= GetComponentInParent<Building>().energy;
+                    CameraController player = GameObject.Find("/Camera").GetComponent<CameraController>();
+                    player.buildings.Remove(transform.parent.gameObject);
+                    player.electricitat -= GetComponentInParent<Building>().energy;
+                    if (player.electricitat < 0)
+                    {
+                        GameObject.Find("/Canvas/Slider/Background").GetComponent<Image>().color = Color.red;
+                    }
+                    else if (player.electricitat <= 10)
+                    {
+                        GameObject.Find("/Canvas/Slider/Background").GetComponent<Image>().color = Color.yellow;
+                    }
+                    else
+                    {
+                        GameObject.Find("/Canvas/Slider/Background").GetComponent<Image>().color = Color.green;
+                    }
                 }
                 else
                 {
