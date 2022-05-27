@@ -6,7 +6,7 @@ using UnityEngine;
 public class UniqueIdentifier : MonoBehaviour
 {
     public string id;
-    void Start()
+    private void Awake()
     {
         id = Guid.NewGuid().ToString();
     }

@@ -43,6 +43,10 @@ public class Building : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (id.Equals(""))
+        {
+            id = GetComponent<UniqueIdentifier>().id;
+        }
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CameraController>();
         //player.monedes -= 100;
         constructing = false;
@@ -103,6 +107,7 @@ public class Building : MonoBehaviour
                 StartCoroutine(SumarMonedes());
             }
         }
+        
     }
 
     public void Construct()
@@ -121,6 +126,18 @@ public class Building : MonoBehaviour
                 if (team == 1)
                 {
                     player.electricitat += energy;
+                    if (player.electricitat < 0)
+                    {
+                        GameObject.Find("/Canvas/Slider/Background").GetComponent<Image>().color=Color.red;
+                    }
+                    else if(player.electricitat <= 10)
+                    {
+                        GameObject.Find("/Canvas/Slider/Background").GetComponent<Image>().color = Color.yellow;
+                    }
+                    else
+                    {
+                        GameObject.Find("/Canvas/Slider/Background").GetComponent<Image>().color = Color.green;
+                    }
                 }
                 else
                 {

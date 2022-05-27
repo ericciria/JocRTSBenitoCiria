@@ -75,12 +75,17 @@ public class Unit : MonoBehaviour, IsSaveable
 
         materials = renderer.materials;
 
-        id = GetComponent<UniqueIdentifier>().id;
+        
 
     }
     void Start()
     {
+        if (id.Equals(""))
+        {
+            id = GetComponent<UniqueIdentifier>().id;
+        }
         
+
         if (team == 1)
         {
             teamColor = new Color(0.1F, 0.1F, 0.7F, 1F);

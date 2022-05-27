@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour, IsSaveable
 {
     public string escena;
+    
+
     private void Awake()
     {
         if (FindObjectsOfType<SceneLoader>().Length > 1)
@@ -17,6 +20,7 @@ public class SceneLoader : MonoBehaviour, IsSaveable
             DontDestroyOnLoad(gameObject);
         }
     }
+
     [System.Serializable]
     struct Scene
     {
@@ -35,6 +39,5 @@ public class SceneLoader : MonoBehaviour, IsSaveable
     {
         Scene scene = (Scene)data;
         escena = scene.escena;
-        //SceneManager.LoadScene(escena.escena);
     }
 }

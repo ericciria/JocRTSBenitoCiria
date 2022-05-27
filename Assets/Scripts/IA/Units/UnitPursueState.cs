@@ -10,7 +10,7 @@ public class UnitPursueState : UnitStates
         //Debug.Log("Enter Pursue State");
         if (unit.anim != null)
         {
-            unit.anim.SetBool("walk", true);
+            //unit.anim.SetBool("walk", true);
         }
         
         if (unit.constructor)
@@ -24,7 +24,7 @@ public class UnitPursueState : UnitStates
         //Debug.Log("Exit Pursue State");
         if (unit.anim != null)
         {
-            unit.anim.SetBool("walk", false);
+            //unit.anim.SetBool("walk", false);
         }
     }
 

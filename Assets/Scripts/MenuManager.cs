@@ -5,15 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    GameObject saveMenu;
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        
+        saveMenu = GameObject.Find("/SaveLoadProva");
+        saveMenu.SetActive(false);
+
     }
     public void Menu()
     {
-
+        saveMenu.SetActive(false);
         SceneManager.LoadScene("Menu");
 
     }
@@ -29,7 +32,7 @@ public class MenuManager : MonoBehaviour
 
     public void Level1()
     {
-
+        saveMenu.SetActive(true);
         /*SceneManager.LoadScene("Scene1");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;*/

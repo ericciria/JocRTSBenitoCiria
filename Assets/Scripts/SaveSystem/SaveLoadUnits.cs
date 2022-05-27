@@ -39,6 +39,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         
         int pos = 0;
         GameObject[] unitsSave = GameObject.FindGameObjectsWithTag("Unit");
+        Debug.LogWarning(unitsSave.Length);
 
         data.unitTypes = new string[unitsSave.Length];
         data.unitsHealth = new float[unitsSave.Length];
@@ -70,19 +71,25 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
 
             if (unitData.target!= null)
             {
+                Debug.LogWarning(unitData.target);
                 if (unitData.target.gameObject.tag.Equals("Building"))
                 {
                     data.targetsID[pos] = unitData.target.gameObject.GetComponentInParent<Building>().id;
                 }
-                else
+                else if (unitData.target.gameObject.tag.Equals("Unit"))
                 {
                     data.targetsID[pos] = unitData.target.gameObject.GetComponent<Unit>().id;
+                }
+                else 
+                {
+                    data.targetsID[pos] = unitData.target.gameObject.GetComponent<Building>().id;
+
                 }
                 
             }
             else
             {
-                data.targetsID[pos] = null;
+                data.targetsID[pos] = "";
             }
             
 
@@ -93,6 +100,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
 
         pos = 0;
         GameObject[] buildingsSave = GameObject.FindGameObjectsWithTag("Building");
+        Debug.LogWarning(buildingsSave.Length);
 
         data.buildingTypes = new string[buildingsSave.Length];
         data.buildingsHealth = new float[buildingsSave.Length];
@@ -117,7 +125,14 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                 data.buildingsPositions[pos, 1] = building.transform.position.y-1.5f;
                 data.buildingsPositions[pos, 2] = building.transform.position.z-1f;
             }
-            else{
+            else if (buildingData.data.BuildingName.Equals("Base"))
+            {
+                data.buildingsPositions[pos, 0] = building.transform.position.x ;
+                data.buildingsPositions[pos, 1] = building.transform.position.y - 2f;
+                data.buildingsPositions[pos, 2] = building.transform.position.z ;
+            }
+            else
+            {
                 data.buildingsPositions[pos, 0] = building.transform.position.x;
                 data.buildingsPositions[pos, 1] = building.transform.position.y;
                 data.buildingsPositions[pos, 2] = building.transform.position.z;
@@ -159,7 +174,11 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         if (general != null)
         {
             aiGeneral = GameObject.Find("/AIGeneral").GetComponent<AIGeneral>();
-        };
+        }
+        else
+        {
+            aiGeneral = general.GetComponent<AIGeneral>();
+        }
 
         units = new Unit[data.unitTypes.Length];
         buildings = new Building[data.buildingTypes.Length];
@@ -167,24 +186,40 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         int pos = 0;
         foreach (string unitType in data.unitTypes)
         {
+            //Debug.LogWarning(unitType);
             GameObject unit = null;
             ////// --------------  Arreglar quan hi haguin totes les unitats ------------------------ //////////////
-            if (unitType.Equals("Tank"))
+            if (unitType.Equals("VehicleTank"))
             {
                 unit = Instantiate(dataUnits[0],
                 new Vector3(data.unitPositions[pos,0], data.unitPositions[pos,1], data.unitPositions[pos,2]),
                 new Quaternion(data.unitRotations[pos,0], data.unitRotations[pos,1], data.unitRotations[pos,2], data.unitRotations[pos,3]));
+
             }
             else{
-                unit = Instantiate(dataUnits[0],
+                unit = Instantiate(dataUnits[1],
                 new Vector3(data.unitPositions[pos, 0], data.unitPositions[pos, 1], data.unitPositions[pos, 2]),
                 new Quaternion(data.unitRotations[pos, 0], data.unitRotations[pos, 1], data.unitRotations[pos, 2], data.unitRotations[pos, 3]));
             }
+
 
             Unit unitComponent = unit.GetComponentInChildren<Unit>();
             Debug.Log(unitComponent);
             units[pos] = unitComponent;
             unitComponent.team = data.unitTeams[pos];
+
+            if (unitComponent.team == 2)
+            {
+                if (unitComponent.constructor)
+                {
+                    aiGeneral.constructors.Add(unitComponent);
+                }
+                else
+                {
+                    aiGeneral.enemies.Add(unitComponent);
+                }
+
+            }
 
             units[pos].health = data.unitsHealth[pos];
             units[pos].id = data.unitsID[pos];
@@ -196,6 +231,7 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
         pos = 0;
         foreach (string buildingType in data.buildingTypes)
         {
+            Debug.LogWarning(buildingType);
             ////// --------------  Arreglar quan hi haguin tots els edificis ------------------------ //////////////
             GameObject building = null;
             switch(buildingType)
@@ -215,6 +251,9 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                 case "WarFactory":
                     numType = 4;
                     break;
+                case "Base":
+                    numType = 5;
+                    break;
 
 
             }
@@ -228,6 +267,10 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
             buildingComponent.team = data.buildingTeams[pos];
             buildingComponent.constructed = data.isConstructed[pos];
             building.GetComponentInChildren<ObjectLife>().setHealth(data.buildingsHealth[pos]);
+            if (buildingComponent.team == 2)
+            {
+                aiGeneral.buildings.Add(buildingComponent);
+            }
 
             Material[] materials = building.GetComponent<Building>().materials;
             //////////////  Cambiar els colors depenent de l'edifici
@@ -241,22 +284,16 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                 buildingComponent.AdjustMaterials();
                 buildingComponent.renderer.material = buildingComponent.opaqueMat;
             }
-            else
-            {
+            buildingComponent.id = data.buildingsID[pos];
 
-            }
-            
             pos += 1;
         }
 
         // Quan ja estan instanciades totes les unitats els hi poso els targets i si són de l'equip 2 els hi assigno a la IA enemiga
         pos = 0;
-        int posAI = 0;
         foreach(Unit unit in units)
         {
             
-            if (unit.target != null)
-            {
                 // miro les ID de totes les unitats
                 foreach (Unit target in units)
                 {
@@ -278,27 +315,8 @@ public class SaveLoadUnits : MonoBehaviour, IsSaveable
                         }
                     }
                 }
-            }
-            if (unit.team == 2)
-            {
-                switch (posAI)
-                {
-                    case 0:
-                        aiGeneral.unit1 = unit;
-                        break;
-                    case 1:
-                        aiGeneral.unit2 = unit;
-                        break;
-                    case 2:
-                        aiGeneral.unit3 = unit;
-                        break;
-                    case 3:
-                        aiGeneral.unit4 = unit;
-                        break;
-                }
-                posAI += 1;
-            }
-            pos += 1;
+            
+            pos ++;
         }
     }
     IEnumerator timerCoroutina()
